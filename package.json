@@ -1,0 +1,36 @@
+{
+  "name": "element-mars3d-gis",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
+    "axios": "^1.4.0",
+    "dayjs": "^1.11.7",
+    "element-plus": "^2.3.5",
+    "js-cookie": "^3.0.5",
+    "mars3d": "^3.5.8",
+    "mars3d-cesium": "^1.105.0",
+    "normalize.css": "^8.0.1",
+    "pinia": "^2.0.36",
+    "qs": "^6.11.2",
+    "vue": "^3.3.2",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "eslint": "^8.39.0",
+    "eslint-plugin-vue": "^9.11.0",
+    "prettier": "^2.8.8",
+    "vite": "^4.3.5",
+    "vite-plugin-mars3d": "^2.1.0"
+  }
+}
