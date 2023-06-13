@@ -1,9 +1,10 @@
 <script setup>
-import { watch, onMounted, onBeforeMount, computed } from 'vue'
+import { ref, watch, onMounted, onBeforeMount, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { project_queryobjects } from '@/api/project'
 import { useSystemStore } from '@/stores/system'
 import { useStationStore } from '@/stores/station'
+import { useMapStore } from '@/stores/map'
 import ManageLayers from '@/components/ManageLayers.vue'
 
 const router = useRouter()
@@ -22,6 +23,10 @@ const EasilyFloodedArea_topoId = systemStore.EasilyFloodedArea_topoId
 
 const stationStore = useStationStore()
 const addStationToMap = stationStore.addStationToMap
+
+const mapStore = useMapStore()
+const mapInitComplete = computed(() => mapStore.mapInitComplete)
+const changeMapInitComplete = mapStore.changeMapInitComplete
 
 // 請求站點數據
 onBeforeMount(async () => {
@@ -63,6 +68,7 @@ onMounted(async () => {
 const initMars3d = (option) => {
   window.map = new window.mars3d.Map('mars3dContainer', option)
   window.map.openFlyAnimation()
+  changeMapInitComplete(true)
 }
 
 const defaultShowLayers = () => {
@@ -91,7 +97,7 @@ watch(
 <template>
   <div class="app-main">
     <div id="mars3dContainer" class="mars3d-container">
-      <ManageLayers />
+      <ManageLayers v-if="mapInitComplete" />
     </div>
   </div>
 </template>

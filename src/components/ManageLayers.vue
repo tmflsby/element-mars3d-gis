@@ -1,34 +1,118 @@
 <script setup>
-import { ref, reactive, onMounted, watch, computed } from 'vue'
+import { ref, reactive, onBeforeMount, watch, computed } from 'vue'
 
 const layerTreeData = reactive([])
+const defaultCheckedKeys = reactive([])
+const defaultProps = {
+  children: 'children',
+  label: 'name'
+}
+const treeNodeClickCount = ref(0)
 
-onMounted(() => {
-  console.log('ManageLayers mounted', window)
+onBeforeMount(() => {
+  initLayerTreeData()
 })
+
+const initLayerTreeData = () => {
+  // console.log('initLayerTreeData', window.map.options)
+  for (let i = 0; i < window.map.options.layers.length; i++) {
+    const layer = window.map.getLayer(window.map.options.layers[i].id)
+    // console.log('layer', layer)
+    if (layer.isAdded && layer.show) {
+      defaultCheckedKeys.push(layer.options.id)
+    }
+    if (layer.options.type === 'group') {
+      layerTreeData.push({
+        ...layer.options,
+        children: []
+      })
+    } else {
+      const group = layerTreeData.find((item) => item.id === layer.options.pid)
+      if (group) {
+        group.children.push(layer.options)
+      }
+    }
+  }
+  // console.log('layerTreeData', layerTreeData, defaultCheckedKeys)
+}
+
+const handleCheckTreeNode = (node) => {
+  // console.log('node', node)
+  const layer = window.map.getLayer(node.id)
+  // console.log('layer', layer)
+  if (!layer.isAdded) {
+    window.map.addLayer(layer)
+  }
+  node.show = !layer.show
+  layer.show = !layer.show
+}
+
+const handleClickTreeNode = (node) => {
+  treeNodeClickCount.value++
+  if (treeNodeClickCount.value >= 2) {
+    treeNodeClickCount.value = 0
+    const layer = window.map.getLayer(node.id)
+    // console.log('layer', layer)
+    layer.flyTo()
+  }
+}
+
+const handleChangeLayerOpacity = (node) => {
+  const layer = window.map.getLayer(node.id)
+  layer.opacity = node.opacity
+}
 </script>
 
 <template>
-  <div class="manage-layers">
+  <el-card class="manage-layers">
     <el-tree
+      show-checkbox
       node-key="id"
       :data="layerTreeData"
       :props="defaultProps"
+      :default-checked-keys="defaultCheckedKeys"
       :render-after-expand="false"
       :default-expand-all="true"
-    />
-  </div>
+      @check="handleCheckTreeNode"
+      @node-click="handleClickTreeNode"
+    >
+      <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span>{{ node.label }}</span>
+          <el-slider
+            class="slider"
+            v-show="data.type !== 'group' && data.show"
+            v-model="data.opacity"
+            :max="1"
+            :step="0.1"
+            @change="handleChangeLayerOpacity(data)"
+          />
+        </span>
+      </template>
+    </el-tree>
+  </el-card>
 </template>
 
 <style scoped>
 .manage-layers {
   position: absolute;
-  top: 75px;
+  top: 50px;
   left: 0;
-  width: 450px;
-  height: 800px;
+  width: 350px;
+  height: 500px;
   overflow: auto;
   z-index: 1;
-  background: gray;
+
+  .custom-tree-node {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .slider {
+      width: 100px;
+      margin-left: 20px;
+    }
+  }
 }
 </style>

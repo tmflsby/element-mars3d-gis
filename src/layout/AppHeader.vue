@@ -13,26 +13,27 @@ setInterval(() => {
 </script>
 
 <template>
-  <div class="app-header">
+  <el-card class="app-header">
     <div class="app-header-left">{{ systemTime }}</div>
     <div class="app-header-content">防汛应急综合指挥平台</div>
     <div class="app-header-right"></div>
-  </div>
+  </el-card>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .app-header {
   width: 100%;
   height: 100%;
-  padding: 0 20px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.4);
-  color: rgba(255, 255, 255, 0.85);
-  .app-header-content {
-    font-size: 30px;
+  :deep(.el-card__body) {
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .app-header-content {
+      font-size: 30px;
+    }
   }
 }
 </style>
