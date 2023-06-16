@@ -18,5 +18,8 @@ export const oauth_check_token = (params) =>
   service({
     method: 'post',
     url: `/wpd-sanming/oauth/check_token`,
-    params
+    params,
+    headers: {
+      authorization: 'Basic d3BkOndwZA=='
+    }
   })

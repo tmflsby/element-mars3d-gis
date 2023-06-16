@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getAccessToken, removeAccessToken } from '@/utils/token'
+import { oauth_check_token } from '@/api/login'
 import AppLayout from '@/layout/AppLayout.vue'
 
 await fetch('/config/layout.json')
@@ -41,14 +42,24 @@ const router = createRouter({
 })
 
 // 全局路由前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // console.log('全局路由前置守卫', to, from, next)
 
   const accessToken = getAccessToken()
-  console.log('accessToken', accessToken)
 
   if (to.path === '/login') {
     removeAccessToken()
+    return next()
+  } else {
+    const oauthCheckTokenRes = await oauth_check_token({
+      token: accessToken
+    })
+    // console.log('oauthCheckTokenRes', oauthCheckTokenRes)
+    if (oauthCheckTokenRes.status) {
+      // console.log('check token failed')
+      removeAccessToken()
+      return next('/login')
+    }
   }
   next()
 })
