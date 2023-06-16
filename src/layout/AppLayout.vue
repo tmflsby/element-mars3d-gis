@@ -1,6 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import AppHeader from '@/layout/AppHeader.vue'
+import AppMain from '@/layout/AppMain.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import AppHeader from '@/layout/AppHeader.vue'
         <AppHeader />
       </el-header>
       <el-main>
+        <AppMain />
         <RouterView />
       </el-main>
     </el-container>

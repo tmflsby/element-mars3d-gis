@@ -5,7 +5,6 @@ import { project_queryobjects } from '@/api/project'
 import { useSystemStore } from '@/stores/system'
 import { useStationStore } from '@/stores/station'
 import { useMapStore } from '@/stores/map'
-import ManageLayers from '@/components/ManageLayers.vue'
 
 const router = useRouter()
 const systemStore = useSystemStore()
@@ -25,7 +24,6 @@ const stationStore = useStationStore()
 const addStationToMap = stationStore.addStationToMap
 
 const mapStore = useMapStore()
-const mapInitComplete = computed(() => mapStore.mapInitComplete)
 const changeMapInitComplete = mapStore.changeMapInitComplete
 
 // 請求站點數據
@@ -76,12 +74,16 @@ const defaultShowLayers = () => {
   const defaultShowLayersArr = [200301, 200302, 2004]
   for (let i = 0; i < window.map.options.layers.length; i++) {
     const layer = window.map.getLayer(window.map.options.layers[i].id)
-    // const layer = window.map.options.layers[i]
     if (defaultShowLayersArr.includes(layer.id)) {
       if (!layer.isAdded) {
         window.map.addLayer(layer)
       }
       layer.show = true
+    } else {
+      if (layer.isAdded) {
+        window.map.removeLayer(layer)
+      }
+      layer.show = false
     }
   }
 }
@@ -96,9 +98,7 @@ watch(
 
 <template>
   <div class="app-main">
-    <div id="mars3dContainer" class="mars3d-container">
-      <ManageLayers v-if="mapInitComplete" />
-    </div>
+    <div id="mars3dContainer" class="mars3d-container" />
   </div>
 </template>
 

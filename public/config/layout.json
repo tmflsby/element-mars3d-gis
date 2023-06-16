@@ -1,0 +1,27 @@
+{
+  "title": "防汛应急综合指挥平台",
+  "redirect": "/baseInfo",
+  "routes": [
+    {
+      "path": "/baseInfo",
+      "name": "BaseInfo",
+      "title": "综合信息"
+    },
+    {
+      "path": "/floodSituation",
+      "name": "FloodSituation",
+      "title": "一屏知汛"
+    },
+    {
+      "path": "/dispatchDecision",
+      "name": "DispatchDecision",
+      "title": "调度决策",
+      "afterSystemTitle": true
+    },
+    {
+      "path": "/emergencyCommand",
+      "name": "EmergencyCommand",
+      "title": "应急指挥"
+    }
+  ]
+}

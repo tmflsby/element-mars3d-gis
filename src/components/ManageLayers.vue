@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onBeforeMount, watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 const layerTreeData = reactive([])
 const defaultCheckedKeys = reactive([])
@@ -7,11 +8,34 @@ const defaultProps = {
   children: 'children',
   label: 'name'
 }
+const randomLayerTreeKey = ref(`${Math.random()}`)
 const treeNodeClickCount = ref(0)
+const router = useRouter()
 
 onBeforeMount(() => {
   initLayerTreeData()
 })
+
+// 监听路由变化，刷新图层树
+watch(
+  () => router.currentRoute.value,
+  () => {
+    updateLayerTreeData(layerTreeData)
+    // 为啥未响应式更改 只能强制刷新图层树
+    randomLayerTreeKey.value = `${Math.random()}`
+  }
+)
+
+const updateLayerTreeData = (layerTreeData) => {
+  for (let i = 0; i < layerTreeData.length; i++) {
+    const layer = window.map.getLayer(layerTreeData[i].id)
+    // console.log('layer', layer.show)
+    layerTreeData[i].show = layer.show
+    if (layer.options.type === 'group') {
+      updateLayerTreeData(layerTreeData[i].children)
+    }
+  }
+}
 
 const initLayerTreeData = () => {
   // console.log('initLayerTreeData', window.map.options)
@@ -68,6 +92,7 @@ const handleChangeLayerOpacity = (node) => {
     <el-tree
       show-checkbox
       node-key="id"
+      :key="randomLayerTreeKey"
       :data="layerTreeData"
       :props="defaultProps"
       :default-checked-keys="defaultCheckedKeys"
@@ -96,7 +121,7 @@ const handleChangeLayerOpacity = (node) => {
 <style scoped>
 .manage-layers {
   position: absolute;
-  top: 50px;
+  top: 100px;
   left: 0;
   width: 350px;
   height: 500px;

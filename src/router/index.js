@@ -2,24 +2,35 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getAccessToken, removeAccessToken } from '@/utils/token'
 import AppLayout from '@/layout/AppLayout.vue'
 
+await fetch('/config/layout.json')
+  .then((r) => r.json())
+  .then((r) => {
+    window.layoutJson = r
+  })
+
+const routes = []
+
+for (let i = 0; i < window.layoutJson.routes.length; i++) {
+  const route = window.layoutJson.routes[i]
+  routes.push({
+    path: route.path,
+    name: route.name,
+    component: () => import('@/views/CommonView.vue')
+  })
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      redirect: '/main'
+      redirect: window.layoutJson.redirect
     },
     {
-      path: '/main',
-      name: 'AppMain',
+      path: '/',
+      name: 'AppLayout',
       component: AppLayout,
-      children: [
-        {
-          path: '/main',
-          name: 'Main',
-          component: () => import('@/layout/AppMain.vue')
-        }
-      ]
+      children: routes
     },
     {
       path: '/login',
