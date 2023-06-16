@@ -1,11 +1,13 @@
 <script setup>
 import { ref, watch, onMounted, onBeforeMount, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { project_queryobjects } from '@/api/project'
 import { useSystemStore } from '@/stores/system'
 import { useStationStore } from '@/stores/station'
 import { useMapStore } from '@/stores/map'
+import { project_queryobjects } from '@/api/project'
+import { system_user_info } from '@/api/user'
 import ManageLayers from '@/components/ManageLayers.vue'
+import mars3dLayer from '@/utils/mars3dLayer'
 
 const router = useRouter()
 const systemStore = useSystemStore()
@@ -20,6 +22,8 @@ const WPSluice_topoId = systemStore.WPSluice_topoId
 const WPembankment_topoId = systemStore.WPembankment_topoId
 const WPStationPump_topoId = systemStore.WPStationPump_topoId
 const EasilyFloodedArea_topoId = systemStore.EasilyFloodedArea_topoId
+const setUserInfo = systemStore.setUserInfo
+const userInfo = systemStore.userInfo
 
 const stationStore = useStationStore()
 const addStationToMap = stationStore.addStationToMap
@@ -29,7 +33,17 @@ const mapInitComplete = computed(() => mapStore.mapInitComplete)
 const changeMapInitComplete = mapStore.changeMapInitComplete
 
 // 請求站點數據
-onBeforeMount(async () => {
+onBeforeMount(() => {
+  getSystemUserInfo()
+  getSystemData()
+})
+const getSystemUserInfo = async () => {
+  const res = await system_user_info()
+  if (res.code === 0) {
+    setUserInfo(res.data)
+  }
+}
+const getSystemData = async () => {
   const stationArr = [
     { type: 'WPStationRR', topoId: WPStationRR_topoId },
     { type: 'WPStationZQ', topoId: WPStationZQ_topoId },
@@ -57,7 +71,7 @@ onBeforeMount(async () => {
       }
     }
   }
-})
+}
 
 onMounted(async () => {
   const mapOptions = await window.mars3d.Util.fetchJson({ url: '/config/mapOptions.json' })
@@ -84,7 +98,10 @@ const defaultShowLayers = () => {
       layer.show = true
     }
   }
+
+  mars3dLayer.maskLayer()
 }
+
 // 监听路由变化，切换地图
 watch(
   () => router.currentRoute.value,

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useSystemStore = defineStore('system', () => {
@@ -16,9 +16,14 @@ export const useSystemStore = defineStore('system', () => {
   const WPStationPump_topoId = ref('WPStationPump:9d36ff55-aa08-4e61-aff6-62f590c628f9')
   const EasilyFloodedArea_topoId = ref('EasilyFloodedArea:488677d5-b40c-49e2-aecc-eb0ca1b53c5d')
   const systemTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+  const userInfo = ref({})
   const changeSystemTime = (time) => {
     // console.log('changeSystemTime', dayjs().format('YYYY-MM-DD HH:mm:ss'))
     systemTime.value = time
+  }
+
+  const setUserInfo = (info) => {
+    userInfo.value = info
   }
 
   return {
@@ -35,6 +40,8 @@ export const useSystemStore = defineStore('system', () => {
     WPStationPump_topoId,
     EasilyFloodedArea_topoId,
     systemTime,
-    changeSystemTime
+    changeSystemTime,
+    userInfo,
+    setUserInfo
   }
 })

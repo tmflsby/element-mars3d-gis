@@ -65,7 +65,7 @@ const getRememberMe = () => {
   const password = Cookies.get('password')
   if (username && password) {
     loginFrom.username = username
-    loginFrom.password = decodeURIComponent(password)
+    loginFrom.password = window.atob(password)
     loginFrom.rememberMe = true
   }
 }
@@ -94,7 +94,7 @@ const handleClickLoginBtn = async () => {
   // 记住密码
   if (loginFrom.rememberMe) {
     Cookies.set('username', loginFrom.username)
-    Cookies.set('password', encodeURIComponent(loginFrom.password))
+    Cookies.set('password', window.btoa(loginFrom.password))
   } else {
     Cookies.remove('username')
     Cookies.remove('password')

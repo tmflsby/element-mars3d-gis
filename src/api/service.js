@@ -45,13 +45,13 @@ service.interceptors.response.use(
   },
   (error) => {
     console.log('err:', error)
-    // if (error.response.status === 401) {
-    //   ElMessage.error(`没有权限，请重新登录`)
-    //   removeAccessToken()
-    //   router.push('/login').catch((err) => err)
-    //   return error
-    // }
-    return error
+    if (error.response.status === 400 || error.response.status === 401) {
+      ElMessage.error(`没有权限，请重新登录`)
+      removeAccessToken()
+      router.push('/login').catch((err) => err)
+      return error.response
+    }
+    return error.response
   }
 )
 
