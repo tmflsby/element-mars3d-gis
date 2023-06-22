@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onBeforeMount, watch, computed } from 'vue'
+import { ref, reactive, onBeforeMount, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const layerTreeData = reactive([])
@@ -61,14 +61,20 @@ const initLayerTreeData = () => {
 }
 
 const handleCheckTreeNode = (node) => {
-  // console.log('node', node)
+  console.log('node', node)
   const layer = window.map.getLayer(node.id)
   // console.log('layer', layer)
   if (!layer.isAdded) {
     window.map.addLayer(layer)
   }
+
   node.show = !layer.show
   layer.show = !layer.show
+
+  // 蒙蔽
+  if (node.id === 200301) {
+    window.maskLayer.show = layer.show
+  }
 }
 
 const handleClickTreeNode = (node) => {

@@ -1,10 +1,8 @@
 const mars3dLayer = {
   // 蒙版图层
-  async maskLayer(regionType, regionId) {
-    mars3dLayer.clearMaskLayer()
-
+  async maskLayer(regionLevel, regionId) {
     let layerName = ''
-    switch (regionType) {
+    switch (regionLevel) {
       case 'CITY':
         layerName = 'sanming:shi'
         break
@@ -24,29 +22,26 @@ const mars3dLayer = {
         'Y-credentials': 'private-pw=sanming@123'
       }
     }).query({
-      // column: regionType === 'TOWNSHIP' ? 'code' : 'XZQDM',
-      // text: regionId,
+      column: regionLevel === 'TOWNSHIP' ? 'code' : 'XZQDM',
+      text: regionId,
       success: (result) => {
-        console.log(result)
-        // result.geojson.features.forEach(item => {
-        //   window.areaMaskLayer = new ArkWeb.layer.GeoJsonLayer({
-        //     data: item,
-        //     "mask": true,
-        //     "symbol": {
-        //       "styleOptions": {
-        //         "fill": true,
-        //         "color": "#ffffff",
-        //         "opacity": 0.75,
-        //         "clampToGround": true
-        //       }
-        //     }
-        //   })
-        //   window.map.addLayer(window.areaMaskLayer)
-        // })
+        // console.log(result)
+        window.maskLayer = new window.mars3d.layer.GeoJsonLayer({
+          data: result.geojson,
+          mask: true,
+          symbol: {
+            styleOptions: {
+              fill: true,
+              color: '#ffffff',
+              opacity: 0.75,
+              clampToGround: true
+            }
+          }
+        })
+        window.map.addLayer(window.maskLayer)
       }
     })
-  },
-  clearMaskLayer() {}
+  }
 }
 
 export default mars3dLayer

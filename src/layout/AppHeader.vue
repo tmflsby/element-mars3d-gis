@@ -1,12 +1,13 @@
 <script setup>
 import dayjs from 'dayjs'
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSystemStore } from '@/stores/system'
 
 const systemStore = useSystemStore()
 const systemTime = computed(() => systemStore.systemTime)
 const changeSystemTime = systemStore.changeSystemTime
+const userInfo = computed(() => systemStore.userInfo)
 
 const title = window.layoutJson.title
 const routes = window.layoutJson.routes
@@ -72,7 +73,7 @@ setInterval(() => {
         </template>
       </el-menu>
     </div>
-    <div class="app-header-right">123</div>
+    <div class="app-header-right">{{ userInfo.nickName }}</div>
   </el-card>
 </template>
 

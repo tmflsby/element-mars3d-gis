@@ -5,11 +5,11 @@ import { useRouter } from 'vue-router'
 import { ref, reactive, onBeforeMount, onMounted } from 'vue'
 import { captcha_image, oauth_token, oauth_check_token } from '@/api/login'
 import { setAccessToken, setRefreshToken } from '@/utils/token'
-import { useSystemStore } from '@/stores/system'
+import { useWPDStore } from '@/stores/wpd'
 
 const router = useRouter()
-const systemStore = useSystemStore()
-const userProjectId = systemStore.userProjectId
+const WPDStore = useWPDStore()
+const userProjectId = WPDStore.userProjectId
 const captcha = reactive({
   code: '',
   img: '',
@@ -122,7 +122,7 @@ const handleClickLoginBtn = async () => {
     if (oauthCheckTokenRes.user_id) {
       setAccessToken(access_token)
       setRefreshToken(refresh_token)
-      await router.push({ path: '/main' })
+      await router.push({ path: '/baseInfo' })
     } else {
       ElMessage.error('token验证失败')
       await getCaptchaImage()
@@ -160,6 +160,7 @@ const handleClickLoginBtn = async () => {
             placeholder="请输入密码"
             type="password"
             autocomplete="off"
+            show-password
           ></el-input>
         </el-form-item>
         <el-form-item prop="captcha">
