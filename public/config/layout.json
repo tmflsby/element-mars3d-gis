@@ -5,7 +5,76 @@
     {
       "path": "/baseInfo",
       "name": "BaseInfo",
-      "title": "综合信息"
+      "title": "综合信息",
+      "panel": [
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "基本信息",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": true
+              },
+              {
+                "title": "水工程信息",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": true
+              }
+            ]
+          }
+        },
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "地灾",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": true
+              },
+              {
+                "title": "应急",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": true
+              },
+              {
+                "title": "监控",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": true
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "path": "/floodSituation",

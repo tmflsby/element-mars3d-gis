@@ -1,6 +1,37 @@
 <script setup>
-import { ref, reactive, onBeforeMount, watch } from 'vue'
+import { ref, reactive, onBeforeMount, watch, defineProps } from 'vue'
 import { useRouter } from 'vue-router'
+
+defineProps({
+  layerTreeVisible: {
+    type: Boolean,
+    default: false
+  },
+  top: {
+    type: Number || String,
+    default: 100
+  },
+  left: {
+    type: Number || String,
+    default: 0
+  },
+  bottom: {
+    type: Number || String,
+    default: 0
+  },
+  right: {
+    type: Number || String,
+    default: 0
+  },
+  width: {
+    type: Number || String,
+    default: 350
+  },
+  height: {
+    type: Number || String,
+    default: 500
+  }
+})
 
 const layerTreeData = reactive([])
 const defaultCheckedKeys = reactive([])
@@ -31,6 +62,10 @@ const updateLayerTreeData = (layerTreeData) => {
     const layer = window.map.getLayer(layerTreeData[i].id)
     // console.log('layer', layer.show)
     layerTreeData[i].show = layer.show
+    // 蒙蔽
+    if (layer.id === 200301) {
+      window.maskLayer.show = layer.show
+    }
     if (layer.options.type === 'group') {
       updateLayerTreeData(layerTreeData[i].children)
     }
@@ -61,7 +96,7 @@ const initLayerTreeData = () => {
 }
 
 const handleCheckTreeNode = (node) => {
-  console.log('node', node)
+  // console.log('node', node)
   const layer = window.map.getLayer(node.id)
   // console.log('layer', layer)
   if (!layer.isAdded) {
@@ -94,56 +129,44 @@ const handleChangeLayerOpacity = (node) => {
 </script>
 
 <template>
-  <el-card class="manage-layers">
-    <el-tree
-      show-checkbox
-      node-key="id"
-      :key="randomLayerTreeKey"
-      :data="layerTreeData"
-      :props="defaultProps"
-      :default-checked-keys="defaultCheckedKeys"
-      :render-after-expand="false"
-      :default-expand-all="true"
-      @check="handleCheckTreeNode"
-      @node-click="handleClickTreeNode"
-    >
-      <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <span>{{ node.label }}</span>
-          <el-slider
-            class="slider"
-            v-show="data.type !== 'group' && data.show"
-            v-model="data.opacity"
-            :max="1"
-            :step="0.1"
-            @change="handleChangeLayerOpacity(data)"
-          />
-        </span>
-      </template>
-    </el-tree>
-  </el-card>
+  <el-tree
+    show-checkbox
+    node-key="id"
+    :key="randomLayerTreeKey"
+    :data="layerTreeData"
+    :props="defaultProps"
+    :default-checked-keys="defaultCheckedKeys"
+    :render-after-expand="false"
+    :default-expand-all="true"
+    @check="handleCheckTreeNode"
+    @node-click="handleClickTreeNode"
+  >
+    <template #default="{ node, data }">
+      <span class="custom-tree-node">
+        <span>{{ node.label }}</span>
+        <el-slider
+          class="slider"
+          v-show="data.type !== 'group' && data.show"
+          v-model="data.opacity"
+          :max="1"
+          :step="0.1"
+          @change="handleChangeLayerOpacity(data)"
+        />
+      </span>
+    </template>
+  </el-tree>
 </template>
 
 <style scoped>
-.manage-layers {
-  position: absolute;
-  top: 100px;
-  left: 0;
-  width: 350px;
-  height: 500px;
-  overflow: auto;
-  z-index: 1;
-
-  .custom-tree-node {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    .slider {
-      width: 100px;
-      margin-left: 20px;
-    }
+.custom-tree-node {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .slider {
+    width: 100px;
+    margin-left: 20px;
   }
 }
 </style>

@@ -65,10 +65,6 @@
     "selectionIndicator": false,
     "defaultContextMenu": true,
     "mouseDownView": true,
-    "compass": {
-      "top": "250px",
-      "right": "10px"
-    },
     "distanceLegend": false,
     "locationBar": {
       "fps": true,

@@ -16,7 +16,11 @@ for (let i = 0; i < window.layoutJson.routes.length; i++) {
   routes.push({
     path: route.path,
     name: route.name,
-    component: () => import('@/views/CommonView.vue')
+    component: () => import('@/views/CommonView.vue'),
+    meta: {
+      title: route.title,
+      panel: route.panel
+    }
   })
 }
 

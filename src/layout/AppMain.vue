@@ -70,7 +70,7 @@ const getWPDData = async () => {
 }
 
 const saveWPDData = ({ type, data }) => {
-  let stationId = ''
+  let stationId
   if (type === 'WPMonitoringPoints') {
     stationId = data.ORDER_INDEX
   } else if (type === 'EasilyFloodedArea') {
@@ -108,8 +108,8 @@ const initMars3d = (option) => {
 }
 
 const defaultShowLayers = () => {
-  // 默认打开行政区划，水系，蒙版（200301, 200302, 2004）
-  const defaultShowLayersArr = [200301, 200302, 2004]
+  // 默认打开蒙版，行政区划，水系，水库面（200301, 200302, 2004）
+  const defaultShowLayersArr = [200301, 200302, 2004, 2005]
   for (let i = 0; i < window.map.options.layers.length; i++) {
     const layer = window.map.getLayer(window.map.options.layers[i].id)
     if (defaultShowLayersArr.includes(layer.id)) {
