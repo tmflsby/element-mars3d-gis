@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onBeforeMount, watch, defineProps } from 'vue'
+import { ref, reactive, onBeforeMount, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineProps({

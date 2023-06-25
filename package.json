@@ -27,8 +27,10 @@
     "@rushstack/eslint-patch": "^1.2.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/eslint-config-prettier": "^7.1.0",
+    "amfe-flexible": "^2.2.1",
     "eslint": "^8.39.0",
     "eslint-plugin-vue": "^9.11.0",
+    "postcss-pxtorem": "^6.0.0",
     "prettier": "^2.8.8",
     "vite": "^4.3.5",
     "vite-plugin-mars3d": "^2.1.0"

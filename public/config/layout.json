@@ -25,7 +25,8 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": true
+                "detailBtn": true,
+                "component": "BaseInfo"
               },
               {
                 "title": "水工程信息",

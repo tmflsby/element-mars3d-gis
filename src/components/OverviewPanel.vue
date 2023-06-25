@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue'
+import BaseInfo from '@/components/widget/BaseInfo.vue'
 
 defineProps({
   props: {
@@ -7,6 +7,15 @@ defineProps({
     default: () => ({})
   }
 })
+
+const renderComponent = (component) => {
+  switch (component) {
+    case 'BaseInfo':
+      return BaseInfo
+    default:
+      return null
+  }
+}
 </script>
 
 <template>
@@ -23,7 +32,9 @@ defineProps({
           <el-button size="small" v-if="container.detailBtn">详情</el-button>
         </div>
       </template>
-      <div class="content"></div>
+      <div class="content">
+        <component :is="renderComponent(container.component)"></component>
+      </div>
     </el-card>
   </div>
 </template>

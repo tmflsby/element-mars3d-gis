@@ -11,7 +11,7 @@ const routerPanel = computed(() => router.currentRoute.value.meta.panel)
 const mapStore = useMapStore()
 const mapInitComplete = computed(() => mapStore.mapInitComplete)
 
-const renderPanel = (component) => {
+const renderComponent = (component) => {
   switch (component) {
     case 'OverviewPanel':
       return OverviewPanel
@@ -25,7 +25,7 @@ const renderPanel = (component) => {
   <div class="common-view" v-if="mapInitComplete">
     <template v-for="(panel, panelKey) in routerPanel" :key="panelKey">
       <CommonPanel :visible="panel.visible" :style="panel.style">
-        <component :is="renderPanel(panel.component)" :props="panel.props"></component>
+        <component :is="renderComponent(panel.component)" :props="panel.props"></component>
       </CommonPanel>
     </template>
   </div>

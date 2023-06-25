@@ -4,6 +4,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+// 可伸缩布局方案
+import 'amfe-flexible'
+
 // normalize.css
 import 'normalize.css'
 

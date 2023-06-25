@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import { vitePluginMars3d } from 'vite-plugin-mars3d'
+import postCssPxToRem from 'postcss-pxtorem'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,6 +12,16 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  css: {
+    postcss: {
+      plugins: [
+        postCssPxToRem({
+          rootValue: 192,
+          propList: ['*']
+        })
+      ]
     }
   },
   server: {
