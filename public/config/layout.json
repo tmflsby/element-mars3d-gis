@@ -25,7 +25,10 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": true,
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
                 "component": "BaseInfo"
               },
               {
@@ -33,7 +36,20 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": true
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                }
+              },
+              {
+                "title": "气象信息",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "台风"
+                }
               }
             ]
           }
@@ -56,21 +72,30 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": true
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                }
               },
               {
                 "title": "应急",
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": true
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                }
               },
               {
                 "title": "监控",
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": true
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                }
               }
             ]
           }

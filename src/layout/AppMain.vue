@@ -37,22 +37,7 @@ const getSystemUserInfo = async () => {
     setUserInfo(res.data)
   }
 }
-const getWPDData = async () => {
-  const WPDObjectArr = [
-    { type: 'WPStationRR', topoId: WPStationRR_topoId },
-    { type: 'WPStationZQ', topoId: WPStationZQ_topoId },
-    { type: 'WPStationZZ', topoId: WPStationZZ_topoId },
-    { type: 'WPStationPP', topoId: WPStationPP_topoId },
-    { type: 'WPStationHP', topoId: WPStationHP_topoId },
-    { type: 'WPMonitoringPoints', topoId: WPMonitoringPoints_topoId },
-    { type: 'WPSluice', topoId: WPSluice_topoId },
-    { type: 'WPembankment', topoId: WPembankment_topoId },
-    { type: 'WPStationPump', topoId: WPStationPump_topoId },
-    { type: 'EasilyFloodedArea', topoId: EasilyFloodedArea_topoId },
-    { type: 'WPAdministrativeArea', topoId: WPAdministrativeArea_topoId }
-  ]
-
-  window.WPD = new Map()
+const getWPDData = async (WPDObjectArr) => {
   for (let i = 0; i < WPDObjectArr.length; i++) {
     const getStationRes = await project_queryobjects({
       projectId,
@@ -87,19 +72,34 @@ const saveWPDData = ({ type, data }) => {
 }
 
 onMounted(async () => {
-  await getSystemUserInfo()
-  await getWPDData()
-
   const mapOptions = await window.mars3d.Util.fetchJson({ url: '/config/mapOptions.json' })
   await initMars3d(mapOptions)
+
+  // 用户信息，行政区划  提前获取
+  window.WPD = new Map()
+  await getSystemUserInfo()
+  await getWPDData([{ type: 'WPAdministrativeArea', topoId: WPAdministrativeArea_topoId }])
+
+  changeMapInitComplete(true)
+
   await defaultShowLayers()
 
-  // console.log(window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code))
+  await getWPDData([
+    { type: 'WPStationRR', topoId: WPStationRR_topoId },
+    { type: 'WPStationZQ', topoId: WPStationZQ_topoId },
+    { type: 'WPStationZZ', topoId: WPStationZZ_topoId },
+    { type: 'WPStationPP', topoId: WPStationPP_topoId },
+    { type: 'WPStationHP', topoId: WPStationHP_topoId },
+    { type: 'WPMonitoringPoints', topoId: WPMonitoringPoints_topoId },
+    { type: 'WPSluice', topoId: WPSluice_topoId },
+    { type: 'WPembankment', topoId: WPembankment_topoId },
+    { type: 'WPStationPump', topoId: WPStationPump_topoId },
+    { type: 'EasilyFloodedArea', topoId: EasilyFloodedArea_topoId }
+  ])
+
   const region = window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code)
   // 2004蒙版
   await mars3dLayer.maskLayer(region.level, region.id)
-
-  changeMapInitComplete(true)
 })
 
 const initMars3d = (option) => {

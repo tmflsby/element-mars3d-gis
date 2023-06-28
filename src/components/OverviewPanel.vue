@@ -29,7 +29,9 @@ const renderComponent = (component) => {
       <template #header>
         <div class="title">
           <span>{{ container.title }}</span>
-          <el-button size="small" v-if="container.detailBtn">详情</el-button>
+          <el-button size="small" v-if="container.detailBtn.show">
+            {{ container.detailBtn.title }}
+          </el-button>
         </div>
       </template>
       <div class="content">
