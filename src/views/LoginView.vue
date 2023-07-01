@@ -128,7 +128,7 @@ const handleClickLoginBtn = async () => {
       await getCaptchaImage()
     }
   } else {
-    ElMessage.error('账号或密码错误')
+    ElMessage.error('账号密码错误或验证码失效')
     await getCaptchaImage()
   }
 

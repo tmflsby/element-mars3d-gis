@@ -39,7 +39,8 @@
                 "detailBtn": {
                   "show": true,
                   "title": "详情"
-                }
+                },
+                "component": "WaterProjectInfo"
               },
               {
                 "title": "气象信息",

@@ -1,5 +1,6 @@
 <script setup>
 import BaseInfo from '@/components/widget/BaseInfo.vue'
+import WaterProjectInfo from '@/components/widget/WaterProjectInfo.vue'
 
 defineProps({
   props: {
@@ -12,6 +13,8 @@ const renderComponent = (component) => {
   switch (component) {
     case 'BaseInfo':
       return BaseInfo
+    case 'WaterProjectInfo':
+      return WaterProjectInfo
     default:
       return null
   }

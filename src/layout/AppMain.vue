@@ -6,6 +6,7 @@ import { useMapStore } from '@/stores/map'
 import { useWPDStore } from '@/stores/wpd'
 import { project_queryobjects } from '@/api/project'
 import { system_user_info } from '@/api/user'
+import { cantonManage_queryObjectInfos } from '@/api/cantonManage'
 import mars3dLayer from '@/utils/mars3dLayer'
 
 const router = useRouter()
@@ -71,6 +72,20 @@ const saveWPDData = ({ type, data }) => {
   }
 }
 
+const getCurrentWPAdministrativeArea = async () => {
+  const region = window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code)
+  const queryObjectInfosRes = await cantonManage_queryObjectInfos({
+    projectId,
+    cantonId: region.id
+  })
+  if (queryObjectInfosRes.state === 0) {
+    window.WPD.get('WPAdministrativeArea').set(region.id, {
+      ...region,
+      ...queryObjectInfosRes.data
+    })
+  }
+}
+
 onMounted(async () => {
   const mapOptions = await window.mars3d.Util.fetchJson({ url: '/config/mapOptions.json' })
   await initMars3d(mapOptions)
@@ -79,6 +94,7 @@ onMounted(async () => {
   window.WPD = new Map()
   await getSystemUserInfo()
   await getWPDData([{ type: 'WPAdministrativeArea', topoId: WPAdministrativeArea_topoId }])
+  await getCurrentWPAdministrativeArea()
 
   changeMapInitComplete(true)
 
