@@ -1,6 +1,10 @@
 <script setup>
-import BaseInfo from '@/components/widget/BaseInfo.vue'
-import WaterProjectInfo from '@/components/widget/WaterProjectInfo.vue'
+const widgetComponent = {}
+const files = import.meta.globEager('../widget/*.vue')
+for (const key in files) {
+  const filename = key.replace(/(\..\/widget\/|\.(vue))/g, '')
+  widgetComponent[filename] = files[key].default || files[key]
+}
 
 defineProps({
   props: {
@@ -8,17 +12,6 @@ defineProps({
     default: () => ({})
   }
 })
-
-const renderComponent = (component) => {
-  switch (component) {
-    case 'BaseInfo':
-      return BaseInfo
-    case 'WaterProjectInfo':
-      return WaterProjectInfo
-    default:
-      return null
-  }
-}
 </script>
 
 <template>
@@ -38,7 +31,7 @@ const renderComponent = (component) => {
         </div>
       </template>
       <div class="content">
-        <component :is="renderComponent(container.component)"></component>
+        <component :is="widgetComponent[container.component]"></component>
       </div>
     </el-card>
   </div>

@@ -1,7 +1,6 @@
 <script setup>
 import { ref, reactive, onBeforeMount } from 'vue'
 import { siteInfo_getRRTypeCount } from '@/api/siteInfo'
-import { cantonManage_queryObjectInfos } from '@/api/cantonManage'
 import { useWPDStore } from '@/stores/wpd'
 import { useSystemStore } from '@/stores/system'
 
@@ -28,15 +27,19 @@ const getInfoText = async () => {
     }座，其中大型水库${largeCount}座，中型水库${mediumCount}座，小型水库${smallCount}座。`
   }
 }
-const getInfoStatistic = async () => {
-  infoStatistic.push({ name: '水库', id: 'stationRRNum', value: region.stationRRNum })
-  infoStatistic.push({ name: '水文站', id: 'stationZQNum', value: region.stationZQNum })
-  infoStatistic.push({ name: '水位站', id: 'stationZZNum', value: region.stationZZNum })
-  infoStatistic.push({ name: '雨量站', id: 'stationPPNum', value: region.stationPPNum })
-  infoStatistic.push({ name: '水电站', id: 'stationHPNum', value: region.stationHPNum })
-  infoStatistic.push({ name: '水闸', id: 'stationPumpNum', value: region.stationPumpNum })
-  infoStatistic.push({ name: '堤防', id: 'bankmentNum', value: region.bankmentNum })
-  infoStatistic.push({ name: '泵站', id: 'stationPumpNum', value: region.stationPumpNum })
+const getInfoStatistic = () => {
+  infoStatistic.push(
+    ...[
+      { name: '水库', id: 'stationRRNum', value: region.stationRRNum },
+      { name: '水文站', id: 'stationZQNum', value: region.stationZQNum },
+      { name: '水位站', id: 'stationZZNum', value: region.stationZZNum },
+      { name: '雨量站', id: 'stationPPNum', value: region.stationPPNum },
+      { name: '水电站', id: 'stationHPNum', value: region.stationHPNum },
+      { name: '水闸', id: 'stationPumpNum', value: region.stationPumpNum },
+      { name: '堤防', id: 'bankmentNum', value: region.bankmentNum },
+      { name: '泵站', id: 'stationPumpNum', value: region.stationPumpNum }
+    ]
+  )
 }
 
 onBeforeMount(() => {

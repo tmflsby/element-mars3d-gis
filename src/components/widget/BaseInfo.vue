@@ -34,10 +34,14 @@ const getInfoText = async () => {
 }
 
 const getInfoStatistic = async () => {
-  infoStatistic.push({ name: '总人口', id: 'totalPopulation', value: region.totalPopulation })
-  infoStatistic.push({ name: '总户数', id: 'totalHousehold', value: region.totalHousehold })
-  infoStatistic.push({ name: '土地面积', id: 'landArea', value: region.landArea })
-  infoStatistic.push({ name: '耕地面积', id: 'cultivatedArea', value: region.cultivatedArea })
+  infoStatistic.push(
+    ...[
+      { name: '总人口', id: 'totalPopulation', value: region.totalPopulation },
+      { name: '总户数', id: 'totalHousehold', value: region.totalHousehold },
+      { name: '土地面积', id: 'landArea', value: region.landArea },
+      { name: '耕地面积', id: 'cultivatedArea', value: region.cultivatedArea }
+    ]
+  )
   switch (region.level) {
     case 'CITY':
       infoStatistic.push({ name: '县市数', id: 'countyNum', value: region.countyNum })

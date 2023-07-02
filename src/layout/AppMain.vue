@@ -33,9 +33,9 @@ const EasilyFloodedArea_topoId = WPDStore.EasilyFloodedArea_topoId
 const WPAdministrativeArea_topoId = WPDStore.WPAdministrativeArea_topoId
 
 const getSystemUserInfo = async () => {
-  const res = await system_user_info()
-  if (res.code === 0) {
-    setUserInfo(res.data)
+  const userInfoRes = await system_user_info()
+  if (userInfoRes.code === 0) {
+    setUserInfo(userInfoRes.data)
   }
 }
 const getWPDData = async (WPDObjectArr) => {
@@ -93,7 +93,10 @@ onMounted(async () => {
   // 用户信息，行政区划  提前获取
   window.WPD = new Map()
   await getSystemUserInfo()
-  await getWPDData([{ type: 'WPAdministrativeArea', topoId: WPAdministrativeArea_topoId }])
+  await getWPDData([
+    { type: 'WPAdministrativeArea', topoId: WPAdministrativeArea_topoId },
+    { type: 'WPMonitoringPoints', topoId: WPMonitoringPoints_topoId }
+  ])
   await getCurrentWPAdministrativeArea()
 
   changeMapInitComplete(true)
@@ -106,7 +109,6 @@ onMounted(async () => {
     { type: 'WPStationZZ', topoId: WPStationZZ_topoId },
     { type: 'WPStationPP', topoId: WPStationPP_topoId },
     { type: 'WPStationHP', topoId: WPStationHP_topoId },
-    { type: 'WPMonitoringPoints', topoId: WPMonitoringPoints_topoId },
     { type: 'WPSluice', topoId: WPSluice_topoId },
     { type: 'WPembankment', topoId: WPembankment_topoId },
     { type: 'WPStationPump', topoId: WPStationPump_topoId },

@@ -43,14 +43,15 @@
                 "component": "WaterProjectInfo"
               },
               {
-                "title": "气象信息",
+                "title": "台风信息",
                 "style": {
                   "flex": 1
                 },
                 "detailBtn": {
-                  "show": true,
+                  "show": false,
                   "title": "台风"
-                }
+                },
+                "component": "TyphoonInfo"
               }
             ]
           }
@@ -69,34 +70,37 @@
             "style": {},
             "subContainer": [
               {
-                "title": "地灾",
+                "title": "地灾隐患点",
                 "style": {
                   "flex": 1
                 },
                 "detailBtn": {
                   "show": true,
                   "title": "详情"
-                }
+                },
+                "component": "DisasterHazardPoint"
               },
               {
-                "title": "应急",
+                "title": "应急转移",
                 "style": {
                   "flex": 1
                 },
                 "detailBtn": {
                   "show": true,
                   "title": "详情"
-                }
+                },
+                "component": "EmergencyTransfer"
               },
               {
-                "title": "监控",
+                "title": "视频监控",
                 "style": {
-                  "flex": 1
+                  "flex": 2.5
                 },
                 "detailBtn": {
-                  "show": true,
+                  "show": false,
                   "title": "详情"
-                }
+                },
+                "component": "VideoMonitor"
               }
             ]
           }
