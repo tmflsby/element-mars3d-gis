@@ -8,6 +8,7 @@ import { project_queryobjects } from '@/api/project'
 import { system_user_info } from '@/api/user'
 import { cantonManage_queryObjectInfos } from '@/api/cantonManage'
 import mars3dLayer from '@/utils/mars3dLayer'
+import videoMonitorUrl from '@/assets/videoMonitorUrl'
 
 const router = useRouter()
 
@@ -59,6 +60,7 @@ const saveWPDData = ({ type, data }) => {
   let stationId
   if (type === 'WPMonitoringPoints') {
     stationId = data.ORDER_INDEX
+    data.URL = videoMonitorUrl[stationId]
   } else if (type === 'EasilyFloodedArea') {
     stationId = data.deviceAddr
   } else {

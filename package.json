@@ -11,15 +11,18 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@turf/turf": "^6.5.0",
     "axios": "^1.4.0",
     "dayjs": "^1.11.7",
     "element-plus": "^2.3.5",
+    "hls.js": "^1.4.7",
     "js-cookie": "^3.0.5",
     "mars3d": "^3.5.12",
     "mars3d-cesium": "^1.106.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.36",
     "qs": "^6.11.2",
+    "sass": "^1.63.6",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },

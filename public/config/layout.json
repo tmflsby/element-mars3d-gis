@@ -23,7 +23,7 @@
               {
                 "title": "基本信息",
                 "style": {
-                  "flex": 1
+                  "flex": 1.5
                 },
                 "detailBtn": {
                   "show": true,
@@ -32,7 +32,7 @@
                 "component": "BaseInfo"
               },
               {
-                "title": "水工程信息",
+                "title": "应急转移",
                 "style": {
                   "flex": 1
                 },
@@ -40,18 +40,18 @@
                   "show": true,
                   "title": "详情"
                 },
-                "component": "WaterProjectInfo"
+                "component": "EmergencyTransfer"
               },
               {
-                "title": "台风信息",
+                "title": "气象台风",
                 "style": {
-                  "flex": 1
+                  "flex": 2
                 },
                 "detailBtn": {
-                  "show": false,
+                  "show": true,
                   "title": "台风"
                 },
-                "component": "TyphoonInfo"
+                "component": "MeteorologicalTyphoon"
               }
             ]
           }
@@ -70,6 +70,17 @@
             "style": {},
             "subContainer": [
               {
+                "title": "水工程信息",
+                "style": {
+                  "flex": 1.5
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": "WaterProjectInfo"
+              },
+              {
                 "title": "地灾隐患点",
                 "style": {
                   "flex": 1
@@ -81,20 +92,9 @@
                 "component": "DisasterHazardPoint"
               },
               {
-                "title": "应急转移",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
-                "component": "EmergencyTransfer"
-              },
-              {
                 "title": "视频监控",
                 "style": {
-                  "flex": 2.5
+                  "flex": 2
                 },
                 "detailBtn": {
                   "show": false,
@@ -110,7 +110,107 @@
     {
       "path": "/floodSituation",
       "name": "FloodSituation",
-      "title": "一屏知汛"
+      "title": "一屏知汛",
+      "panel": [
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "重点站",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": "ImportantStation"
+              },
+              {
+                "title": "水雨工情",
+                "style": {
+                  "flex": 3
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": ""
+              }
+            ]
+          }
+        },
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "气象预警",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "山洪预警",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "河道预警",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "小流域预警",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": ""
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "path": "/dispatchDecision",

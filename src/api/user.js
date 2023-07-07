@@ -4,3 +4,9 @@ export const system_user_info = (params) =>
     url: `/wpd-sanming/system/user/info`,
     params
   })
+
+export const user_custom_storage_getAllByUserAndDate = (params) =>
+  service({
+    url: `/wpd-sanming/user/custom/storage/getAllByUserAndDate`,
+    params
+  })

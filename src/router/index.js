@@ -3,6 +3,11 @@ import { getAccessToken, removeAccessToken } from '@/utils/token'
 import { oauth_check_token } from '@/api/login'
 import AppLayout from '@/layout/AppLayout.vue'
 
+await fetch('/config/baseUrl.json')
+  .then((r) => r.json())
+  .then((r) => {
+    window.baseUrl = r
+  })
 await fetch('/config/layout.json')
   .then((r) => r.json())
   .then((r) => {

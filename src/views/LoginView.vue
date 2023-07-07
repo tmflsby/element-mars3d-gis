@@ -82,6 +82,7 @@ const getCaptchaImage = async () => {
 const handleClickLoginBtn = async () => {
   // 验证验证码
   if (loginFrom.captcha.toLowerCase() !== captcha.code.toLowerCase()) {
+    loginFrom.captcha = ''
     ElMessage.error('验证码错误')
     await getCaptchaImage()
     return
