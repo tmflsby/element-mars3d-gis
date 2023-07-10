@@ -10,3 +10,11 @@ export const user_custom_storage_getAllByUserAndDate = (params) =>
     url: `/wpd-sanming/user/custom/storage/getAllByUserAndDate`,
     params
   })
+
+export const user_custom_storage_addCustomStorage = (params, data) =>
+  service({
+    method: 'post',
+    url: '/wpd-sanming/user/custom/storage/addCustomStorage',
+    params,
+    data
+  })

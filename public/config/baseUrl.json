@@ -1,3 +1,5 @@
 {
-  "meteorologicalImage": "http://175.44.138.53:5566/api/ftp/"
+  "meteorologicalImage": "http://175.44.138.53:5566/api/ftp/",
+  "mountainTorrent": "http://192.168.113.51:1302/sanhong/api",
+  "disasterWarning": "https://fjsdz.cn:50001/risk/proxy"
 }

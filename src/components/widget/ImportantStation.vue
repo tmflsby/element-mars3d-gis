@@ -1,7 +1,10 @@
 <script setup>
 import dayjs from 'dayjs'
 import { reactive, onBeforeMount } from 'vue'
-import { user_custom_storage_getAllByUserAndDate } from '@/api/user'
+import {
+  user_custom_storage_getAllByUserAndDate,
+  user_custom_storage_addCustomStorage
+} from '@/api/user'
 import { curveLookup_getImportInfoById } from '@/api/curveLookup'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
@@ -20,6 +23,45 @@ const tableColumn = reactive([
   { title: '水位', field: 'waterLevel' },
   { title: '距水位', field: 'distanceWaterLevel' }
 ])
+
+const defaultWatchStation = [
+  {
+    name: '安砂',
+    type: 'WPStationRR',
+    id: '70900550',
+    infoType: '汛限水位',
+    infoData: '-',
+    flowData: '-',
+    flowType: '坝上水位'
+  },
+  {
+    name: '永安',
+    type: 'WPStationZQ',
+    id: '70900601',
+    infoType: '警戒水位',
+    infoData: '-',
+    flowData: '-',
+    flowType: '水位'
+  },
+  {
+    name: '梅列',
+    type: 'WPStationZQ',
+    id: '70900800',
+    infoType: '警戒水位',
+    infoData: '-',
+    flowData: '-',
+    flowType: '水位'
+  },
+  {
+    name: '沙县',
+    type: 'WPStationZQ',
+    id: '70900900',
+    infoType: '警戒水位',
+    infoData: '-',
+    flowData: '-',
+    flowType: '水位'
+  }
+]
 const getImportantStation = async () => {
   // 清空表格数据
   tableData.splice(0, tableData.length)
@@ -29,10 +71,11 @@ const getImportantStation = async () => {
   })
   if (getImportantStationRes.state === 0) {
     const station = JSON.parse(
-      getImportantStationRes.data.content[0].cities == null
+      getImportantStationRes.data.content[0]?.cities == null
         ? '[]'
         : getImportantStationRes.data.content[0].cities
     )
+
     if (station.length > 0) {
       for (let i = 0; i < station.length; i++) {
         const getImportInfoByIdRes = await curveLookup_getImportInfoById({
@@ -42,7 +85,7 @@ const getImportantStation = async () => {
           begin: dayjs(refreshTime).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
           end: refreshTime
         })
-        console.log(getImportInfoByIdRes, station[i])
+        // console.log(getImportInfoByIdRes, station[i])
         if (getImportInfoByIdRes.state === 0) {
           let type = ''
           switch (station[i].type) {
@@ -67,6 +110,21 @@ const getImportantStation = async () => {
         }
       }
     } else {
+      const addCustomStorageRes = await user_custom_storage_addCustomStorage(
+        {},
+        {
+          id: '',
+          createBy: userInfo.id,
+          createTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          cities: JSON.stringify(defaultWatchStation)
+        }
+      )
+      if (addCustomStorageRes.state === 0) {
+        console.log('新增成功')
+        await getImportantStation()
+      } else {
+        console.log('新增失败')
+      }
     }
   }
 }

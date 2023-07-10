@@ -73,6 +73,7 @@ const searchSystemTime = () => {
   if (dayjs(setSystemTimeInputValue.value).isValid()) {
     // 清除定时器
     clearInterval(timer)
+    timer = null
     formatSystemTime(setSystemTimeInputValue.value)
     setSystemTimeInputValue.value = dayjs(setSystemTimeInputValue.value).format(
       'YYYY-MM-DD HH:mm:ss'
@@ -91,18 +92,28 @@ const backToRealtime = () => {
   timer = setInterval(() => {
     formatSystemTime()
   }, 1000)
+
+  setTimeout(() => {
+    const refreshTime = systemTimeToRefreshTime()
+    changeRefreshTime(refreshTime)
+  }, 1000)
+
   setSystemTimeInputValue.value = ''
+}
+
+const systemTimeToRefreshTime = () => {
+  const date = systemTime.value.split(' ')[0]
+  const time = systemTime.value.split(' ')[2]
+  return `${date} ${time}`
 }
 
 watch(
   () => systemTime.value,
-  (newVal) => {
-    const date = newVal.split(' ')[0]
-    const time = newVal.split(' ')[2]
-    const dateTime = `${date} ${time}`
+  () => {
+    const refreshTime = systemTimeToRefreshTime()
     // 如果是整5分钟，就刷新一次
-    if (dayjs(dateTime).get('minute') % 5 === 0 && dayjs(dateTime).get('second') === 0) {
-      changeRefreshTime(dateTime)
+    if (dayjs(refreshTime).get('minute') % 5 === 0 && dayjs(refreshTime).get('second') === 0) {
+      changeRefreshTime(refreshTime)
     }
   }
 )

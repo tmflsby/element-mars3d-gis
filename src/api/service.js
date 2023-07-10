@@ -19,13 +19,13 @@ service.interceptors.request.use(
     }
 
     if (config.method === 'get') {
-      config.paramsSerializer = function (params) {
-        return qs.stringify(params, { arrayFormat: 'repeat' })
+      config.paramsSerializer = {
+        serialize: (params) => qs.stringify(params, { arrayFormat: 'repeat' })
       }
     }
     if (config.method === 'post') {
-      config.paramsSerializer = function (params) {
-        return qs.stringify(params, { arrayFormat: 'repeat' })
+      config.paramsSerializer = {
+        serialize: (params) => qs.stringify(params, { arrayFormat: 'repeat' })
       }
     }
 
@@ -45,7 +45,7 @@ service.interceptors.response.use(
   },
   (error) => {
     console.log('err:', error)
-    if (error.response.status === 400 || error.response.status === 401) {
+    if (error.response.status === 401) {
       ElMessage.error(`没有权限，请重新登录`)
       removeAccessToken()
       router.push('/login').catch((err) => err)

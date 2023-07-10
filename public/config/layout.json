@@ -137,15 +137,15 @@
                 "component": "ImportantStation"
               },
               {
-                "title": "水雨工情",
+                "title": "雨水工情",
                 "style": {
-                  "flex": 3
+                  "flex": 1
                 },
                 "detailBtn": {
                   "show": true,
                   "title": "详情"
                 },
-                "component": ""
+                "component": "RainWaterEngineeringSituation"
               }
             ]
           }
@@ -166,13 +166,13 @@
               {
                 "title": "气象预警",
                 "style": {
-                  "flex": 1
+                  "flex": 1.25
                 },
                 "detailBtn": {
                   "show": true,
                   "title": "详情"
                 },
-                "component": ""
+                "component": "MeteorologicalWarning"
               },
               {
                 "title": "山洪预警",
@@ -183,7 +183,7 @@
                   "show": true,
                   "title": "详情"
                 },
-                "component": ""
+                "component": "MountainTorrentWarning"
               },
               {
                 "title": "河道预警",
@@ -191,10 +191,21 @@
                   "flex": 1
                 },
                 "detailBtn": {
-                  "show": false,
+                  "show": true,
                   "title": "详情"
                 },
-                "component": ""
+                "component": "RiverWarning"
+              },
+              {
+                "title": "地灾预警",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": "DisasterWarning"
               },
               {
                 "title": "小流域预警",
@@ -202,10 +213,10 @@
                   "flex": 1
                 },
                 "detailBtn": {
-                  "show": false,
+                  "show": true,
                   "title": "详情"
                 },
-                "component": ""
+                "component": "SmallWatershedWarning"
               }
             ]
           }

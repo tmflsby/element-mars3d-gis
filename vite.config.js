@@ -55,6 +55,12 @@ export default defineConfig({
         secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         rewrite: (path) => path.replace(/^\/ztq/, '')
+      },
+      '^/smallWatershed': {
+        target: 'http://334733n20y.qicp.vip:38665',
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
+        rewrite: (path) => path.replace(/^\/smallWatershed/, '')
       }
     }
   }
