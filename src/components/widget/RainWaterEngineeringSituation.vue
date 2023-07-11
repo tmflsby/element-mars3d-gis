@@ -5,6 +5,7 @@ import { magnitudeRain_getAllRain } from '@/api/magnitudeRain'
 import { regimen_regimenQuery } from '@/api/regimen'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
+import { useDataSourceStore } from '@/stores/dataSource'
 
 const systemStore = useSystemStore()
 const refreshTime = computed(() => systemStore.refreshTime)
@@ -13,16 +14,22 @@ const userInfo = systemStore.userInfo
 const wpdStore = useWPDStore()
 const projectId = wpdStore.projectId
 
+const dataSourceStore = useDataSourceStore()
+const rainSituation = dataSourceStore.rainSituation
+const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
+const setRainSituation = dataSourceStore.setRainSituation
+const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituation
+
 const areaId = userInfo.dept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
 
 const rainStation = reactive([
-  { title: '250 mm以上', color: '#ff0000', value: 0 },
-  { title: '100-250 mm', color: '#fa00fa', value: 0 },
-  { title: '50-100 mm', color: '#0000ff', value: 0 },
-  { title: '25-50 mm', color: '#61b8ff', value: 0 },
-  { title: '10-25 mm', color: '#3db93d', value: 0 },
-  { title: '0-10 mm', color: '#b3f8a6', value: 0 }
+  { title: '特大暴雨', color: '#ff0000', value: 0 },
+  { title: '大暴雨', color: '#fa00fa', value: 0 },
+  { title: '暴雨', color: '#0000ff', value: 0 },
+  { title: '大雨', color: '#61b8ff', value: 0 },
+  { title: '中雨', color: '#3db93d', value: 0 },
+  { title: '小雨', color: '#b3f8a6', value: 0 }
 ])
 const waterStation = reactive([
   { title: '超保证', color: 'red', value: 0 },
@@ -53,25 +60,59 @@ const getRainStation = async () => {
       switch (allRain[i].level) {
         case '1':
           rainStation[5].value++
+          allRain[i].color = '#b3f8a6'
           break
         case '2':
           rainStation[4].value++
+          allRain[i].color = '#3db93d'
           break
         case '3':
           rainStation[3].value++
+          allRain[i].color = '#61b8ff'
           break
         case '4':
           rainStation[2].value++
+          allRain[i].color = '#0000ff'
           break
         case '5':
           rainStation[1].value++
+          allRain[i].color = '#fa00fa'
           break
         case '6':
           rainStation[0].value++
+          allRain[i].color = '#ff0000'
           break
         default:
           break
       }
+    }
+
+    setRainSituation(allRain)
+  }
+}
+const getCacheRainStation = () => {
+  for (let i = 0; i < rainSituation.length; i++) {
+    switch (rainSituation[i].level) {
+      case '1':
+        rainStation[5].value++
+        break
+      case '2':
+        rainStation[4].value++
+        break
+      case '3':
+        rainStation[3].value++
+        break
+      case '4':
+        rainStation[2].value++
+        break
+      case '5':
+        rainStation[1].value++
+        break
+      case '6':
+        rainStation[0].value++
+        break
+      default:
+        break
     }
   }
 }
@@ -104,12 +145,42 @@ const getWaterEngineeringStation = async () => {
     engineeringStation[1].value = regimenQueryRes.data.WPStationRR.outRRFhControlsSmallCount
     engineeringStation[2].value = regimenQueryRes.data.WPStationRR.outRRXHsLargeToMediumCount
     engineeringStation[3].value = regimenQueryRes.data.WPStationRR.outRRXHsSmallCount
+
+    setWaterEngineeringSituation('WPStationZQ', regimenQueryRes.data.WPStationZQ)
+    setWaterEngineeringSituation('WPStationZZ', regimenQueryRes.data.WPStationZZ)
+    setWaterEngineeringSituation('WPStationRR', regimenQueryRes.data.WPStationRR)
   }
+}
+const getCacheWaterEngineeringStation = () => {
+  waterStation[0].value =
+    waterEngineeringSituation.WPStationZQ.outZQGuarantysCount +
+    waterEngineeringSituation.WPStationZZ.outZZGuarantysCount
+  waterStation[1].value =
+    waterEngineeringSituation.WPStationZQ.outZQAlarmsCount +
+    waterEngineeringSituation.WPStationZZ.outZZAlarmsCount
+
+  engineeringStation[0].value =
+    waterEngineeringSituation.WPStationRR.outRRFhControlsLargeToMediumCount
+  engineeringStation[1].value = waterEngineeringSituation.WPStationRR.outRRFhControlsSmallCount
+  engineeringStation[2].value = waterEngineeringSituation.WPStationRR.outRRXHsLargeToMediumCount
+  engineeringStation[3].value = waterEngineeringSituation.WPStationRR.outRRXHsSmallCount
 }
 
 onBeforeMount(() => {
-  getRainStation()
-  getWaterEngineeringStation()
+  if (!rainSituation) {
+    getRainStation()
+  } else {
+    getCacheRainStation()
+  }
+  if (
+    !waterEngineeringSituation.WPStationZZ ||
+    !waterEngineeringSituation.WPStationZQ ||
+    !waterEngineeringSituation.WPStationRR
+  ) {
+    getWaterEngineeringStation()
+  } else {
+    getCacheWaterEngineeringStation()
+  }
 })
 
 watch(

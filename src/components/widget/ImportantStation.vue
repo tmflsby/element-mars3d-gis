@@ -1,6 +1,6 @@
 <script setup>
 import dayjs from 'dayjs'
-import { reactive, onBeforeMount } from 'vue'
+import { reactive, computed, onBeforeMount } from 'vue'
 import {
   user_custom_storage_getAllByUserAndDate,
   user_custom_storage_addCustomStorage
@@ -11,7 +11,7 @@ import { useWPDStore } from '@/stores/wpd'
 
 const systemStore = useSystemStore()
 const userInfo = systemStore.userInfo
-const refreshTime = systemStore.refreshTime
+const refreshTime = computed(() => systemStore.refreshTime)
 
 const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
@@ -82,8 +82,8 @@ const getImportantStation = async () => {
           projectId,
           nodeId: station[i].id,
           nodeType: station[i].type,
-          begin: dayjs(refreshTime).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
-          end: refreshTime
+          begin: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+          end: refreshTime.value
         })
         // console.log(getImportInfoByIdRes, station[i])
         if (getImportInfoByIdRes.state === 0) {

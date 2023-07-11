@@ -227,12 +227,174 @@
       "path": "/dispatchDecision",
       "name": "DispatchDecision",
       "title": "调度决策",
-      "afterSystemTitle": true
+      "afterSystemTitle": true,
+      "panel": [
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "雨情",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": "RainSituation"
+              },
+              {
+                "title": "水情",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": "WaterSituation"
+              },
+              {
+                "title": "工情",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": "EngineeringSituation"
+              }
+            ]
+          }
+        },
+        {
+          "component": "SelectSchemePanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          }
+        }
+      ]
     },
     {
       "path": "/emergencyCommand",
       "name": "EmergencyCommand",
-      "title": "应急指挥"
+      "title": "应急指挥",
+      "panel": [
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "应急队伍",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "预案物资",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "应急物资",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "避难场所",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": ""
+              }
+            ]
+          }
+        },
+        {
+          "component": "OverviewPanel",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "subContainer": [
+              {
+                "title": "灾情直报",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": ""
+              },
+              {
+                "title": "安全检查",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": true,
+                  "title": "详情"
+                },
+                "component": ""
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

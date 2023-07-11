@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="overview" :style="props.style">
+  <div class="overview-panel" :style="props.style">
     <el-card
       class="sub-container"
       v-for="(container, index) in props.subContainer"
@@ -38,7 +38,7 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
-.overview {
+.overview-panel {
   width: 100%;
   height: 100%;
   display: flex;
