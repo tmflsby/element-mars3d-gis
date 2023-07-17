@@ -106,8 +106,12 @@ const getAnShaStationData = async () => {
 }
 
 const drawChart = () => {
-  const liquidFillValue =
-    anShaStation.remainStorage / (anShaStation.remainStorage + anShaStation.usedStorage)
+  const liquidFillValue = +(
+    anShaStation.remainStorage /
+    (anShaStation.remainStorage + anShaStation.usedStorage)
+  ).toFixed(4)
+
+  // console.log(liquidFillValue, '===============')
   const chart = echarts.init(document.querySelector('.chart-container'))
   const option = {
     title: {

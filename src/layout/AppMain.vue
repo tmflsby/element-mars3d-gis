@@ -1,14 +1,12 @@
 <script setup>
 import { watch, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { system_user_info } from '@/api/user'
+import { cantonManage_queryObjectInfos } from '@/api/cantonManage'
 import { useSystemStore } from '@/stores/system'
 import { useMapStore } from '@/stores/map'
 import { useWPDStore } from '@/stores/wpd'
-import { project_queryobjects } from '@/api/project'
-import { system_user_info } from '@/api/user'
-import { cantonManage_queryObjectInfos } from '@/api/cantonManage'
 import mars3dLayer from '@/utils/mars3dLayer'
-import videoMonitorUrl from '@/assets/videoMonitorUrl'
 
 const router = useRouter()
 
@@ -21,56 +19,12 @@ const changeMapInitComplete = mapStore.changeMapInitComplete
 
 const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
-const WPStationRR_topoId = WPDStore.WPStationRR_topoId
-const WPStationZQ_topoId = WPDStore.WPStationZQ_topoId
-const WPStationZZ_topoId = WPDStore.WPStationZZ_topoId
-const WPStationPP_topoId = WPDStore.WPStationPP_topoId
-const WPStationHP_topoId = WPDStore.WPStationHP_topoId
-const WPMonitoringPoints_topoId = WPDStore.WPMonitoringPoints_topoId
-const WPSluice_topoId = WPDStore.WPSluice_topoId
-const WPembankment_topoId = WPDStore.WPembankment_topoId
-const WPStationPump_topoId = WPDStore.WPStationPump_topoId
-const EasilyFloodedArea_topoId = WPDStore.EasilyFloodedArea_topoId
-const WPAdministrativeArea_topoId = WPDStore.WPAdministrativeArea_topoId
+const getWPDData = WPDStore.getWPDData
 
 const getSystemUserInfo = async () => {
   const userInfoRes = await system_user_info()
   if (userInfoRes.code === 0) {
     setUserInfo(userInfoRes.data)
-  }
-}
-const getWPDData = async (WPDObjectArr) => {
-  for (let i = 0; i < WPDObjectArr.length; i++) {
-    const getStationRes = await project_queryobjects({
-      projectId,
-      topoId: WPDObjectArr[i].topoId
-    })
-    if (getStationRes.state === 0) {
-      for (let j = 0; j < getStationRes?.data?.data.length; j++) {
-        saveWPDData({
-          type: WPDObjectArr[i].type,
-          data: getStationRes?.data?.data[j]
-        })
-      }
-    }
-  }
-}
-
-const saveWPDData = ({ type, data }) => {
-  let stationId
-  if (type === 'WPMonitoringPoints') {
-    stationId = data.ORDER_INDEX
-    data.URL = videoMonitorUrl[stationId]
-  } else if (type === 'EasilyFloodedArea') {
-    stationId = data.deviceAddr
-  } else {
-    stationId = data.id
-  }
-  if (window.WPD.has(type)) {
-    window.WPD.get(type).set(stationId, data)
-  } else {
-    window.WPD.set(type, new Map())
-    window.WPD.get(type).set(stationId, data)
   }
 }
 
@@ -95,31 +49,28 @@ onMounted(async () => {
   // 用户信息，行政区划  提前获取
   window.WPD = new Map()
   await getSystemUserInfo()
-  await getWPDData([
-    { type: 'WPAdministrativeArea', topoId: WPAdministrativeArea_topoId },
-    { type: 'WPMonitoringPoints', topoId: WPMonitoringPoints_topoId }
-  ])
+  await getWPDData(['WPAdministrativeArea', 'WPMonitoringPoints'])
   await getCurrentWPAdministrativeArea()
+
+  const region = window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code)
+  // 2004蒙版
+  await mars3dLayer.maskLayer(region.level, region.id)
 
   changeMapInitComplete(true)
 
   await defaultShowLayers()
 
   await getWPDData([
-    { type: 'WPStationRR', topoId: WPStationRR_topoId },
-    { type: 'WPStationZQ', topoId: WPStationZQ_topoId },
-    { type: 'WPStationZZ', topoId: WPStationZZ_topoId },
-    { type: 'WPStationPP', topoId: WPStationPP_topoId },
-    { type: 'WPStationHP', topoId: WPStationHP_topoId },
-    { type: 'WPSluice', topoId: WPSluice_topoId },
-    { type: 'WPembankment', topoId: WPembankment_topoId },
-    { type: 'WPStationPump', topoId: WPStationPump_topoId },
-    { type: 'EasilyFloodedArea', topoId: EasilyFloodedArea_topoId }
+    'WPStationRR',
+    'WPStationZQ',
+    'WPStationZZ',
+    'WPStationPP',
+    'WPStationHP',
+    'WPSluice',
+    'WPembankment',
+    'WPStationPump',
+    'EasilyFloodedArea'
   ])
-
-  const region = window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code)
-  // 2004蒙版
-  await mars3dLayer.maskLayer(region.level, region.id)
 })
 
 const initMars3d = (option) => {

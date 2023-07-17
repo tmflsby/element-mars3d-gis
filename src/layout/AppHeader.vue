@@ -2,7 +2,6 @@
 import dayjs from 'dayjs'
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { useSystemStore } from '@/stores/system'
 
 const systemStore = useSystemStore()
@@ -19,7 +18,7 @@ const router = useRouter()
 const defaultActive = ref(router.currentRoute.value.path)
 
 const realtimeRefresh = ref(true)
-const setSystemTimeInputValue = ref('')
+const systemTimeDatePicker = ref('')
 
 const handleSelectMenu = (index) => {
   router.push(index)
@@ -70,21 +69,11 @@ const logout = () => {
 }
 
 const searchSystemTime = () => {
-  if (dayjs(setSystemTimeInputValue.value).isValid()) {
-    // 清除定时器
-    clearInterval(timer)
-    timer = null
-    formatSystemTime(setSystemTimeInputValue.value)
-    setSystemTimeInputValue.value = dayjs(setSystemTimeInputValue.value).format(
-      'YYYY-MM-DD HH:mm:ss'
-    )
-  } else {
-    ElMessage({
-      message: '请输入正确的时间格式',
-      type: 'warning'
-    })
-    setSystemTimeInputValue.value = ''
-  }
+  // 清除定时器
+  clearInterval(timer)
+  timer = null
+  formatSystemTime(systemTimeDatePicker.value)
+  realtimeRefresh.value = false
 }
 
 const backToRealtime = () => {
@@ -98,7 +87,8 @@ const backToRealtime = () => {
     changeRefreshTime(refreshTime)
   }, 1000)
 
-  setSystemTimeInputValue.value = ''
+  systemTimeDatePicker.value = ''
+  realtimeRefresh.value = true
 }
 
 const systemTimeToRefreshTime = () => {
@@ -122,15 +112,17 @@ watch(
 <template>
   <el-card class="app-header">
     <div class="app-header-left">
-      <el-popover trigger="hover" width="500">
+      <el-popover trigger="click" width="500" :teleported="false">
         <div class="set-system-time">
-          <el-checkbox style="margin-right: 10px" v-model="realtimeRefresh">实时刷新</el-checkbox>
-          <el-input
-            style="margin-right: 10px"
-            v-model="setSystemTimeInputValue"
-            placeholder="请输入时间"
+          <el-checkbox v-model="realtimeRefresh">实时刷新</el-checkbox>
+          <el-date-picker
+            style="margin: 0 10px"
+            type="datetime"
+            placeholder="选择日期时间"
+            :teleported="false"
+            v-model="systemTimeDatePicker"
           />
-          <el-button @click="searchSystemTime">查询</el-button>
+          <el-button style="margin-right: 10px" @click="searchSystemTime">查询</el-button>
           <el-button @click="backToRealtime">实时</el-button>
         </div>
         <template #reference>
