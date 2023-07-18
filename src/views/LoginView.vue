@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { ref, reactive, onBeforeMount, onMounted } from 'vue'
 import { captcha_image, oauth_token, oauth_check_token } from '@/api/login'
-import { setAccessToken, setRefreshToken } from '@/utils/token'
+import { setAccessToken, setRefreshToken } from '@/utils/storage'
 import { useWPDStore } from '@/stores/wpd'
 
 const router = useRouter()
@@ -82,8 +82,8 @@ const getCaptchaImage = async () => {
 const handleClickLoginBtn = async () => {
   // 验证验证码
   if (loginFrom.captcha.toLowerCase() !== captcha.code.toLowerCase()) {
-    loginFrom.captcha = ''
     ElMessage.error('验证码错误')
+    loginFrom.captcha = ''
     await getCaptchaImage()
     return
   }
@@ -127,10 +127,12 @@ const handleClickLoginBtn = async () => {
     } else {
       ElMessage.error('token验证失败')
       await getCaptchaImage()
+      loginFrom.captcha = ''
     }
   } else {
     ElMessage.error('账号密码错误或验证码失效')
     await getCaptchaImage()
+    loginFrom.captcha = ''
   }
 
   loginLoading.value = false

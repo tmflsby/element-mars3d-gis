@@ -6,7 +6,7 @@ import { useSystemStore } from '@/stores/system'
 
 const systemStore = useSystemStore()
 const refreshTime = computed(() => systemStore.refreshTime)
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const warningLevel = reactive([
   {
@@ -41,7 +41,7 @@ onBeforeMount(() => {
 
 const getRiverWarning = async () => {
   let staticInfoUnitUrl = `${window.baseUrl.mountainTorrent}/EarlyWarning/Api/GetStaticInfoUnit?`
-  staticInfoUnitUrl += `addvcd=${userInfo.dept.code}&dtBegin=${dayjs(refreshTime.value)
+  staticInfoUnitUrl += `addvcd=${selectedDept.code}&dtBegin=${dayjs(refreshTime.value)
     .subtract(1, 'day')
     .format('YYYY-MM-DD HH:mm')}&dtEnd=${dayjs(refreshTime.value).format('YYYY-MM-DD HH:mm')}`
 

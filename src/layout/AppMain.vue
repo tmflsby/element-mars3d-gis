@@ -12,7 +12,7 @@ const router = useRouter()
 
 const systemStore = useSystemStore()
 const setUserInfo = systemStore.setUserInfo
-const userInfo = computed(() => systemStore.userInfo)
+const selectedDept = computed(() => systemStore.selectedDept)
 
 const mapStore = useMapStore()
 const changeMapInitComplete = mapStore.changeMapInitComplete
@@ -29,7 +29,7 @@ const getSystemUserInfo = async () => {
 }
 
 const getCurrentWPAdministrativeArea = async () => {
-  const region = window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code)
+  const region = window.WPD.get('WPAdministrativeArea').get(selectedDept.value.code)
   const queryObjectInfosRes = await cantonManage_queryObjectInfos({
     projectId,
     cantonId: region.id
@@ -52,7 +52,7 @@ onMounted(async () => {
   await getWPDData(['WPAdministrativeArea', 'WPMonitoringPoints'])
   await getCurrentWPAdministrativeArea()
 
-  const region = window.WPD.get('WPAdministrativeArea').get(userInfo.value.dept.code)
+  const region = window.WPD.get('WPAdministrativeArea').get(selectedDept.value.code)
   // 2004蒙版
   await mars3dLayer.maskLayer(region.level, region.id)
 

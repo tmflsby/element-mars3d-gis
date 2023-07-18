@@ -6,7 +6,7 @@ import { useSystemStore } from '@/stores/system'
 
 const systemStore = useSystemStore()
 const refreshTime = computed(() => systemStore.refreshTime)
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const warningList = reactive([
   { title: '发布', value: 0 },
@@ -19,7 +19,7 @@ const getDisasterWarning = async () => {
     .subtract(1, 'day')
     .format('YYYY-MM-DD HH:mm:ss')}&endTime=${dayjs(refreshTime.value).format(
     'YYYY-MM-DD HH:mm:ss'
-  )}&parentVacode=${userInfo.dept.code}`
+  )}&parentVacode=${selectedDept.code}`
   const disposeDzObjRes = await sift_disposeDzObj({
     link: getStatisticsByAreaCodesAndTimeRangeURL
   })

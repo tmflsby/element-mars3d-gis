@@ -8,10 +8,10 @@ const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
 
 const systemStore = useSystemStore()
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const disasterHazardPoint = reactive([])
-const region = window.WPD.get('WPAdministrativeArea').get(userInfo.dept.code)
+const region = window.WPD.get('WPAdministrativeArea').get(selectedDept.code)
 
 const getDisasterSiteData = async () => {
   const getDisasterSiteDataRes = await disPoint_getDisasterSiteData({

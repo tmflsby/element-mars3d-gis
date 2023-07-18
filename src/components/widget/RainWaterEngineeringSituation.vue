@@ -9,7 +9,7 @@ import { useDataSourceStore } from '@/stores/dataSource'
 
 const systemStore = useSystemStore()
 const refreshTime = computed(() => systemStore.refreshTime)
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const wpdStore = useWPDStore()
 const projectId = wpdStore.projectId
@@ -20,7 +20,7 @@ const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
 const setRainSituation = dataSourceStore.setRainSituation
 const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituation
 
-const areaId = userInfo.dept.code
+const areaId = selectedDept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
 
 const rainStation = reactive([

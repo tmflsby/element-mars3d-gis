@@ -8,10 +8,10 @@ const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
 
 const systemStore = useSystemStore()
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const emergencyTransferType = reactive([])
-const region = window.WPD.get('WPAdministrativeArea').get(userInfo.dept.code)
+const region = window.WPD.get('WPAdministrativeArea').get(selectedDept.code)
 
 const getEmergencyTransfer = async () => {
   const getEmergencyTransferRes = await disPoint_getDisasterOtherObjects({

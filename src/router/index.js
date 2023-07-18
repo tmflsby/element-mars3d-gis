@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getAccessToken, removeAccessToken } from '@/utils/token'
+import { getAccessToken, removeAccessToken } from '@/utils/storage'
+import { removeLocalStorage } from '@/utils/storage'
 import { oauth_check_token } from '@/api/login'
 import AppLayout from '@/layout/AppLayout.vue'
 
@@ -58,6 +59,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.path === '/login') {
     removeAccessToken()
+    removeLocalStorage('selectedDept')
     return next()
   } else {
     const oauthCheckTokenRes = await oauth_check_token({
@@ -67,6 +69,7 @@ router.beforeEach(async (to, from, next) => {
     if (oauthCheckTokenRes.status) {
       // console.log('check token failed')
       removeAccessToken()
+      removeLocalStorage('selectedDept')
       return next('/login')
     }
   }

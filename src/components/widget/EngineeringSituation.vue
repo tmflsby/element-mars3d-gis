@@ -12,7 +12,7 @@ import { useDataSourceStore } from '@/stores/dataSource'
 
 const systemStore = useSystemStore()
 const refreshTime = computed(() => systemStore.refreshTime)
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const wpdStore = useWPDStore()
 const projectId = wpdStore.projectId
@@ -21,7 +21,7 @@ const dataSourceStore = useDataSourceStore()
 const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
 const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituation
 
-const areaId = userInfo.dept.code
+const areaId = selectedDept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
 
 const engineeringStation = reactive([
@@ -112,7 +112,7 @@ const drawChart = () => {
   ).toFixed(4)
 
   // console.log(liquidFillValue, '===============')
-  const chart = echarts.init(document.querySelector('.chart-container'))
+  const chart = echarts.init(document.querySelector('.chart-container'), 'dark')
   const option = {
     title: {
       text: anShaStation.name,

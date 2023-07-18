@@ -8,11 +8,11 @@ const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
 
 const systemStore = useSystemStore()
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const infoText = ref('')
 const infoStatistic = reactive([])
-const region = window.WPD.get('WPAdministrativeArea').get(userInfo.dept.code)
+const region = window.WPD.get('WPAdministrativeArea').get(selectedDept.code)
 
 const getInfoText = async () => {
   if (region.level === 'CITY') {

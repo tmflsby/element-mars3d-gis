@@ -315,10 +315,10 @@
                   "flex": 1
                 },
                 "detailBtn": {
-                  "show": false,
+                  "show": true,
                   "title": "详情"
                 },
-                "component": ""
+                "component": "EmergencyTeam"
               },
               {
                 "title": "预案物资",

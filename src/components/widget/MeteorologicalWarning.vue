@@ -7,7 +7,7 @@ import { useDataSourceStore } from '@/stores/dataSource'
 
 const systemStore = useSystemStore()
 const refreshTime = computed(() => systemStore.refreshTime)
-const userInfo = systemStore.userInfo
+const selectedDept = systemStore.selectedDept
 
 const dataSourceStore = useDataSourceStore()
 const meteorologicalWarning = computed(() => dataSourceStore.meteorologicalWarning)
@@ -68,7 +68,7 @@ onBeforeMount(() => {
 
 const getMeteorologicalWarning = async () => {
   const getAlarmSingalRes = await AlarmSingal_Page({
-    City: userInfo.deptName, // 市级名称
+    City: selectedDept.name, // 市级名称
     SignalCategory: '0', // 0：县级发布、1：市级发布、2：省级发布
     StatusFilter: '0', // 0：所有，1：未解除，2：已解除
     StartTime: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
