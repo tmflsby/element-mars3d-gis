@@ -24,6 +24,7 @@ export const useWPDStore = defineStore('wpd', () => {
 
   const getWPDData = async (WPDObjectArr) => {
     for (let i = 0; i < WPDObjectArr.length; i++) {
+      if (window.WPD.has(WPDObjectArr[i])) return
       const getStationRes = await project_queryobjects({
         projectId: projectId.value,
         topoId: WPDTOPOID[WPDObjectArr[i]]

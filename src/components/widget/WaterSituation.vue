@@ -1,8 +1,10 @@
 <script setup>
 import dayjs from 'dayjs'
-import { reactive, computed, watch, onBeforeMount } from 'vue'
+import lodash from 'lodash'
+import * as echarts from 'echarts'
+import { reactive, computed, watch, onBeforeMount, onMounted } from 'vue'
 import { regimen_regimenQuery } from '@/api/regimen'
-import { curveLookup_getImportInfoById } from '@/api/curveLookup'
+import { data_getMonitorData } from '@/api/data'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
 import { useDataSourceStore } from '@/stores/dataSource'
@@ -13,6 +15,7 @@ const selectedDept = systemStore.selectedDept
 
 const wpdStore = useWPDStore()
 const projectId = wpdStore.projectId
+const getWPDData = wpdStore.getWPDData
 
 const dataSourceStore = useDataSourceStore()
 const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
@@ -20,22 +23,16 @@ const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituatio
 
 const areaId = selectedDept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
+let WPStationZQ = window.WPD.get('WPStationZQ')
+let WPStationZZ = window.WPD.get('WPStationZZ')
+const WPStationZQZZOption = reactive([])
 
 const waterStation = reactive([
   { title: '超保证', color: 'red', value: 0 },
   { title: '超警戒', color: 'orange', value: 0 }
 ])
-const tableColumn = reactive([
-  { title: '名称', field: 'name' },
-  { title: '水位', field: 'currentZ' },
-  { title: '警戒水位', field: 'standardZ1' },
-  { title: '保证水位', field: 'standardZ2' }
-])
-const tableData = reactive([
-  { type: 'WPStationZQ', id: '70900900', name: '沙县' },
-  { type: 'WPStationZQ', id: '70900601', name: '永安' },
-  { type: 'WPStationZQ', id: '70900800', name: '梅列' }
-])
+const currentStation = reactive({})
+let chart = null
 
 const getWaterStation = async () => {
   // 重置value
@@ -71,37 +68,214 @@ const getCacheWaterStation = () => {
     waterEngineeringSituation.WPStationZZ.outZZAlarmsCount
 }
 
-const getTableDataData = async () => {
-  for (let i = 0; i < tableData.length; i++) {
-    const getImportInfoByIdRes = await curveLookup_getImportInfoById({
-      projectId,
-      nodeId: tableData[i].id,
-      nodeType: tableData[i].type,
-      begin: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
-      end: refreshTime.value
-    })
-    if (getImportInfoByIdRes.state === 0) {
-      tableData[i].currentZ = getImportInfoByIdRes.data.currentZ.value
-      tableData[i].standardZ1 = getImportInfoByIdRes.data.standardZ1.value
-      tableData[i].standardZ2 = getImportInfoByIdRes.data.standardZ2.value
-    }
+const getCurrentStationData = async () => {
+  const getMonitorDataRes = await data_getMonitorData({
+    projectId,
+    nodeType: currentStation.type,
+    nodeId: currentStation.id,
+    begin: dayjs(refreshTime.value).subtract(12, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+    end: dayjs(refreshTime.value).format('YYYY-MM-DD HH:mm:ss')
+  })
+  if (getMonitorDataRes.state === 0) {
+    // console.log(getMonitorDataRes.data)
+    const q = getMonitorDataRes.data?.q?.map((item) => ({
+      time: dayjs(item.time).format('YYYY-MM-DD HH:mm:ss'),
+      q: item.value
+    }))
+    const z = getMonitorDataRes.data?.z?.map((item) => ({
+      time: dayjs(item.time).format('YYYY-MM-DD HH:mm:ss'),
+      z: item.value
+    }))
+
+    initChart(z, q)
+  } else {
+    chart?.dispose()
   }
 }
 
+const initChart = (z, q) => {
+  if (chart) {
+    chart.dispose()
+  }
+  chart = echarts.init(document.querySelector('.water-chart'), 'dark')
+
+  // 根据time 合并数据
+  const data = lodash.merge(z, q)
+  const legendData = []
+  const series = []
+  if (z) {
+    legendData.push('水位')
+    series.push({
+      name: '水位',
+      type: 'line',
+      data: z.map((item) => [item.time, item.z]),
+      yAxisIndex: 0
+    })
+  }
+  if (q) {
+    legendData.push('流量')
+    series.push({
+      name: '流量',
+      type: 'line',
+      yAxisIndex: 1,
+      data: q.map((item) => [item.time, item.q])
+    })
+  }
+  if (currentStation.alarmZ && currentStation.alarmZ !== '') {
+    legendData.push('警戒水位')
+    series.push({
+      name: '警戒水位',
+      type: 'line',
+      data: data.map((item) => [item.time, currentStation.alarmZ]),
+      yAxisIndex: 0
+    })
+  }
+  if (currentStation.alarmQ && currentStation.alarmQ !== '') {
+    legendData.push('警戒流量')
+    series.push({
+      name: '警戒流量',
+      type: 'line',
+      data: data.map((item) => [item.time, currentStation.alarmQ]),
+      yAxisIndex: 1
+    })
+  }
+  if (currentStation.guarantyZ && currentStation.guarantyZ !== '') {
+    legendData.push('保证水位')
+    series.push({
+      name: '保证水位',
+      type: 'line',
+      data: data.map((item) => [item.time, currentStation.guarantyZ]),
+      yAxisIndex: 0
+    })
+  }
+  if (currentStation.guarantyQ && currentStation.guarantyQ !== '') {
+    legendData.push('保证流量')
+    series.push({
+      name: '保证流量',
+      type: 'line',
+      data: data.map((item) => [item.time, currentStation.guarantyQ]),
+      yAxisIndex: 1
+    })
+  }
+  const option = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross'
+      }
+    },
+    grid: {
+      left: 50,
+      right: 50,
+      bottom: 25
+    },
+    legend: {
+      data: legendData
+    },
+    xAxis: [
+      {
+        type: 'time',
+        boundaryGap: false,
+        splitNumber: 4
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        name: '水位(m)',
+        min: (value) => value.min - 0.5,
+        max: (value) => value.max + 0.5,
+        yAxisIndex: 0
+      },
+      {
+        type: 'value',
+        name: '流量(m³/s)',
+        min: (value) => value.min - 0.5,
+        max: (value) => value.max + 0.5,
+        yAxisIndex: 1
+      }
+    ],
+    series
+  }
+  // console.log(option)
+  chart.setOption(option, true)
+  chart.resize()
+}
+
+const changeStation = (val) => {
+  const stationType = val.split('#')[0]
+  const stationId = val.split('#')[1]
+  let station
+  switch (stationType) {
+    case 'WPStationZQ':
+      station = WPStationZQ.get(stationId)
+      break
+    case 'WPStationZZ':
+      station = WPStationZZ.get(stationId)
+      break
+    default:
+      break
+  }
+  currentStation.mixin = val
+  currentStation.name = station.name
+  currentStation.id = station.id
+  currentStation.type = stationType
+  currentStation.alarmZ = station.alarmZ
+  currentStation.alarmQ = station.alarmQ
+  currentStation.guarantyZ = station.guarantyZ
+  currentStation.guarantyQ = station.guarantyQ
+
+  getCurrentStationData()
+}
+
+const getWPStationOption = async () => {
+  if (!WPStationZQ) {
+    await getWPDData(['WPStationZQ'])
+    WPStationZQ = window.WPD.get('WPStationZQ')
+  }
+  if (!WPStationZZ) {
+    await getWPDData(['WPStationZZ'])
+    WPStationZZ = window.WPD.get('WPStationZZ')
+  }
+
+  WPStationZQ.forEach((item) => {
+    WPStationZQZZOption.push({
+      id: item.id,
+      name: item.name,
+      type: 'WPStationZQ',
+      mixin: `WPStationZQ#${item.id}`
+    })
+  })
+  WPStationZZ.forEach((item) => {
+    WPStationZQZZOption.push({
+      id: item.id,
+      name: item.name,
+      type: 'WPStationZZ',
+      mixin: `WPStationZZ#${item.id}`
+    })
+  })
+
+  changeStation('WPStationZQ#70900900')
+}
+
 onBeforeMount(() => {
+  getWPStationOption()
   if (!waterEngineeringSituation.WPStationZZ || !waterEngineeringSituation.WPStationZQ) {
     getWaterStation()
   } else {
     getCacheWaterStation()
   }
-  getTableDataData()
+})
+
+onMounted(() => {
+  getCurrentStationData()
 })
 
 watch(
   () => refreshTime.value,
   () => {
     getWaterStation()
-    getTableDataData()
+    getCurrentStationData()
   }
 )
 </script>
@@ -117,17 +291,17 @@ watch(
         </el-card>
       </div>
     </div>
-
-    <div class="water-table">
-      <el-table :data="tableData" height="100%" style="width: 100%">
-        <el-table-column
-          v-for="item in tableColumn"
-          :key="item.field"
-          :prop="item.field"
-          :label="item.title"
+    <div class="water-select-station">
+      <el-select filterable v-model="currentStation.mixin" @change="changeStation">
+        <el-option
+          v-for="item in WPStationZQZZOption"
+          :key="item.mixin"
+          :label="item.name"
+          :value="item.mixin"
         />
-      </el-table>
+      </el-select>
     </div>
+    <div class="water-chart"></div>
   </div>
 </template>
 
@@ -174,10 +348,17 @@ watch(
       }
     }
   }
-  .water-table {
+  .water-select-station {
+    width: 100%;
+    :deep(.el-select) {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  .water-chart {
     margin-top: 10px;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 100px);
   }
 }
 </style>
