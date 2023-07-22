@@ -310,6 +310,17 @@
             "style": {},
             "subContainer": [
               {
+                "title": "避难场所",
+                "style": {
+                  "flex": 1
+                },
+                "detailBtn": {
+                  "show": false,
+                  "title": "详情"
+                },
+                "component": "EmergencyShelter"
+              },
+              {
                 "title": "应急队伍",
                 "style": {
                   "flex": 1
@@ -321,17 +332,6 @@
                 "component": "EmergencyTeam"
               },
               {
-                "title": "预案物资",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": {
-                  "show": false,
-                  "title": "详情"
-                },
-                "component": ""
-              },
-              {
                 "title": "应急物资",
                 "style": {
                   "flex": 1
@@ -340,18 +340,7 @@
                   "show": false,
                   "title": "详情"
                 },
-                "component": ""
-              },
-              {
-                "title": "避难场所",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": {
-                  "show": false,
-                  "title": "详情"
-                },
-                "component": ""
+                "component": "EmergencyMaterial"
               }
             ]
           }

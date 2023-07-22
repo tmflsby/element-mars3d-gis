@@ -1,6 +1,6 @@
 <script setup>
 import * as echarts from 'echarts'
-import { ref, reactive, onBeforeMount, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import { useWPDStore } from '@/stores/wpd'
 import { useSystemStore } from '@/stores/system'
 
@@ -14,14 +14,15 @@ const selectedDept = systemStore.selectedDept
 let WPEmergencyTeam = window.WPD.get('WPEmergencyTeam')
 const sectorCategories = reactive({})
 const selectedSectorCategories = ref('水利设施')
+let chart = null
 
 const getEmergencyTeam = async () => {
   await getWPDData(['WPEmergencyTeam'])
+  WPEmergencyTeam = window.WPD.get('WPEmergencyTeam')
   filterEmergencyTeam()
 }
 
 const filterEmergencyTeam = () => {
-  WPEmergencyTeam = window.WPD.get('WPEmergencyTeam')
   // console.log(WPEmergencyTeam, selectedDept.code)
   WPEmergencyTeam.forEach((item) => {
     // 根据 deptCode 过滤
@@ -49,7 +50,10 @@ const initChart = () => {
   }
   // console.log(teamType)
 
-  const chart = echarts.init(document.querySelector('.emergency-team-chart'), 'dark')
+  if (chart) {
+    chart.dispose()
+  }
+  chart = echarts.init(document.querySelector('.emergency-team-chart'), 'dark')
   const option = {
     tooltip: {
       trigger: 'item'
@@ -64,34 +68,26 @@ const initChart = () => {
         name: '应急队伍',
         type: 'pie',
         radius: ['40%', '80%'],
-        center: ['60%', '50%'],
+        center: ['75%', '50%'],
         avoidLabelOverlap: false,
         label: {
           show: false
         },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '18',
-            fontWeight: 'bold'
-          }
-        },
         labelLine: {
           show: false
         },
-        data: Object.keys(teamType).map((item) => {
-          return {
-            value: teamType[item].length,
-            name: item
-          }
-        })
+        data: Object.keys(teamType).map((item) => ({
+          value: teamType[item].length,
+          name: item
+        }))
       }
     ]
   }
   chart.setOption(option)
+  chart.resize()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   if (WPEmergencyTeam == null) {
     getEmergencyTeam()
   } else {
