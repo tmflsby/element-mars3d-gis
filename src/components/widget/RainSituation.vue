@@ -14,7 +14,7 @@ const wpdStore = useWPDStore()
 const projectId = wpdStore.projectId
 
 const dataSourceStore = useDataSourceStore()
-const rainSituation = dataSourceStore.rainSituation
+let rainSituation = dataSourceStore.rainSituation
 const setRainSituation = dataSourceStore.setRainSituation
 
 const areaId = selectedDept.code
@@ -23,12 +23,18 @@ const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
 const rainStation = reactive([
   { title: '特大暴雨', color: '#ff0000', value: 0 },
   { title: '大暴雨', color: '#fa00fa', value: 0 },
-  { title: '暴雨', color: '#0000ff', value: 0 },
+  { title: '暴雨', color: '#1d5de7', value: 0 },
   { title: '大雨', color: '#61b8ff', value: 0 },
   { title: '中雨', color: '#3db93d', value: 0 },
   { title: '小雨', color: '#b3f8a6', value: 0 }
 ])
-const sortAllRain = reactive([])
+const tableColumn = reactive([
+  { title: '类型', field: 'stationType' },
+  { title: '名称', field: 'stnm' },
+  { title: '级别', field: 'magnitude' },
+  { title: '降雨量', field: 'drp' }
+])
+const tableData = reactive([])
 
 const getRainStation = async () => {
   // 重置value
@@ -44,75 +50,69 @@ const getRainStation = async () => {
   })
   if (getAllRainRes.state === 0) {
     const allRain = getAllRainRes.data
-    for (let i = 0; i < allRain.length; i++) {
-      switch (allRain[i].level) {
-        case '1':
-          rainStation[5].value++
-          allRain[i].color = '#b3f8a6'
-          break
-        case '2':
-          rainStation[4].value++
-          allRain[i].color = '#3db93d'
-          break
-        case '3':
-          rainStation[3].value++
-          allRain[i].color = '#61b8ff'
-          break
-        case '4':
-          rainStation[2].value++
-          allRain[i].color = '#0000ff'
-          break
-        case '5':
-          rainStation[1].value++
-          allRain[i].color = '#fa00fa'
-          break
-        case '6':
-          rainStation[0].value++
-          allRain[i].color = '#ff0000'
-          break
-        default:
-          break
-      }
-    }
 
-    setRainSituation(allRain)
-    // 根据drp从大到小排序
-    sortAllRain.push(...allRain.sort((a, b) => b.drp - a.drp))
+    await setRainSituation(allRain)
+
+    rainSituation = dataSourceStore.rainSituation
+
+    filterRainStation()
   }
 }
-const getCacheRainStation = () => {
+const filterRainStation = () => {
   for (let i = 0; i < rainSituation.length; i++) {
-    switch (rainSituation[i].level) {
-      case '1':
+    switch (rainSituation[i].magnitude) {
+      case '小雨':
         rainStation[5].value++
+        rainSituation[i].color = '#b3f8a6'
         break
-      case '2':
+      case '中雨':
         rainStation[4].value++
+        rainSituation[i].color = '#3db93d'
         break
-      case '3':
+      case '大雨':
         rainStation[3].value++
+        rainSituation[i].color = '#61b8ff'
         break
-      case '4':
+      case '暴雨':
         rainStation[2].value++
+        rainSituation[i].color = '#1d5de7'
         break
-      case '5':
+      case '大暴雨':
         rainStation[1].value++
+        rainSituation[i].color = '#fa00fa'
         break
-      case '6':
+      case '特大暴雨':
         rainStation[0].value++
+        rainSituation[i].color = '#ff0000'
+        break
+      default:
+        break
+    }
+    switch (rainSituation[i].sttp) {
+      case 'WPStationRR':
+        rainSituation[i].stationType = '水库'
+        break
+      case 'WPStationZQ':
+        rainSituation[i].stationType = '水文站'
+        break
+      case 'WPStationZZ':
+        rainSituation[i].stationType = '水位站'
+        break
+      case 'WPStationPP':
+        rainSituation[i].stationType = '雨量站'
         break
       default:
         break
     }
   }
-  sortAllRain.push(...rainSituation.sort((a, b) => b.drp - a.drp))
+  tableData.push(...rainSituation.sort((a, b) => b.drp - a.drp))
 }
 
 onBeforeMount(() => {
   if (!rainSituation) {
     getRainStation()
   } else {
-    getCacheRainStation()
+    filterRainStation()
   }
 })
 
@@ -122,6 +122,33 @@ watch(
     getRainStation()
   }
 )
+
+const rowClassName = ({ row }) => {
+  let raniLevel = ''
+  switch (row.magnitude) {
+    case '小雨':
+      raniLevel = 'rain-level-1'
+      break
+    case '中雨':
+      raniLevel = 'rain-level-2'
+      break
+    case '大雨':
+      raniLevel = 'rain-level-3'
+      break
+    case '暴雨':
+      raniLevel = 'rain-level-4'
+      break
+    case '大暴雨':
+      raniLevel = 'rain-level-5'
+      break
+    case '特大暴雨':
+      raniLevel = 'rain-level-6'
+      break
+    default:
+      break
+  }
+  return raniLevel
+}
 </script>
 
 <template>
@@ -134,20 +161,16 @@ watch(
         </div>
       </el-card>
     </div>
-    <div class="rain-station">
-      <el-descriptions border :column="3">
-        <template v-for="item in sortAllRain" :key="item.stcd">
-          <el-descriptions-item>
-            <span :style="{ color: item.color }">{{ item.magnitude }}</span>
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <span :style="{ color: item.color }">{{ item.stnm }}</span>
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <span :style="{ color: item.color }">{{ item.drp }}</span>
-          </el-descriptions-item>
-        </template>
-      </el-descriptions>
+    <div class="water-table">
+      <el-table height="100%" style="width: 100%" :data="tableData" :row-class-name="rowClassName">
+        <el-table-column
+          v-for="item in tableColumn"
+          sortable
+          :key="item.field"
+          :prop="item.field"
+          :label="item.title"
+        />
+      </el-table>
     </div>
   </div>
 </template>
@@ -181,12 +204,29 @@ watch(
       }
     }
   }
-  .rain-station {
+  .water-table {
+    margin-top: 10px;
     width: 100%;
     height: calc(100% - 80px);
-    overflow: auto;
-    :deep(.el-descriptions__label) {
-      display: none;
+    :deep(.el-table) {
+      .rain-level-1 {
+        color: #b3f8a6;
+      }
+      .rain-level-2 {
+        color: #3db93d;
+      }
+      .rain-level-3 {
+        color: #61b8ff;
+      }
+      .rain-level-4 {
+        color: #1d5de7;
+      }
+      .rain-level-5 {
+        color: #fa00fa;
+      }
+      .rain-level-6 {
+        color: #ff0000;
+      }
     }
   }
 }

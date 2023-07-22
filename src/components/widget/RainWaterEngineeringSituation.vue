@@ -26,7 +26,7 @@ const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
 const rainStation = reactive([
   { title: '特大暴雨', color: '#ff0000', value: 0 },
   { title: '大暴雨', color: '#fa00fa', value: 0 },
-  { title: '暴雨', color: '#0000ff', value: 0 },
+  { title: '暴雨', color: '#1d5de7', value: 0 },
   { title: '大雨', color: '#61b8ff', value: 0 },
   { title: '中雨', color: '#3db93d', value: 0 },
   { title: '小雨', color: '#b3f8a6', value: 0 }
@@ -72,7 +72,7 @@ const getRainStation = async () => {
           break
         case '4':
           rainStation[2].value++
-          allRain[i].color = '#0000ff'
+          allRain[i].color = '#126ce1'
           break
         case '5':
           rainStation[1].value++

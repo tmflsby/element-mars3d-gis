@@ -13,7 +13,7 @@ const dataSourceStore = useDataSourceStore()
 const meteorologicalWarning = computed(() => dataSourceStore.meteorologicalWarning)
 const setMeteorologicalWarning = dataSourceStore.setMeteorologicalWarning
 
-const selectValue = ref(['暴雨', '高温'])
+const selectValue = ref(['暴雨', '雷电'])
 const selectOptions = [
   '冰雹',
   '台风',
@@ -50,13 +50,13 @@ const warningLevel = reactive([
   },
   {
     title: '黄色预警',
-    color: 'yellow',
+    color: 'gold',
     level: 2,
     value: 0
   },
   {
     title: '蓝色预警',
-    color: 'blue',
+    color: 'royalblue',
     level: 1,
     value: 0
   }

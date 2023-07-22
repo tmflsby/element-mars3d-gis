@@ -23,13 +23,13 @@ const warningLevel = reactive([
   },
   {
     title: '黄色预警',
-    color: 'yellow',
+    color: 'gold',
     level: 3,
     value: 0
   },
   {
     title: '蓝色预警',
-    color: 'blue',
+    color: 'royalblue',
     level: 4,
     value: 0
   }
