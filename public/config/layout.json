@@ -315,7 +315,7 @@
                   "flex": 1
                 },
                 "detailBtn": {
-                  "show": false,
+                  "show": true,
                   "title": "详情"
                 },
                 "component": "EmergencyShelter"
@@ -337,7 +337,7 @@
                   "flex": 1
                 },
                 "detailBtn": {
-                  "show": false,
+                  "show": true,
                   "title": "详情"
                 },
                 "component": "EmergencyMaterial"

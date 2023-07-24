@@ -8,7 +8,7 @@
     "center": {
       "lng": 117.46017,
       "lat": 26.395751,
-      "alt": 870000,
+      "alt": 500000,
       "heading": 0,
       "pitch": -90
     },
@@ -49,15 +49,15 @@
   },
 
   "control": {
-    "homeButton": false,
-    "baseLayerPicker": false,
-    "sceneModePicker": false,
+    "homeButton": true,
+    "baseLayerPicker": true,
+    "sceneModePicker": true,
     "vrButton": false,
-    "fullscreenButton": false,
+    "fullscreenButton": true,
     "navigationHelpButton": false,
     "animation": false,
     "timeline": false,
-    "infoBox": false,
+    "infoBox": true,
     "geocoder": false,
     "geocoderConfig": {
       "key": ["ae29a37307840c7ae4a785ac905927e0"]
@@ -82,115 +82,215 @@
       "id": 10
     },
     {
-      "name": "智图彩色",
-      "icon": "img/basemaps/geoq_vector.png",
-      "type": "arcgis",
-      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
-      "show": true,
-      "id": 1001,
-      "pid": 10
-    },
-    {
-      "name": "智图蓝色",
-      "icon": "img/basemaps/geoq_blue.png",
-      "type": "arcgis",
-      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-      "id": 1002,
-      "pid": 10
-    },
-    {
-      "name": "智图灰色",
-      "icon": "img/basemaps/geoq_gray.png",
-      "type": "arcgis",
-      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
-      "id": 1003,
-      "pid": 10
-    },
-    {
-      "name": "智图暖色",
-      "icon": "img/basemaps/geoq_warm.png",
-      "type": "arcgis",
-      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer",
-      "id": 1004,
-      "pid": 10
-    },
-    {
       "name": "天地图影像",
-      "icon": "img/basemaps/tdt_img.png",
+      "icon": "img/basemaps/tdt/img.png",
       "type": "group",
       "layers": [
         { "name": "底图", "type": "tdt", "layer": "img_d" },
         { "name": "注记", "type": "tdt", "layer": "img_z" }
       ],
-      "id": 1005,
+      "id": 1001,
       "pid": 10
     },
     {
       "name": "天地图电子",
-      "icon": "img/basemaps/tdt_vec.png",
+      "icon": "img/basemaps/tdt/vec.png",
       "type": "group",
       "layers": [
         { "name": "底图", "type": "tdt", "layer": "vec_d" },
         { "name": "注记", "type": "tdt", "layer": "vec_z" }
       ],
-      "id": 1006,
+      "id": 1002,
+      "pid": 10
+    },
+    {
+      "name": "天地图地形",
+      "icon": "img/basemaps/tdt/ter.png",
+      "type": "group",
+      "layers": [
+        { "name": "底图", "type": "tdt", "layer": "ter_d" },
+        { "name": "注记", "type": "tdt", "layer": "ter_z" }
+      ],
+      "id": 1003,
       "pid": 10
     },
     {
       "name": "高德影像",
       "type": "group",
-      "icon": "img/basemaps/gaode_img.png",
+      "icon": "img/basemaps/gaode/img.png",
       "layers": [
         { "name": "底图", "type": "gaode", "layer": "img_d" },
         { "name": "注记", "type": "gaode", "layer": "img_z" }
       ],
-      "id": 1007,
+      "id": 1004,
       "pid": 10
     },
     {
       "name": "高德电子",
       "type": "gaode",
-      "icon": "img/basemaps/gaode_vec.png",
+      "icon": "img/basemaps/gaode/vec.png",
       "layer": "vec",
-      "id": 1008,
+      "id": 4005,
       "pid": 10
     },
     {
       "name": "百度影像",
       "type": "group",
-      "icon": "img/basemaps/bd-img.png",
+      "icon": "img/basemaps/baidu/img.png",
       "layers": [
         { "name": "底图", "type": "baidu", "layer": "img_d" },
         { "name": "注记", "type": "baidu", "layer": "img_z" }
       ],
-      "id": 1009,
+      "id": 1006,
       "pid": 10
     },
     {
       "name": "百度电子",
-      "icon": "img/basemaps/bd-vec.png",
+      "icon": "img/basemaps/baidu/vec.png",
       "type": "baidu",
       "layer": "vec",
-      "id": 1010,
+      "id": 1007,
       "pid": 10
     },
     {
       "name": "腾讯影像",
-      "icon": "img/basemaps/tencent_img.png",
+      "icon": "img/basemaps/tencent/img.png",
       "type": "group",
       "layers": [
         { "name": "底图", "type": "tencent", "layer": "img_d" },
         { "name": "注记", "type": "tencent", "layer": "img_z" }
       ],
-      "id": 1011,
+      "id": 1008,
       "pid": 10
     },
     {
       "name": "腾讯电子",
-      "icon": "img/basemaps/tencent_vec.png",
+      "icon": "img/basemaps/tencent/vec.png",
       "type": "tencent",
       "layer": "vec",
+      "id": 1009,
+      "pid": 10
+    },
+    {
+      "name": "智图彩色",
+      "icon": "img/basemaps/geoq/vector.png",
+      "type": "arcgis",
+      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+      "id": 1010,
+      "pid": 10
+    },
+    {
+      "name": "智图蓝色",
+      "icon": "img/basemaps/geoq/blue.png",
+      "type": "arcgis",
+      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+      "id": 1011,
+      "pid": 10
+    },
+    {
+      "name": "智图灰色",
+      "icon": "img/basemaps/geoq/gray.png",
+      "type": "arcgis",
+      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
       "id": 1012,
+      "pid": 10
+    },
+    {
+      "name": "智图暖色",
+      "icon": "img/basemaps/geoq/warm.png",
+      "type": "arcgis",
+      "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer",
+      "id": 1013,
+      "pid": 10
+    },
+    {
+      "name": "NatGeo_World_Map",
+      "icon": "img/basemaps/arcgis/NatGeo_World_Map.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer",
+      "id": 1014,
+      "pid": 10
+    },
+    {
+      "name": "USA_Topo_Maps",
+      "icon": "img/basemaps/arcgis/USA_Topo_Maps.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer",
+      "id": 1015,
+      "pid": 10
+    },
+    {
+      "name": "World_Imagery",
+      "icon": "img/basemaps/arcgis/World_Imagery.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer",
+      "id": 1016,
+      "pid": 10
+    },
+    {
+      "name": "World_Physical_Map",
+      "icon": "img/basemaps/arcgis/World_Physical_Map.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer",
+      "id": 1017,
+      "pid": 10
+    },
+    {
+      "name": "World_Shaded_Relief",
+      "icon": "img/basemaps/arcgis/World_Shaded_Relief.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer",
+      "id": 1018,
+      "pid": 10
+    },
+    {
+      "name": "World_Street_Map",
+      "icon": "img/basemaps/arcgis/World_Street_Map.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer",
+      "id": 1019,
+      "pid": 10
+    },
+    {
+      "name": "World_Terrain_Base",
+      "icon": "img/basemaps/arcgis/World_Terrain_Base.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer",
+      "id": 1020,
+      "pid": 10
+    },
+    {
+      "name": "World_Topo_Map",
+      "icon": "img/basemaps/arcgis/World_Topo_Map.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer",
+      "id": 1021,
+      "pid": 10
+    },
+    {
+      "name": "World_Dark_Gray_Base",
+      "icon": "img/basemaps/arcgis/World_Dark_Gray_Base.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer",
+      "id": 1022,
+      "pid": 10
+    },
+    {
+      "name": "World_Light_Gray_Base",
+      "icon": "img/basemaps/arcgis/World_Light_Gray_Base.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer",
+      "id": 1023,
+      "pid": 10
+    },
+
+    {
+      "name": "World_Ocean_Base",
+      "icon": "img/basemaps/arcgis/World_Ocean_Base.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer",
+      "show": true,
+      "id": 1024,
       "pid": 10
     }
   ],

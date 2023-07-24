@@ -84,7 +84,9 @@ const initChart = () => {
     ]
   }
   chart.setOption(option)
-  chart.resize()
+  setTimeout(() => {
+    chart.resize()
+  }, 500)
 }
 
 onMounted(() => {
@@ -105,7 +107,7 @@ watch(selectedSectorCategories, () => {
     <el-select filterable v-model="selectedSectorCategories">
       <el-option
         v-for="(item, index) in sectorCategories"
-        :key="index"
+        :key="item"
         :label="index"
         :value="index"
       />
