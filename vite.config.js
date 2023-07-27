@@ -18,7 +18,7 @@ export default defineConfig({
     postcss: {
       plugins: [
         postCssPxToRem({
-          rootValue: 192,
+          rootValue: 204.8, // (屏幕分辨率宽度 / 缩放倍数 / 10)
           propList: ['*']
         })
       ]

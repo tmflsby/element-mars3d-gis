@@ -9,14 +9,14 @@ defineProps({
     default: () => ({})
   },
   tag: {
-    type: String,
+    type: String || Object,
     default: 'el-card'
   }
 })
 </script>
 
 <template>
-  <component class="common-panel" v-if="visible" :is="tag" :style="style">
+  <component class="common-panel" v-if="visible" :is="tag ? tag : 'el-card'" :style="style">
     <slot></slot>
   </component>
 </template>

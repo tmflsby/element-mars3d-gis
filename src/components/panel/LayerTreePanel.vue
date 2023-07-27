@@ -1,35 +1,12 @@
 <script setup>
 import { ref, reactive, onBeforeMount, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { usePanelStore } from '@/stores/panel'
 
 defineProps({
-  layerTreeVisible: {
-    type: Boolean,
-    default: false
-  },
-  top: {
-    type: Number || String,
-    default: 100
-  },
-  left: {
-    type: Number || String,
-    default: 0
-  },
-  bottom: {
-    type: Number || String,
-    default: 0
-  },
-  right: {
-    type: Number || String,
-    default: 0
-  },
-  width: {
-    type: Number || String,
-    default: 350
-  },
-  height: {
-    type: Number || String,
-    default: 500
+  props: {
+    type: Object,
+    default: () => ({})
   }
 })
 
@@ -42,6 +19,8 @@ const defaultProps = {
 const randomLayerTreeKey = ref(`${Math.random()}`)
 const treeNodeClickCount = ref(0)
 const router = useRouter()
+const panelStore = usePanelStore()
+const setPanelVisible = panelStore.setPanelVisible
 
 onBeforeMount(() => {
   initLayerTreeData()
@@ -126,47 +105,84 @@ const handleChangeLayerOpacity = (node) => {
   const layer = window.map.getLayer(node.id)
   layer.opacity = node.opacity
 }
+
+const closeLayerTreePanel = () => {
+  setPanelVisible('LayerTreePanelVisible', false)
+}
 </script>
 
 <template>
-  <el-tree
-    show-checkbox
-    node-key="id"
-    :key="randomLayerTreeKey"
-    :data="layerTreeData"
-    :props="defaultProps"
-    :default-checked-keys="defaultCheckedKeys"
-    :render-after-expand="false"
-    :default-expand-all="true"
-    @check="handleCheckTreeNode"
-    @node-click="handleClickTreeNode"
-  >
-    <template #default="{ node, data }">
-      <span class="custom-tree-node">
-        <span>{{ node.label }}</span>
-        <el-slider
-          class="slider"
-          v-show="data.type !== 'group' && data.show"
-          v-model="data.opacity"
-          :max="1"
-          :step="0.1"
-          @change="handleChangeLayerOpacity(data)"
-        />
-      </span>
-    </template>
-  </el-tree>
+  <div class="layer-tree-panel" :style="props.style">
+    <el-card>
+      <template #header>
+        <div class="card-header">
+          <span>图层管理</span>
+          <i class="fa fa-close" aria-hidden="true" @click="closeLayerTreePanel" />
+        </div>
+      </template>
+      <el-tree
+        show-checkbox
+        node-key="id"
+        :key="randomLayerTreeKey"
+        :data="layerTreeData"
+        :props="defaultProps"
+        :default-checked-keys="defaultCheckedKeys"
+        :render-after-expand="false"
+        :default-expand-all="true"
+        @check="handleCheckTreeNode"
+        @node-click="handleClickTreeNode"
+      >
+        <template #default="{ data }">
+          <span class="custom-tree-node">
+            <span>{{ data.name }}</span>
+            <el-slider
+              class="slider"
+              v-show="data.type !== 'group' && data.show"
+              v-model="data.opacity"
+              :max="1"
+              :step="0.1"
+              @change="handleChangeLayerOpacity(data)"
+            />
+          </span>
+        </template>
+      </el-tree>
+    </el-card>
+  </div>
 </template>
 
-<style scoped>
-.custom-tree-node {
+<style scoped lang="scss">
+.layer-tree-panel {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  .slider {
-    width: 100px;
-    margin-left: 20px;
+  .el-card {
+    width: 100%;
+    height: 100%;
+    :deep(.el-card__header) {
+      width: 100%;
+      height: 50px;
+      .card-header {
+        .fa-close {
+          float: right;
+          cursor: pointer;
+        }
+      }
+    }
+    :deep(.el-card__body) {
+      width: 100%;
+      height: calc(100% - 50px);
+      overflow: auto;
+      .custom-tree-node {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .slider {
+          width: 100px;
+          margin-left: 20px;
+        }
+      }
+    }
   }
 }
 </style>

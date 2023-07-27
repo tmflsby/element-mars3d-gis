@@ -1,6 +1,125 @@
 .cesium-viewer-toolbar {
-  top: 80px;
-  bottom: auto;
+  top: auto;
+  bottom: 50px;
   left: 450px;
   right: auto;
+}
+
+.cesium-toolbar-button img {
+  height: 100%;
+  vertical-align: middle;
+}
+
+.cesium-viewer-toolbar>.cesium-toolbar-button,
+.cesium-navigationHelpButton-wrapper,
+.cesium-viewer-geocoderContainer {
+  margin-bottom: 5px;
+  float: left;
+  clear: both;
+  text-align: center;
+}
+
+.cesium-button {
+  background-color: rgba(23, 49, 71, 0.7);
+  border: none;
+  color: #ffffff;
+  fill: #e6e6e6;
+  line-height: 32px;
+}
+
+.cesium-button:hover {
+  background-color: rgba(0, 138, 255, 0.7);
+  box-shadow: none;
+  border: none;
+}
+
+/**cesium åº•å›¾åˆ‡æ¢é¢æ¿*/
+.cesium-baseLayerPicker-dropDown {
+  bottom: 0;
+  left: 50px;
+  max-height: 500px;
+  margin-bottom: 5px;
+  background-color: rgba(23, 49, 71, 0.7);
+}
+
+/**cesium å¸®åŠ©é¢æ¿*/
+.cesium-navigation-help {
+  top: auto;
+  bottom: 0;
+  left: 40px;
+  transform-origin: left bottom;
+}
+.cesium-navigation-help-instructions,
+.cesium-navigation-button {
+  background-color: rgba(23, 49, 71, 0.8);
+}
+.cesium-navigation-button-selected,
+.cesium-navigation-button-unselected:hover {
+  background-color: rgba(23, 49, 71, 1);
+}
+
+/**cesium äºŒç»´ä¸‰ç»´åˆ‡æ¢*/
+.cesium-sceneModePicker-wrapper {
+  width: auto;
+}
+
+.cesium-sceneModePicker-wrapper .cesium-sceneModePicker-dropDown-icon {
+  float: right;
+  margin: 0 3px;
+}
+
+/**cesium POIæŸ¥è¯¢è¾“å…¥æ¡†*/
+.cesium-viewer-geocoderContainer .search-results {
+  left: 0;
+  right: 40px;
+  width: auto;
+  z-index: 9999;
+}
+
+.cesium-geocoder-searchButton {
+  background-color: rgba(23, 49, 71, 0.8);
+}
+
+.cesium-viewer-geocoderContainer .cesium-geocoder-input {
+  background-color: rgba(63, 72, 84, 0.7);
+}
+
+.cesium-viewer-geocoderContainer .cesium-geocoder-input:focus {
+  background-color: rgba(63, 72, 84, 0.9);
+}
+
+.cesium-viewer-geocoderContainer .search-results {
+  background-color: rgba(23, 49, 71, 0.8);
+}
+
+/**cesium infoä¿¡æ¯æ¡†*/
+.cesium-infoBox {
+  top: 50px;
+  background: rgba(63, 72, 84, 0.9);
+}
+
+.cesium-infoBox-title {
+  background-color: rgba(23, 49, 71, 0.8);
+}
+
+/**cesium ä»»åŠ¡æ çš„FPSä¿¡æ¯*/
+.cesium-performanceDisplay-defaultContainer {
+  top: auto;
+  bottom: 35px;
+  right: 50px;
+}
+
+.cesium-performanceDisplay-ms,
+.cesium-performanceDisplay-fps {
+  color: #fff;
+}
+
+/**cesium tilesetè°ƒè¯•ä¿¡æ¯é¢æ¿*/
+.cesium-viewer-cesiumInspectorContainer {
+  top: 10px;
+  left: 10px;
+  right: auto;
+}
+.cesium-cesiumInspector{
+  background-color: rgba(23, 49, 71, 0.8);
 }

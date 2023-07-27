@@ -46,6 +46,12 @@ onMounted(async () => {
   const mapOptions = await window.mars3d.Util.fetchJson({ url: '/config/mapOptions.json' })
   await initMars3d(mapOptions)
 
+  const cesiumViewerToolbar = document.getElementsByClassName('cesium-viewer-toolbar')[0]
+  const mars3dCompass = document.getElementsByClassName('mars3d-compass')[0]
+  // console.log('cesiumViewerToolbar', cesiumViewerToolbar)
+  cesiumViewerToolbar.style.display = 'none'
+  mars3dCompass.style.display = 'none'
+
   // 用户信息，行政区划  提前获取
   window.WPD = new Map()
   await getSystemUserInfo()
@@ -57,6 +63,9 @@ onMounted(async () => {
   await mars3dLayer.maskLayer(region.level, region.id)
 
   changeMapInitComplete(true)
+
+  cesiumViewerToolbar.style.display = 'block'
+  mars3dCompass.style.display = 'block'
 
   await defaultShowLayers()
 

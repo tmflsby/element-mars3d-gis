@@ -54,10 +54,10 @@
     "sceneModePicker": true,
     "vrButton": false,
     "fullscreenButton": true,
-    "navigationHelpButton": false,
+    "navigationHelpButton": true,
     "animation": false,
     "timeline": false,
-    "infoBox": true,
+    "infoBox": false,
     "geocoder": false,
     "geocoderConfig": {
       "key": ["ae29a37307840c7ae4a785ac905927e0"]
@@ -66,6 +66,14 @@
     "defaultContextMenu": true,
     "mouseDownView": true,
     "distanceLegend": false,
+    "zoom": {
+      "insertIndex": 1
+    },
+    "compass": {
+      "bottom": "370px",
+      "left": "440px",
+      "rotation": true
+    },
     "locationBar": {
       "fps": true,
       "crs": "CGCS2000_GK_Zone_3",
