@@ -42,7 +42,7 @@ const updateLayerTreeData = (layerTreeData) => {
     // console.log('layer', layer.show)
     layerTreeData[i].show = layer.show
     // 蒙蔽
-    if (layer.id === 200301) {
+    if (layer.id === 3001) {
       window.maskLayer.show = layer.show
     }
     if (layer.options.type === 'group') {

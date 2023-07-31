@@ -34,16 +34,30 @@ const addLayerTreeControl = () => {
   window.map.addControl(layerTreeControl)
 }
 
-watch(mapInitComplete, () => {
-  if (mapInitComplete.value) {
-    for (let i = 0; i < routerPanel.value.length; i++) {
-      setPanelVisible(`${routerPanel.value[i].name}Visible`, routerPanel.value[i].visible)
-      if (routerPanel.value[i].component === 'LayerTreePanel') {
-        addLayerTreeControl()
+watch(
+  () => mapInitComplete.value,
+  () => {
+    if (mapInitComplete.value) {
+      for (let i = 0; i < routerPanel.value.length; i++) {
+        // console.log('routerPanel.value[i]', routerPanel.value[i])
+        setPanelVisible(`${routerPanel.value[i].component}Visible`, routerPanel.value[i].visible)
+        if (routerPanel.value[i].component === 'LayerTreePanel') {
+          addLayerTreeControl()
+        }
       }
     }
   }
-})
+)
+
+watch(
+  () => router.currentRoute.value,
+  () => {
+    for (let i = 0; i < routerPanel.value.length; i++) {
+      // console.log('routerPanel.value[i]', routerPanel.value[i])
+      setPanelVisible(`${routerPanel.value[i].component}Visible`, routerPanel.value[i].visible)
+    }
+  }
+)
 </script>
 
 <template>
@@ -51,7 +65,7 @@ watch(mapInitComplete, () => {
     <template v-for="(panel, panelKey) in routerPanel" :key="panelKey">
       <component
         :is="panelComponent['CommonPanel']"
-        :visible="panelVisible[`${panel.name}Visible`]"
+        :visible="panelVisible[`${panel.component}Visible`]"
         :style="panel.style"
         :tag="panel.tag"
       >

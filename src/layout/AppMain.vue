@@ -54,12 +54,13 @@ onMounted(async () => {
 
   // 用户信息，行政区划  提前获取
   window.WPD = new Map()
+
   await getSystemUserInfo()
   await getWPDData(['WPAdministrativeArea', 'WPMonitoringPoints'])
   await getCurrentWPAdministrativeArea()
 
+  // 蒙版
   const region = window.WPD.get('WPAdministrativeArea').get(selectedDept.value.code)
-  // 2004蒙版
   await mars3dLayer.maskLayer(region.level, region.id)
 
   changeMapInitComplete(true)
@@ -69,11 +70,23 @@ onMounted(async () => {
 
   await defaultShowLayers()
 
+  // 水库
+  await getWPDData(['WPStationRR'])
+  mars3dLayer.initWPStationRRIcon()
+
+  // 水文站
+  await getWPDData(['WPStationZQ'])
+  mars3dLayer.initWPStationZQIcon()
+
+  // 水位站
+  await getWPDData(['WPStationZZ'])
+  mars3dLayer.initWPStationZZIcon()
+
+  // 雨量站
+  await getWPDData(['WPStationPP'])
+  mars3dLayer.initWPStationPPIcon()
+
   await getWPDData([
-    'WPStationRR',
-    'WPStationZQ',
-    'WPStationZZ',
-    'WPStationPP',
     'WPStationHP',
     'WPSluice',
     'WPembankment',
@@ -88,8 +101,8 @@ const initMars3d = (option) => {
 }
 
 const defaultShowLayers = () => {
-  // 默认打开蒙版，行政区划，水系，水库面（200301, 200302, 2004）
-  const defaultShowLayersArr = [200301, 200302, 2004, 2005]
+  // 默认打开 水系，水库面，蒙版，行政区划，水库，水文站，水位站，雨量站
+  const defaultShowLayersArr = [2003, 2004, 3001, 3002, 4001, 4002, 4003, 4004]
   for (let i = 0; i < window.map.options.layers.length; i++) {
     const layer = window.map.getLayer(window.map.options.layers[i].id)
     if (defaultShowLayersArr.includes(layer.id)) {

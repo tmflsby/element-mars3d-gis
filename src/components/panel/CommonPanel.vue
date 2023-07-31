@@ -16,7 +16,7 @@ defineProps({
 </script>
 
 <template>
-  <component class="common-panel" v-if="visible" :is="tag ? tag : 'el-card'" :style="style">
+  <component class="common-panel" v-show="visible" :is="tag ? tag : 'el-card'" :style="style">
     <slot></slot>
   </component>
 </template>
