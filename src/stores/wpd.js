@@ -43,8 +43,8 @@ export const useWPDStore = defineStore('wpd', () => {
   const saveWPDData = ({ type, data }) => {
     let stationId
     if (type === 'WPMonitoringPoints') {
-      stationId = data.ORDER_INDEX
-      data.URL = videoMonitorUrl[stationId]
+      stationId = data.NAME
+      data.URL = videoMonitorUrl[data.ORDER_INDEX]
     } else if (type === 'EasilyFloodedArea') {
       stationId = data.deviceAddr
     } else {

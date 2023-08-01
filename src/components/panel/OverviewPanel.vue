@@ -1,4 +1,11 @@
 <script setup>
+import { computed } from 'vue'
+import { usePanelStore } from '@/stores/panel'
+
+const panelStore = usePanelStore()
+const panelVisible = computed(() => panelStore.panelVisible)
+const setPanelVisible = panelStore.setPanelVisible
+
 const widgetComponent = {}
 const files = import.meta.globEager('../widget/*.vue')
 for (const key in files) {
@@ -12,6 +19,14 @@ defineProps({
     default: () => ({})
   }
 })
+
+const handleClickDetailBtn = (item) => {
+  console.log('item', item)
+  setPanelVisible(
+    `${item.showComponent}Visible`,
+    !panelVisible.value[`${item.showComponent}Visible`]
+  )
+}
 </script>
 
 <template>
@@ -25,9 +40,11 @@ defineProps({
       <template #header>
         <div class="title">
           <span>{{ container.title }}</span>
-          <el-button size="small" v-if="container.detailBtn.show">
-            {{ container.detailBtn.title }}
-          </el-button>
+          <template v-for="(item, index) in container.detailBtn" :key="index">
+            <el-button size="small" v-if="item.show" @click="handleClickDetailBtn(item)">
+              {{ item.title }}
+            </el-button>
+          </template>
         </div>
       </template>
       <div class="content">

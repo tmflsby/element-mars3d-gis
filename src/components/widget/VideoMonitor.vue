@@ -7,7 +7,7 @@ const hls = new Hls()
 
 const videoMonitorType = reactive([])
 const allMonitorPoints = window.WPD.get('WPMonitoringPoints')
-const selectedMonitorPoint = ref('126')
+const selectedMonitorPoint = ref('安砂水库1')
 const selectedMonitorPointUrl = ref(allMonitorPoints.get(selectedMonitorPoint.value).URL[0])
 const monitorOptions = reactive([])
 
@@ -35,7 +35,7 @@ const getVideoMonitorType = () => {
       case '水利监控':
         waterMonitor.push(item)
         break
-      case '城管监控':
+      case '公安监控':
         cityMonitor.push(item)
         break
       default:
@@ -50,7 +50,7 @@ const getVideoMonitorType = () => {
         value: waterMonitor
       },
       {
-        name: '城管监控',
+        name: '公安监控',
         id: 'cityMonitor',
         value: cityMonitor
       }
@@ -106,7 +106,7 @@ const videoPause = () => {
           v-for="item in monitorOptions"
           :key="item.ORDER_INDEX"
           :label="item.NAME"
-          :value="item.ORDER_INDEX"
+          :value="item.NAME"
         />
       </el-select>
     </div>

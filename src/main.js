@@ -31,6 +31,9 @@ import * as mars3d from 'mars3d'
 // font-awesome
 import 'font-awesome/css/font-awesome.min.css'
 
+// directive
+import directive from '@/utils/directive'
+
 import '@/styles/index.scss'
 
 const app = createApp(App)
@@ -46,6 +49,7 @@ app.use(ElementPlus, {
   locale: zhCn,
   size: 'large'
 })
+app.use(directive)
 // for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 //   app.component(key, component)
 // }

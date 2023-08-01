@@ -40,8 +40,8 @@ watch(
     if (mapInitComplete.value) {
       for (let i = 0; i < routerPanel.value.length; i++) {
         // console.log('routerPanel.value[i]', routerPanel.value[i])
-        setPanelVisible(`${routerPanel.value[i].component}Visible`, routerPanel.value[i].visible)
-        if (routerPanel.value[i].component === 'LayerTreePanel') {
+        setPanelVisible(`${routerPanel.value[i].name}Visible`, routerPanel.value[i].visible)
+        if (routerPanel.value[i].name === 'LayerTreePanel') {
           addLayerTreeControl()
         }
       }
@@ -54,7 +54,7 @@ watch(
   () => {
     for (let i = 0; i < routerPanel.value.length; i++) {
       // console.log('routerPanel.value[i]', routerPanel.value[i])
-      setPanelVisible(`${routerPanel.value[i].component}Visible`, routerPanel.value[i].visible)
+      setPanelVisible(`${routerPanel.value[i].name}Visible`, routerPanel.value[i].visible)
     }
   }
 )
@@ -65,9 +65,10 @@ watch(
     <template v-for="(panel, panelKey) in routerPanel" :key="panelKey">
       <component
         :is="panelComponent['CommonPanel']"
-        :visible="panelVisible[`${panel.component}Visible`]"
+        :visible="panelVisible[`${panel.name}Visible`]"
         :style="panel.style"
         :tag="panel.tag"
+        v-draggable="panel.draggable"
       >
         <component :is="panelComponent[panel.component]" :props="panel.props"></component>
       </component>

@@ -11,6 +11,7 @@
           "component": "OverviewPanel",
           "name": "BaseInfoLeftOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -26,10 +27,13 @@
                 "style": {
                   "flex": 1.5
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情",
+                    "showComponent": "BaseInfoDetailPanel"
+                  }
+                ],
                 "component": "BaseInfo"
               },
               {
@@ -37,10 +41,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "EmergencyTransfer"
               },
               {
@@ -48,10 +54,12 @@
                 "style": {
                   "flex": 2
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "台风"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "台风"
+                  }
+                ],
                 "component": "MeteorologicalTyphoon"
               }
             ]
@@ -61,6 +69,7 @@
           "component": "OverviewPanel",
           "name": "BaseInfoRightOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -76,10 +85,12 @@
                 "style": {
                   "flex": 1.5
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "WaterProjectInfo"
               },
               {
@@ -87,10 +98,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "DisasterHazardPoint"
               },
               {
@@ -98,10 +111,12 @@
                 "style": {
                   "flex": 2
                 },
-                "detailBtn": {
-                  "show": false,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": false,
+                    "title": "详情"
+                  }
+                ],
                 "component": "VideoMonitor"
               }
             ]
@@ -111,13 +126,30 @@
           "component": "LayerTreePanel",
           "name": "LayerTreePanel",
           "visible": false,
+          "draggable": true,
           "tag": "div",
           "style": {
-              "position": "absolute",
-              "bottom": "50px",
-              "left": "500px",
-              "width": "300px",
-              "height": "500px"
+            "position": "absolute",
+            "bottom": "50px",
+            "left": "500px",
+            "width": "300px",
+            "height": "500px"
+          }
+        },
+        {
+          "component": "BaseInfoDetailPanel",
+          "name": "BaseInfoDetailPanel",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {}
           }
         }
       ]
@@ -129,7 +161,9 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "name": "FloodSituationLeftOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -145,10 +179,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "ImportantStation"
               },
               {
@@ -156,10 +192,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "RainWaterEngineeringSituation"
               }
             ]
@@ -167,7 +205,9 @@
         },
         {
           "component": "OverviewPanel",
+          "name": "FloodSituationRightOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -183,10 +223,12 @@
                 "style": {
                   "flex": 1.25
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "MeteorologicalWarning"
               },
               {
@@ -194,10 +236,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "MountainTorrentWarning"
               },
               {
@@ -205,10 +249,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "RiverWarning"
               },
               {
@@ -216,10 +262,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "DisasterWarning"
               },
               {
@@ -227,13 +275,29 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "SmallWatershedWarning"
               }
             ]
+          }
+        },
+        {
+          "component": "LayerTreePanel",
+          "name": "LayerTreePanel",
+          "visible": false,
+          "draggable": true,
+          "tag": "div",
+          "style": {
+            "position": "absolute",
+            "bottom": "50px",
+            "left": "500px",
+            "width": "300px",
+            "height": "500px"
           }
         }
       ]
@@ -246,7 +310,9 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "name": "DispatchDecisionLeftOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -262,10 +328,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "RainSituation"
               },
               {
@@ -273,10 +341,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "WaterSituation"
               },
               {
@@ -284,10 +354,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "EngineeringSituation"
               }
             ]
@@ -295,13 +367,29 @@
         },
         {
           "component": "SelectSchemePanel",
+          "name": "SelectSchemePanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
             "right": "20px",
             "width": "400px",
             "height": "calc(100% - 130px)"
+          }
+        },
+        {
+          "component": "LayerTreePanel",
+          "name": "LayerTreePanel",
+          "visible": false,
+          "draggable": true,
+          "tag": "div",
+          "style": {
+            "position": "absolute",
+            "bottom": "50px",
+            "left": "500px",
+            "width": "300px",
+            "height": "500px"
           }
         }
       ]
@@ -313,7 +401,9 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "name": "EmergencyCommandLeftOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -329,10 +419,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "EmergencyShelter"
               },
               {
@@ -340,10 +432,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "EmergencyTeam"
               },
               {
@@ -351,10 +445,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": "EmergencyMaterial"
               }
             ]
@@ -362,7 +458,9 @@
         },
         {
           "component": "OverviewPanel",
+          "name": "EmergencyCommandRightOverviewPanel",
           "visible": true,
+          "draggable": false,
           "style": {
             "position": "absolute",
             "top": "80px",
@@ -378,10 +476,12 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": ""
               },
               {
@@ -389,13 +489,29 @@
                 "style": {
                   "flex": 1
                 },
-                "detailBtn": {
-                  "show": true,
-                  "title": "详情"
-                },
+                "detailBtn": [
+                  {
+                    "show": true,
+                    "title": "详情"
+                  }
+                ],
                 "component": ""
               }
             ]
+          }
+        },
+        {
+          "component": "LayerTreePanel",
+          "name": "LayerTreePanel",
+          "visible": false,
+          "draggable": true,
+          "tag": "div",
+          "style": {
+            "position": "absolute",
+            "bottom": "50px",
+            "left": "500px",
+            "width": "300px",
+            "height": "500px"
           }
         }
       ]

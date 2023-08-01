@@ -28,7 +28,6 @@ import AppMain from '@/layout/AppMain.vue'
     height: 100%;
     .el-header {
       padding: 0;
-      z-index: 1;
     }
     .el-main {
       padding: 0;
