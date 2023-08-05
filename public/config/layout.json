@@ -31,7 +31,7 @@
                   {
                     "show": true,
                     "title": "详情",
-                    "showComponent": "BaseInfoDetailPanel"
+                    "showComponent": "BaseInfoDetail"
                   }
                 ],
                 "component": "BaseInfo"
@@ -137,8 +137,8 @@
           }
         },
         {
-          "component": "BaseInfoDetailPanel",
-          "name": "BaseInfoDetailPanel",
+          "component": "DetailPanel",
+          "name": "BaseInfoDetail",
           "visible": false,
           "draggable": false,
           "style": {
@@ -149,7 +149,15 @@
             "height": "calc(100% - 130px)"
           },
           "props": {
-            "style": {}
+            "style": {},
+            "title": "基本信息",
+            "component": "BaseInfoDetail",
+            "subContainer": [
+              {
+                "title": "行政信息",
+                "component": "AdministrativeInfo"
+              }
+            ]
           }
         }
       ]

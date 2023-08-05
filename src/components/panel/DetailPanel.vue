@@ -1,9 +1,14 @@
 <script setup>
-import { computed } from 'vue'
 import { usePanelStore } from '@/stores/panel'
 
+defineProps({
+  props: {
+    type: Object,
+    default: () => ({})
+  }
+})
+
 const panelStore = usePanelStore()
-const panelVisible = computed(() => panelStore.panelVisible)
 const setPanelVisible = panelStore.setPanelVisible
 
 const widgetComponent = {}
@@ -13,54 +18,38 @@ for (const key in files) {
   widgetComponent[filename] = files[key].default || files[key]
 }
 
-defineProps({
-  props: {
-    type: Object,
-    default: () => ({})
-  }
-})
-
-const handleClickDetailBtn = (item) => {
-  console.log('item', item)
-  setPanelVisible(
-    `${item.showComponent}Visible`,
-    !panelVisible.value[`${item.showComponent}Visible`]
-  )
+const handleClickBackBtn = (component) => {
+  setPanelVisible(`${component}Visible`, false)
 }
 </script>
 
 <template>
-  <div class="overview-panel" :style="props.style">
-    <el-card
-      class="sub-container"
-      v-for="(container, index) in props.subContainer"
-      :key="index"
-      :style="container.style"
-    >
+  <div class="base-info-detail-panel" :style="props.style">
+    <el-card class="sub-container">
       <template #header>
         <div class="title">
-          <span>{{ container.title }}</span>
-          <template v-for="(item, index) in container.detailBtn" :key="index">
-            <el-button size="small" v-if="item.show" @click="handleClickDetailBtn(item)">
-              {{ item.title }}
-            </el-button>
-          </template>
+          <span>{{ props.title }}</span>
+          <i
+            class="fa fa-mail-reply"
+            aria-hidden="true"
+            @click="handleClickBackBtn(props.component)"
+          />
         </div>
       </template>
       <div class="content">
-        <component :is="widgetComponent[container.component]"></component>
+        <!--        <component :is="widgetComponent['BaseInfoDetailWidget']"></component>-->
       </div>
     </el-card>
   </div>
 </template>
 
 <style scoped lang="scss">
-.overview-panel {
+.base-info-detail-panel {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
   .sub-container {
+    width: 100%;
+    height: 100%;
     :deep(.el-card__header) {
       width: 100%;
       height: 50px;
@@ -79,6 +68,10 @@ const handleClickDetailBtn = (item) => {
       height: 100%;
       padding: 10px;
       box-sizing: border-box;
+      .fa-mail-reply {
+        font-size: 20px;
+        cursor: pointer;
+      }
     }
     .content {
       width: 100%;
