@@ -21,7 +21,7 @@
     "hls.js": "^1.4.7",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
-    "mars3d": "^3.5.12",
+    "mars3d": "3.5.12",
     "mars3d-cesium": "^1.106.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.36",
