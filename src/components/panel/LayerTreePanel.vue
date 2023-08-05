@@ -55,8 +55,9 @@ const initLayerTreeData = () => {
   // console.log('initLayerTreeData', window.map.options)
   for (let i = 0; i < window.map.options.layers.length; i++) {
     const layer = window.map.getLayer(window.map.options.layers[i].id)
+    window.map.addLayer(layer)
     // console.log('layer', layer)
-    if (layer.isAdded && layer.show) {
+    if (layer.show) {
       defaultCheckedKeys.push(layer.options.id)
     }
     if (layer.options.type === 'group') {
@@ -78,9 +79,6 @@ const handleCheckTreeNode = (node) => {
   // console.log('node', node)
   const layer = window.map.getLayer(node.id)
   // console.log('layer', layer)
-  if (!layer.isAdded) {
-    window.map.addLayer(layer)
-  }
 
   node.show = !layer.show
   layer.show = !layer.show

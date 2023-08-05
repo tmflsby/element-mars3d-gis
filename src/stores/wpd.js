@@ -14,12 +14,12 @@ export const useWPDStore = defineStore('wpd', () => {
     WPStationHP: 'WPStationHP:922b7f8f381e4f0882ab09eca44b4f08',
     WPMonitoringPoints: 'WPMonitoringPoints:6b122969-b905-40c2-bd6c-04f51dd7c5bf',
     WPSluice: 'WPSluice:7a64c814-9286-436c-857b-6e811bb5ec3b',
-    WPembankment: 'WPembankment:3688de78-dd01-4fa4-a909-49484f5693f7',
     WPStationPump: 'WPStationPump:9d36ff55-aa08-4e61-aff6-62f590c628f9',
     EasilyFloodedArea: 'EasilyFloodedArea:488677d5-b40c-49e2-aecc-eb0ca1b53c5d',
     WPAdministrativeArea: 'WPAdministrativeArea:feb3d377-5054-4892-85ac-3d1fdc363f68',
     WPEmergencyTeam: 'WPEmergencyTeam:c84eb62c-dc11-4f2f-bc5d-b1432283e7fa',
-    WPMaterialInventory: 'WPMaterialInventory:a5995238-1154-4269-bf62-102b4e6b535d'
+    WPMaterialInventory: 'WPMaterialInventory:a5995238-1154-4269-bf62-102b4e6b535d',
+    WPRiver: 'WPRiver:fe932a4ee56a45b881cbfb9178d5c4a7'
   })
 
   const getWPDData = async (WPDObjectArr) => {

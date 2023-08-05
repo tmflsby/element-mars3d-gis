@@ -138,7 +138,7 @@
       "type": "gaode",
       "icon": "img/basemaps/gaode/vec.png",
       "layer": "vec",
-      "id": 4005,
+      "id": 1005,
       "pid": 10
     },
     {
@@ -366,8 +366,7 @@
       },
       "show": false,
       "opacity": 1,
-      "opacityValue": 100,
-      "popup": "all"
+      "opacityValue": 100
     },
     {
       "pid": 20,
@@ -385,12 +384,12 @@
       "id": 2005,
       "name": "城区水面",
       "type": "geojson",
-      "url": "./geojsonData/sanming/flood/范围wgs84.json",
+      "url": "./json/flood/范围wgs84.json",
       "symbol": {
         "type": "water",
         "styleOptions": {
           "height": 130,
-          "normalMap": "./img/waterNormals.jpg",
+          "normalMap": "./img/tietu/waterNormals.jpg",
           "specularIntensity": 0.8,
           "opacity": 0.9,
           "frequency": 8000,
@@ -525,7 +524,11 @@
       "pid": 40,
       "id": 4005,
       "name": "水电站",
-      "type": "geojson",
+      "type": "graphic",
+      "tooltip": [
+        { "field": "name", "name": "水电站:" },
+        { "field": "powerStatAdd", "name": "站址:" }
+      ],
       "show": false,
       "opacity": 1,
       "opacityValue": 100
@@ -535,6 +538,10 @@
       "id": 4006,
       "name": "水闸",
       "type": "graphic",
+      "tooltip": [
+        { "field": "name", "name": "名称:" },
+        { "field": "sluiceTypes", "name": "水闸类型:" }
+      ],
       "show": false,
       "opacity": 1,
       "opacityValue": 100
@@ -544,6 +551,10 @@
       "id": 4007,
       "name": "泵站",
       "type": "graphic",
+      "tooltip": [
+        { "field": "name", "name": "名称:" },
+        { "field": "locationName", "name": "站址:" }
+      ],
       "show": false,
       "opacity": 1,
       "opacityValue": 100
@@ -553,6 +564,7 @@
       "id": 4008,
       "name": "易淹区水位计 ",
       "type": "graphic",
+      "tooltip": [{ "field": "deviceName", "name": "名称:" }],
       "show": false,
       "opacity": 1,
       "opacityValue": 100
@@ -589,8 +601,8 @@
       "opacity": 1,
       "opacityValue": 100,
       "popup": [
-        { "field": "OBJECTID", "name": "编号：" },
-        { "field": "SUBSID", "name": "管线类别：" }
+        { "field": "ROADNAME", "name": "地址：" },
+        { "field": "BELONG", "name": "隶属：" }
       ]
     },
     {
@@ -1405,12 +1417,12 @@
       "pid": 90,
       "id": 9001,
       "name": "城关淹没区",
-      "url": "./geojsonData/sanming/flood/城关淹没区_MIAN.json",
+      "url": "./json/flood/城关淹没区_MIAN.json",
       "symbol": {
         "type": "water",
         "styleOptions": {
           "height": 110,
-          "normalMap": "./img/waterNormals.jpg",
+          "normalMap": "./img/tietu/waterNormals.jpg",
           "specularIntensity": 0.8,
           "opacity": 0.9,
           "frequency": 8000,
@@ -1428,12 +1440,12 @@
       "pid": 90,
       "id": 9002,
       "name": "列东大桥淹没区",
-      "url": "./geojsonData/sanming/flood/列东大桥淹没区_MIAN.json",
+      "url": "./json/flood/列东大桥淹没区_MIAN.json",
       "symbol": {
         "type": "water",
         "styleOptions": {
           "height": 110,
-          "normalMap": "./img/waterNormals.jpg",
+          "normalMap": "./img/tietu/waterNormals.jpg",
           "specularIntensity": 0.8,
           "opacity": 0.9,
           "frequency": 8000,
@@ -1451,12 +1463,12 @@
       "pid": 90,
       "id": 9003,
       "name": "列西淹没区",
-      "url": "./geojsonData/sanming/flood/列西淹没区_MIAN.json",
+      "url": "./json/flood/列西淹没区_MIAN.json",
       "symbol": {
         "type": "water",
         "styleOptions": {
           "height": 110,
-          "normalMap": "./img/waterNormals.jpg",
+          "normalMap": "./img/tietu/waterNormals.jpg",
           "specularIntensity": 0.8,
           "opacity": 0.9,
           "frequency": 8000,
@@ -1474,12 +1486,12 @@
       "pid": 90,
       "id": 9004,
       "name": "五路大桥淹没区",
-      "url": "./geojsonData/sanming/flood/五路大桥淹没区_MIAN.json",
+      "url": "./json/flood/五路大桥淹没区_MIAN.json",
       "symbol": {
         "type": "water",
         "styleOptions": {
           "height": 110,
-          "normalMap": "./img/waterNormals.jpg",
+          "normalMap": "./img/tietu/waterNormals.jpg",
           "specularIntensity": 0.8,
           "opacity": 0.9,
           "frequency": 8000,
@@ -1497,12 +1509,12 @@
       "pid": 90,
       "id": 9005,
       "name": "梅列_淹没区",
-      "url": "./geojsonData/sanming/flood/范围wgs84.json",
+      "url": "./json/flood/范围wgs84.json",
       "symbol": {
         "type": "water",
         "styleOptions": {
           "height": 110,
-          "normalMap": "./img/waterNormals.jpg",
+          "normalMap": "./img/tietu/waterNormals.jpg",
           "specularIntensity": 0.8,
           "opacity": 0.9,
           "frequency": 8000,
@@ -1525,7 +1537,7 @@
       "pid": 100,
       "id": 10001,
       "name": "预警-预报面高亮",
-      "url": "./geojsonData/sanming/三明预报面.json",
+      "url": "./json/forecastSurface.json",
       "symbol": {
         "styleOptions": {
           "fill": true,
@@ -1544,7 +1556,7 @@
       "id": 10002,
       "type": "3dtiles",
       "name": "水尺模型",
-      "url": "../geojsonData/sanming/draftTape/tileset.json",
+      "url": "./json/draftTape/tileset.json",
       "position": {
         "lng": 117.625741,
         "lat": 26.266629,

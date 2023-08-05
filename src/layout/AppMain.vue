@@ -86,13 +86,22 @@ onMounted(async () => {
   await getWPDData(['WPStationPP'])
   mars3dLayer.initWPStationPPIcon()
 
-  await getWPDData([
-    'WPStationHP',
-    'WPSluice',
-    'WPembankment',
-    'WPStationPump',
-    'EasilyFloodedArea'
-  ])
+  await getWPDData(['WPStationHP', 'WPSluice', 'WPStationPump', 'EasilyFloodedArea', 'WPRiver'])
+
+  // 水电站
+  mars3dLayer.initWPStationHPIcon()
+
+  // 水闸
+  mars3dLayer.initWPSluiceIcon()
+
+  // 泵站
+  mars3dLayer.initWPStationPumpIcon()
+
+  // 易淹区水位计
+  mars3dLayer.initEasilyFloodedAreaIcon()
+
+  // 水系增加popup
+  mars3dLayer.addWPRiverPopup()
 })
 
 const initMars3d = (option) => {
@@ -105,17 +114,7 @@ const defaultShowLayers = () => {
   const defaultShowLayersArr = [2003, 2004, 3001, 3002, 4001, 4002, 4003, 4004]
   for (let i = 0; i < window.map.options.layers.length; i++) {
     const layer = window.map.getLayer(window.map.options.layers[i].id)
-    if (defaultShowLayersArr.includes(layer.id)) {
-      if (!layer.isAdded) {
-        window.map.addLayer(layer)
-      }
-      layer.show = true
-    } else {
-      if (layer.isAdded) {
-        window.map.removeLayer(layer)
-      }
-      layer.show = false
-    }
+    layer.show = defaultShowLayersArr.includes(layer.id)
   }
 }
 
