@@ -152,10 +152,15 @@
             "style": {},
             "title": "基本信息",
             "component": "BaseInfoDetail",
-            "subContainer": [
+            "tabs": [
               {
-                "title": "行政信息",
-                "component": "AdministrativeInfo"
+                "title": "基本",
+                "subTabs": [
+                  {
+                    "title": "行政信息",
+                    "component": "AdministrativeInfo"
+                  }
+                ]
               }
             ]
           }

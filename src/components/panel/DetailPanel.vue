@@ -1,7 +1,8 @@
 <script setup>
+import { ref } from 'vue'
 import { usePanelStore } from '@/stores/panel'
 
-defineProps({
+const detailPanelProps = defineProps({
   props: {
     type: Object,
     default: () => ({})
@@ -21,33 +22,59 @@ for (const key in files) {
 const handleClickBackBtn = (component) => {
   setPanelVisible(`${component}Visible`, false)
 }
+
+const checkedTab = ref(detailPanelProps.props.tabs[0])
+
+const handleClickTabBtn = (tab) => {
+  checkedTab.value = tab
+}
 </script>
 
 <template>
-  <div class="base-info-detail-panel" :style="props.style">
-    <el-card class="sub-container">
+  <div class="detail-panel" :style="detailPanelProps.props.style">
+    <el-card class="detail-container">
       <template #header>
         <div class="title">
-          <span>{{ props.title }}</span>
+          <span>{{ detailPanelProps.props.title }}</span>
           <i
             class="fa fa-mail-reply"
             aria-hidden="true"
-            @click="handleClickBackBtn(props.component)"
+            @click="handleClickBackBtn(detailPanelProps.props.component)"
           />
         </div>
       </template>
       <div class="content">
-        <!--        <component :is="widgetComponent['BaseInfoDetailWidget']"></component>-->
+        <div class="tabs-btn" v-if="detailPanelProps.props.tabs.length > 1">
+          <el-button
+            v-for="(tab, tabIndex) in detailPanelProps.props.tabs"
+            :key="tab + tabIndex"
+            :type="checkedTab.title === tab.title ? 'primary' : 'default'"
+            @click="handleClickTabBtn(tab)"
+          >
+            {{ tab.title }}
+          </el-button>
+        </div>
+        <div :class="['sub-tabs', detailPanelProps.props.tabs.length > 1 ? '' : 'no-tab-btn']">
+          <el-tabs type="border-card">
+            <el-tab-pane
+              v-for="(subTab, subTabIndex) in checkedTab.subTabs"
+              :key="subTab + subTabIndex"
+              :label="subTab.title"
+            >
+              <component :is="widgetComponent[subTab.component]"></component>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
       </div>
     </el-card>
   </div>
 </template>
 
 <style scoped lang="scss">
-.base-info-detail-panel {
+.detail-panel {
   width: 100%;
   height: 100%;
-  .sub-container {
+  .detail-container {
     width: 100%;
     height: 100%;
     :deep(.el-card__header) {
@@ -78,6 +105,30 @@ const handleClickBackBtn = (component) => {
       height: 100%;
       padding: 10px;
       box-sizing: border-box;
+      .tabs-btn {
+        margin-bottom: 10px;
+      }
+      .sub-tabs {
+        width: 100%;
+        height: calc(100% - 50px);
+        :deep(.el-tabs) {
+          width: 100%;
+          height: 100%;
+          .el-tabs__content {
+            width: 100%;
+            height: calc(100% - 40px);
+            box-sizing: border-box;
+            .el-tab-pane {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+      .sub-tabs.no-tab-btn {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
