@@ -50,7 +50,8 @@ const mars3dLayer = {
     WPStationRR_Layer.clear()
     // console.log(WPStationRR_Layer)
 
-    window.WPD.get('WPStationRR').forEach((station) => {
+    window.WPD.get('WPStationRR').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       switch (station.rrType) {
         case 'I':
@@ -107,7 +108,8 @@ const mars3dLayer = {
     window.map.addLayer(WPStationZQ_Layer)
     WPStationZQ_Layer.clear()
 
-    window.WPD.get('WPStationZQ').forEach((station) => {
+    window.WPD.get('WPStationZQ').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       const distanceDisplayCondition = WPStationZQ_Layer.options.importStation.includes(station.id)
         ? new window.Cesium.DistanceDisplayCondition(0, 800000)
@@ -145,7 +147,8 @@ const mars3dLayer = {
     window.map.addLayer(WPStationZZ_Layer)
     WPStationZZ_Layer.clear()
 
-    window.WPD.get('WPStationZZ').forEach((station) => {
+    window.WPD.get('WPStationZZ').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       const distanceDisplayCondition = WPStationZZ_Layer.options.importStation.includes(station.id)
         ? new window.Cesium.DistanceDisplayCondition(0, 800000)
@@ -183,7 +186,8 @@ const mars3dLayer = {
     window.map.addLayer(WPStationPP_Layer)
     WPStationPP_Layer.clear()
 
-    window.WPD.get('WPStationPP').forEach((station) => {
+    window.WPD.get('WPStationPP').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       const graphic = new window.mars3d.graphic.BillboardEntity({
         attr: station,
@@ -218,7 +222,8 @@ const mars3dLayer = {
     window.map.addLayer(WPStationHP_Layer)
     WPStationHP_Layer.clear()
 
-    window.WPD.get('WPStationHP').forEach((station) => {
+    window.WPD.get('WPStationHP').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       const graphic = new window.mars3d.graphic.BillboardEntity({
         attr: station,
@@ -239,7 +244,8 @@ const mars3dLayer = {
     window.map.addLayer(WPSluice_Layer)
     WPSluice_Layer.clear()
 
-    window.WPD.get('WPSluice').forEach((station) => {
+    window.WPD.get('WPSluice').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       const graphic = new window.mars3d.graphic.BillboardEntity({
         attr: station,
@@ -260,7 +266,8 @@ const mars3dLayer = {
     window.map.addLayer(WPStationPump_Layer)
     WPStationPump_Layer.clear()
 
-    window.WPD.get('WPStationPump').forEach((station) => {
+    window.WPD.get('WPStationPump').forEach((station, key) => {
+      if (key === 'field') return
       station.name = station.name.trim()
       const graphic = new window.mars3d.graphic.BillboardEntity({
         attr: station,
@@ -281,7 +288,8 @@ const mars3dLayer = {
     window.map.addLayer(EasilyFloodedArea_Layer)
     EasilyFloodedArea_Layer.clear()
 
-    window.WPD.get('EasilyFloodedArea').forEach((station) => {
+    window.WPD.get('EasilyFloodedArea').forEach((station, key) => {
+      if (key === 'field') return
       station.deviceName = station.deviceName.trim()
       const graphic = new window.mars3d.graphic.BillboardEntity({
         attr: station,
