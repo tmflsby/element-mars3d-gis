@@ -14,6 +14,7 @@ export const useWPDStore = defineStore('wpd', () => {
     WPStationHP: 'WPStationHP:922b7f8f381e4f0882ab09eca44b4f08',
     WPMonitoringPoints: 'WPMonitoringPoints:6b122969-b905-40c2-bd6c-04f51dd7c5bf',
     WPSluice: 'WPSluice:7a64c814-9286-436c-857b-6e811bb5ec3b',
+    WPembankment: 'WPembankment:3688de78-dd01-4fa4-a909-49484f5693f7',
     WPStationPump: 'WPStationPump:9d36ff55-aa08-4e61-aff6-62f590c628f9',
     EasilyFloodedArea: 'EasilyFloodedArea:488677d5-b40c-49e2-aecc-eb0ca1b53c5d',
     WPAdministrativeArea: 'WPAdministrativeArea:feb3d377-5054-4892-85ac-3d1fdc363f68',
@@ -21,6 +22,7 @@ export const useWPDStore = defineStore('wpd', () => {
     WPMaterialInventory: 'WPMaterialInventory:a5995238-1154-4269-bf62-102b4e6b535d',
     WPRiver: 'WPRiver:fe932a4ee56a45b881cbfb9178d5c4a7'
   })
+  const WPDInitComplete = ref(false)
 
   const getWPDData = async (WPDObjectArr) => {
     for (let i = 0; i < WPDObjectArr.length; i++) {
@@ -36,11 +38,16 @@ export const useWPDStore = defineStore('wpd', () => {
             data: getStationRes?.data?.data[j]
           })
         }
+        saveWPDData({
+          type: WPDObjectArr[i],
+          field: true,
+          data: getStationRes?.data?.field
+        })
       }
     }
   }
 
-  const saveWPDData = ({ type, data }) => {
+  const saveWPDData = ({ type, data, field }) => {
     let stationId
     if (type === 'WPMonitoringPoints') {
       stationId = data.NAME
@@ -51,16 +58,30 @@ export const useWPDStore = defineStore('wpd', () => {
       stationId = data.id
     }
     if (window.WPD.has(type)) {
-      window.WPD.get(type).set(stationId, data)
+      if (field) {
+        window.WPD.get(type).set('field', data)
+      } else {
+        window.WPD.get(type).set(stationId, data)
+      }
     } else {
       window.WPD.set(type, new Map())
-      window.WPD.get(type).set(stationId, data)
+      if (field) {
+        window.WPD.get(type).set('field', data)
+      } else {
+        window.WPD.get(type).set(stationId, data)
+      }
     }
+  }
+
+  const changeWPDInitComplete = (status) => {
+    WPDInitComplete.value = status
   }
 
   return {
     projectId,
     userProjectId,
-    getWPDData
+    WPDInitComplete,
+    getWPDData,
+    changeWPDInitComplete
   }
 })

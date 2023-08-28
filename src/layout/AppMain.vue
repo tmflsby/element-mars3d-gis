@@ -20,6 +20,7 @@ const changeMapInitComplete = mapStore.changeMapInitComplete
 const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
 const getWPDData = WPDStore.getWPDData
+const changeWPDInitComplete = WPDStore.changeWPDInitComplete
 
 const getSystemUserInfo = async () => {
   const userInfoRes = await system_user_info()
@@ -102,6 +103,11 @@ onMounted(async () => {
 
   // 水系增加popup
   mars3dLayer.addWPRiverPopup()
+
+  // 泵站
+  await getWPDData(['WPembankment'])
+
+  changeWPDInitComplete(true)
 })
 
 const initMars3d = (option) => {

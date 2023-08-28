@@ -1,10 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 import { usePanelStore } from '@/stores/panel'
+import { useWPDStore } from '@/stores/wpd'
 
 const panelStore = usePanelStore()
 const panelVisible = computed(() => panelStore.panelVisible)
 const setPanelVisible = panelStore.setPanelVisible
+
+const WPDStore = useWPDStore()
+const WPDInitComplete = computed(() => WPDStore.WPDInitComplete)
 
 const widgetComponent = {}
 const files = import.meta.globEager('../widget/*.vue')
@@ -21,7 +25,7 @@ defineProps({
 })
 
 const handleClickDetailBtn = (item) => {
-  console.log('item', item)
+  // console.log('item', item)
   setPanelVisible(
     `${item.showComponent}Visible`,
     !panelVisible.value[`${item.showComponent}Visible`]
@@ -41,7 +45,12 @@ const handleClickDetailBtn = (item) => {
         <div class="title">
           <span>{{ container.title }}</span>
           <template v-for="(item, index) in container.detailBtn" :key="index">
-            <el-button size="small" v-if="item.show" @click="handleClickDetailBtn(item)">
+            <el-button
+              size="small"
+              v-if="item.show"
+              :disabled="!WPDInitComplete"
+              @click="handleClickDetailBtn(item)"
+            >
               {{ item.title }}
             </el-button>
           </template>

@@ -9,6 +9,7 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "BaseInfoLeftOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -67,6 +68,7 @@
         },
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "BaseInfoRightOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -88,7 +90,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "WaterProjectInfoDetail"
                   }
                 ],
                 "component": "WaterProjectInfo"
@@ -124,6 +127,7 @@
         },
         {
           "component": "LayerTreePanel",
+          "renderAfterMapInitComplete": true,
           "name": "LayerTreePanel",
           "visible": false,
           "draggable": true,
@@ -138,6 +142,7 @@
         },
         {
           "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
           "name": "BaseInfoDetail",
           "visible": false,
           "draggable": false,
@@ -164,6 +169,36 @@
               }
             ]
           }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "WaterProjectInfoDetail",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "title": "水工程信息",
+            "component": "WaterProjectInfoDetail",
+            "tabs": [
+              {
+                "title": "水利",
+                "subTabs": [
+                  {
+                    "title": "水利信息",
+                    "component": "WaterConservancyInfo"
+                  }
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -174,6 +209,7 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "FloodSituationLeftOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -218,6 +254,7 @@
         },
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "FloodSituationRightOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -301,6 +338,7 @@
         },
         {
           "component": "LayerTreePanel",
+          "renderAfterMapInitComplete": true,
           "name": "LayerTreePanel",
           "visible": false,
           "draggable": true,
@@ -323,6 +361,7 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "DispatchDecisionLeftOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -380,6 +419,7 @@
         },
         {
           "component": "SelectSchemePanel",
+          "renderAfterMapInitComplete": true,
           "name": "SelectSchemePanel",
           "visible": true,
           "draggable": false,
@@ -393,6 +433,7 @@
         },
         {
           "component": "LayerTreePanel",
+          "renderAfterMapInitComplete": true,
           "name": "LayerTreePanel",
           "visible": false,
           "draggable": true,
@@ -414,6 +455,7 @@
       "panel": [
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "EmergencyCommandLeftOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -471,6 +513,7 @@
         },
         {
           "component": "OverviewPanel",
+          "renderAfterMapInitComplete": true,
           "name": "EmergencyCommandRightOverviewPanel",
           "visible": true,
           "draggable": false,
@@ -515,6 +558,7 @@
         },
         {
           "component": "LayerTreePanel",
+          "renderAfterMapInitComplete": true,
           "name": "LayerTreePanel",
           "visible": false,
           "draggable": true,

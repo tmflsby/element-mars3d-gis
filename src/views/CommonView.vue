@@ -3,6 +3,7 @@ import { computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMapStore } from '@/stores/map'
 import { usePanelStore } from '@/stores/panel'
+import { useWPDStore } from '@/stores/wpd'
 
 const panelComponent = {}
 const files = import.meta.globEager('../components/panel/*.vue')
@@ -21,6 +22,9 @@ const mapInitComplete = computed(() => mapStore.mapInitComplete)
 const panelStore = usePanelStore()
 const panelVisible = computed(() => panelStore.panelVisible)
 const setPanelVisible = panelStore.setPanelVisible
+
+const WPDStore = useWPDStore()
+const WPDInitComplete = computed(() => WPDStore.WPDInitComplete)
 
 const addLayerTreeControl = () => {
   const layerTreeControl = new window.mars3d.control.ToolButton({
@@ -61,9 +65,10 @@ watch(
 </script>
 
 <template>
-  <div class="common-view" v-if="mapInitComplete">
+  <div class="common-view">
     <template v-for="(panel, panelKey) in routerPanel" :key="panelKey">
       <component
+        v-if="panel.renderAfterMapInitComplete ? mapInitComplete : WPDInitComplete"
         :is="panelComponent['CommonPanel']"
         :visible="panelVisible[`${panel.name}Visible`]"
         :style="panel.style"
