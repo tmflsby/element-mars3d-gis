@@ -60,17 +60,17 @@ const handleClickDetailBtn = (item) => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  :deep(.el-card__header) {
+    width: 100%;
+    height: 50px;
+    padding: 0;
+  }
+  :deep(.el-card__body) {
+    width: 100%;
+    height: calc(100% - 50px);
+    padding: 0;
+  }
   .sub-container {
-    :deep(.el-card__header) {
-      width: 100%;
-      height: 50px;
-      padding: 0;
-    }
-    :deep(.el-card__body) {
-      width: 100%;
-      height: calc(100% - 50px);
-      padding: 0;
-    }
     .title {
       display: flex;
       justify-content: space-between;
