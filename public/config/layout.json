@@ -45,7 +45,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "EmergencyTransferDetail"
                   }
                 ],
                 "component": "EmergencyTransfer"
@@ -194,6 +195,36 @@
                   {
                     "title": "水利信息",
                     "component": "WaterConservancyInfo"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "EmergencyTransferDetail",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "title": "应急转移",
+            "component": "EmergencyTransferDetail",
+            "tabs": [
+              {
+                "title": "应急",
+                "subTabs": [
+                  {
+                    "title": "清单",
+                    "component": "EmergencyTransferList"
                   }
                 ]
               }

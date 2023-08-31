@@ -1,12 +1,11 @@
 <script setup>
 import lodash from 'lodash'
-import { ref, reactive, computed, watch, onMounted } from 'vue'
+import { ref, reactive, computed, watch, onBeforeMount } from 'vue'
 import { useSystemStore } from '@/stores/system'
 
 const systemStore = useSystemStore()
 const selectedDept = computed(() => systemStore.selectedDept)
 
-const renderStatus = ref(false)
 const stationType = [
   { title: '水库站', type: 'WPStationRR', field: 'stationRRList' },
   { title: '水文站', type: 'WPStationZQ', field: 'stationZQList' },
@@ -228,12 +227,10 @@ const initConstructionStation = (currentStation) => {
   // console.log(dividedByConstruction)
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   initRegionStation()
 
   initConstructionStation()
-
-  renderStatus.value = true
 })
 
 const searchValue = ref('')
@@ -283,21 +280,19 @@ watch(
 </script>
 
 <template>
-  <div class="water-conservancy-info" v-if="renderStatus">
+  <div class="water-conservancy-info">
     <el-radio-group v-model="queryType">
       <el-radio-button label="分区域查询" />
       <el-radio-button label="分建设单位查询" />
     </el-radio-group>
     <el-autocomplete
-      style="width: 100%; margin-bottom: 20px"
       placeholder="请输入内容"
+      clearable
       v-model="searchValue"
       :fetch-suggestions="querySearch"
       @select="searchStation"
       @clear="clearStation"
-      clearable
-    >
-    </el-autocomplete>
+    />
     <div class="content">
       <div class="content-title">
         <div class="title">名称</div>
@@ -431,7 +426,7 @@ watch(
     }
   }
   :deep(.el-autocomplete) {
-    margin-top: 10px;
+    margin: 10px 0;
     width: 100%;
   }
   .content {
