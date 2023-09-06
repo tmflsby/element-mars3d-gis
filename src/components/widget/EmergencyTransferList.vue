@@ -6,6 +6,7 @@ const emergencyTransfer = window.WPD.get('emergencyTransfer')
 const emergencyTransferList = reactive([])
 const searchValue = ref('')
 const allEmergencyTransfer = reactive([])
+const activeTownship = ref('')
 let copyEmergencyTransferList = null
 
 const initEmergencyTransferData = () => {
@@ -400,6 +401,7 @@ const selectEmergencyTransfer = () => {
   emergencyTransferList.push(WPCautionarea)
   emergencyTransferList.push(WPTransferRoute)
   emergencyTransferList.push(WPResettlementSite)
+  activeTownship.value = ''
 }
 
 const clearSelectedEmergencyTransfer = () => {
@@ -441,8 +443,12 @@ const clearSelectedEmergencyTransfer = () => {
                 </div>
               </template>
 
-              <el-collapse>
-                <el-collapse-item v-for="township in county.children" :key="township.title">
+              <el-collapse accordion v-model="activeTownship">
+                <el-collapse-item
+                  v-for="township in county.children"
+                  :key="township.title"
+                  :name="township.title"
+                >
                   <template #title>
                     <div class="township">
                       <div class="title">{{ township.title }}</div>
@@ -450,7 +456,11 @@ const clearSelectedEmergencyTransfer = () => {
                     </div>
                   </template>
 
-                  <el-table height="300" :data="township.children">
+                  <el-table
+                    max-height="300"
+                    :data="township.children"
+                    v-if="activeTownship === township.title"
+                  >
                     <el-table-column prop="value" label="名称" align="center" />
                   </el-table>
                 </el-collapse-item>

@@ -105,7 +105,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "DisasterHazardPointDetail"
                   }
                 ],
                 "component": "DisasterHazardPoint"
@@ -225,6 +226,36 @@
                   {
                     "title": "清单",
                     "component": "EmergencyTransferList"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "DisasterHazardPointDetail",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "title": "地灾隐患点",
+            "component": "DisasterHazardPointDetail",
+            "tabs": [
+              {
+                "title": "地灾隐患点",
+                "subTabs": [
+                  {
+                    "title": "清单",
+                    "component": "DisasterHazardPointList"
                   }
                 ]
               }
