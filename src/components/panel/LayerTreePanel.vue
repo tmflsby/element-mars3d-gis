@@ -43,7 +43,7 @@ const updateLayerTreeData = (layerTreeData) => {
     layerTreeData[i].show = layer.show
     // 蒙蔽
     if (layer.id === 3001) {
-      window.maskLayer.show = layer.show
+      window.CustomLayer.maskLayer.show = layer.show
     }
     if (layer.options.type === 'group') {
       updateLayerTreeData(layerTreeData[i].children)
@@ -85,7 +85,7 @@ const handleCheckTreeNode = (node) => {
 
   // 蒙蔽
   if (node.id === 200301) {
-    window.maskLayer.show = layer.show
+    window.CustomLayer.maskLayer.show = layer.show
   }
 }
 

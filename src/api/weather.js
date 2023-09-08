@@ -7,6 +7,13 @@ export const weather_getTyphoonList = (params) =>
     params
   })
 
+export const weather_getTyphoonPath = (params) =>
+  service({
+    method: 'get',
+    url: `/weather/api/Meteo/Typhoon/GetTyphoonPath`,
+    params
+  })
+
 export const weather_getPage = (params) =>
   service({
     method: 'get',

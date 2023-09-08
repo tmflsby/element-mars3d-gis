@@ -1,7 +1,9 @@
 <script setup>
 import dayjs from 'dayjs'
-import { reactive, onBeforeMount } from 'vue'
-import { weather_getTyphoonList } from '@/api/weather'
+import lodash from 'lodash'
+import mars3dLayer from '@/utils/mars3dLayer'
+import { ref, reactive, onBeforeMount, watch } from 'vue'
+import { weather_getTyphoonList, weather_getTyphoonPath } from '@/api/weather'
 
 const tableData = reactive([])
 const tableColumn = reactive([
@@ -9,6 +11,8 @@ const tableColumn = reactive([
   { title: '中文名', field: 'name_cn' },
   { title: '英文名', field: 'name_en' }
 ])
+const selectedTyphoon = ref([])
+
 const getTyphoonList = async () => {
   const getTyphoonListRes = await weather_getTyphoonList({
     year: dayjs().year()
@@ -30,11 +34,59 @@ const getTyphoonList = async () => {
 onBeforeMount(() => {
   getTyphoonList()
 })
+
+const selectionChange = (selection) => {
+  // console.log(selection)
+  selectedTyphoon.value = selection
+  if (!window.CustomLayer.typhoonAlarmLineLayer) {
+    mars3dLayer.typhoonAlarmLineLayer()
+  }
+}
+
+watch(
+  () => {
+    return selectedTyphoon.value
+  },
+  async (newVal, oldVal) => {
+    // console.log(newVal, oldVal)
+    // 新增
+    if (newVal.length > oldVal.length) {
+      const addTyphoon = lodash.difference(newVal, oldVal)
+      // console.log(addTyphoon)
+      for (let i = 0; i < addTyphoon.length; i++) {
+        const getTyphoonPathRes = await weather_getTyphoonPath({
+          typhoonNo: addTyphoon[i].num
+        })
+        // console.log(getTyphoonPathRes)
+        if (getTyphoonPathRes.success) {
+          mars3dLayer.typhoonPathLayer(getTyphoonPathRes.data)
+        }
+      }
+    }
+    // 减少
+    if (newVal.length < oldVal.length) {
+      const deleteTyphoon = lodash.difference(oldVal, newVal)
+      for (let i = 0; i < deleteTyphoon.length; i++) {
+        // 清除台风路径layer
+        window.CustomLayer.typhoonPathLayer[deleteTyphoon[i].name_en].clear()
+      }
+      // console.log(deleteTyphoon)
+    }
+    if (newVal.length > 0) {
+      window.CustomLayer.typhoonAlarmLineLayer.show = true
+      window.CustomLayer.maskLayer.show = false
+    } else {
+      window.CustomLayer.typhoonAlarmLineLayer.show = false
+      window.CustomLayer.maskLayer.show = true
+    }
+  }
+)
 </script>
 
 <template>
   <div class="typhoon-info">
-    <el-table :data="tableData" height="100%" style="width: 100%">
+    <el-table height="100%" :data="tableData" @selectionChange="selectionChange">
+      <el-table-column type="selection" />
       <el-table-column
         v-for="item in tableColumn"
         :key="item.field"

@@ -59,7 +59,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "台风"
+                    "title": "台风",
+                    "showComponent": "TyphoonInfo"
                   }
                 ],
                 "component": "MeteorologicalTyphoon"
@@ -256,6 +257,36 @@
                   {
                     "title": "清单",
                     "component": "DisasterHazardPointList"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "TyphoonInfo",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "title": "台风信息",
+            "component": "TyphoonInfo",
+            "tabs": [
+              {
+                "title": "台风信息",
+                "subTabs": [
+                  {
+                    "title": "台风信息",
+                    "component": "TyphoonInfo"
                   }
                 ]
               }

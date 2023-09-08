@@ -47,6 +47,9 @@ onMounted(async () => {
   const mapOptions = await window.mars3d.Util.fetchJson({ url: '/config/mapOptions.json' })
   await initMars3d(mapOptions)
 
+  // 自定义图层都放着window.CustomLayer下
+  window.CustomLayer = {}
+
   const cesiumViewerToolbar = document.getElementsByClassName('cesium-viewer-toolbar')[0]
   const mars3dCompass = document.getElementsByClassName('mars3d-compass')[0]
   // console.log('cesiumViewerToolbar', cesiumViewerToolbar)

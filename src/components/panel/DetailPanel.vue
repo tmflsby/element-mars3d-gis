@@ -55,7 +55,7 @@ const handleClickTabBtn = (tab) => {
           </el-button>
         </div>
         <div :class="['sub-tabs', detailPanelProps.props.tabs.length > 1 ? '' : 'no-tab-btn']">
-          <el-tabs type="border-card">
+          <el-tabs type="border-card" v-if="detailPanelProps.props.tabs.length > 1">
             <el-tab-pane
               v-for="(subTab, subTabIndex) in checkedTab.subTabs"
               :key="subTab + subTabIndex"
@@ -64,6 +64,7 @@ const handleClickTabBtn = (tab) => {
               <component :is="widgetComponent[subTab.component]"></component>
             </el-tab-pane>
           </el-tabs>
+          <component v-else :is="widgetComponent[checkedTab.subTabs[0].component]"></component>
         </div>
       </div>
     </el-card>
