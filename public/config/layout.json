@@ -119,8 +119,9 @@
                 },
                 "detailBtn": [
                   {
-                    "show": false,
-                    "title": "详情"
+                    "show": true,
+                    "title": "详情",
+                    "showComponent": "VideoMonitorList"
                   }
                 ],
                 "component": "VideoMonitor"
@@ -287,6 +288,36 @@
                   {
                     "title": "台风信息",
                     "component": "TyphoonInfo"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "VideoMonitorList",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)"
+          },
+          "props": {
+            "style": {},
+            "title": "视频监控",
+            "component": "VideoMonitorList",
+            "tabs": [
+              {
+                "title": "视频监控",
+                "subTabs": [
+                  {
+                    "title": "视频监控",
+                    "component": "VideoMonitorList"
                   }
                 ]
               }
