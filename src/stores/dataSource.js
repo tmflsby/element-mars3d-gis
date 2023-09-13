@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 
 export const useDataSourceStore = defineStore('dataSource', () => {
   const meteorologicalWarning = ref([])
@@ -9,6 +10,8 @@ export const useDataSourceStore = defineStore('dataSource', () => {
     WPStationZQ: null,
     WPStationZZ: null
   })
+  const importantStationList = ref(null)
+  const updateImportantStation = ref(uuidv4())
 
   const setMeteorologicalWarning = (data) => {
     meteorologicalWarning.value = data
@@ -20,12 +23,24 @@ export const useDataSourceStore = defineStore('dataSource', () => {
     waterEngineeringSituation.value[type] = data
   }
 
+  const setImportantStationList = (data) => {
+    importantStationList.value = data
+  }
+
+  const setUpdateImportantStation = () => {
+    updateImportantStation.value = uuidv4()
+  }
+
   return {
     meteorologicalWarning,
     rainSituation,
     waterEngineeringSituation,
+    importantStationList,
+    updateImportantStation,
     setMeteorologicalWarning,
     setRainSituation,
-    setWaterEngineeringSituation
+    setWaterEngineeringSituation,
+    setImportantStationList,
+    setUpdateImportantStation
   }
 })

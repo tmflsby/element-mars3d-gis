@@ -1,6 +1,6 @@
 <script setup>
 import dayjs from 'dayjs'
-import { reactive, computed, onBeforeMount } from 'vue'
+import { reactive, computed, watch, onBeforeMount } from 'vue'
 import {
   user_custom_storage_getAllByUserAndDate,
   user_custom_storage_addCustomStorage
@@ -8,6 +8,7 @@ import {
 import { curveLookup_getImportInfoById } from '@/api/curveLookup'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
+import { useDataSourceStore } from '@/stores/dataSource'
 
 const systemStore = useSystemStore()
 const userInfo = systemStore.userInfo
@@ -15,6 +16,10 @@ const refreshTime = computed(() => systemStore.refreshTime)
 
 const WPDStore = useWPDStore()
 const projectId = WPDStore.projectId
+
+const dataSourceStore = useDataSourceStore()
+const updateImportantStation = computed(() => dataSourceStore.updateImportantStation)
+const setImportantStationList = dataSourceStore.setImportantStationList
 
 const tableData = reactive([])
 const tableColumn = reactive([
@@ -77,6 +82,7 @@ const getImportantStation = async () => {
     )
 
     if (station.length > 0) {
+      setImportantStationList(station)
       for (let i = 0; i < station.length; i++) {
         const getImportInfoByIdRes = await curveLookup_getImportInfoById({
           projectId,
@@ -132,6 +138,13 @@ const getImportantStation = async () => {
 onBeforeMount(() => {
   getImportantStation()
 })
+
+watch(
+  () => updateImportantStation.value,
+  () => {
+    getImportantStation()
+  }
+)
 </script>
 
 <template>

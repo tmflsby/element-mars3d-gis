@@ -155,7 +155,8 @@
             "top": "80px",
             "left": "20px",
             "width": "400px",
-            "height": "calc(100% - 130px)"
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
           },
           "props": {
             "style": {},
@@ -185,7 +186,8 @@
             "top": "80px",
             "right": "20px",
             "width": "400px",
-            "height": "calc(100% - 130px)"
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
           },
           "props": {
             "style": {},
@@ -215,7 +217,8 @@
             "top": "80px",
             "left": "20px",
             "width": "400px",
-            "height": "calc(100% - 130px)"
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
           },
           "props": {
             "style": {},
@@ -245,7 +248,8 @@
             "top": "80px",
             "right": "20px",
             "width": "400px",
-            "height": "calc(100% - 130px)"
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
           },
           "props": {
             "style": {},
@@ -275,7 +279,8 @@
             "top": "80px",
             "left": "20px",
             "width": "400px",
-            "height": "calc(100% - 130px)"
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
           },
           "props": {
             "style": {},
@@ -305,7 +310,8 @@
             "top": "80px",
             "right": "20px",
             "width": "400px",
-            "height": "calc(100% - 130px)"
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
           },
           "props": {
             "style": {},
@@ -355,7 +361,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "ImportantStationWatchList"
                   }
                 ],
                 "component": "ImportantStation"
@@ -473,6 +480,37 @@
             "left": "500px",
             "width": "300px",
             "height": "500px"
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "ImportantStationWatchList",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
+          },
+          "props": {
+            "style": {},
+            "title": "重点站关注列表",
+            "component": "ImportantStationWatchList",
+            "tabs": [
+              {
+                "title": "关注列表",
+                "subTabs": [
+                  {
+                    "title": "关注列表",
+                    "component": "ImportantStationWatchList"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]

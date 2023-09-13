@@ -18,3 +18,11 @@ export const user_custom_storage_addCustomStorage = (params, data) =>
     params,
     data
   })
+
+export const user_custom_storage_updateCustomStorage = (params, data) =>
+  service({
+    method: 'post',
+    url: '/wpd-sanming/user/custom/storage/updateCustomStorage',
+    params,
+    data
+  })
