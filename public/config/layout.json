@@ -375,7 +375,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "RainWaterEngineeringSituationDetail"
                   }
                 ],
                 "component": "RainWaterEngineeringSituation"
@@ -507,6 +508,80 @@
                   {
                     "title": "关注列表",
                     "component": "ImportantStationWatchList"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "RainWaterEngineeringSituationDetail",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "left": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
+          },
+          "props": {
+            "style": {},
+            "title": "雨水工情",
+            "component": "RainWaterEngineeringSituationDetail",
+            "tabs": [
+              {
+                "title": "雨情",
+                "subTabs": [
+                  {
+                    "title": "雨量查询",
+                    "component": "RainfallQuery"
+                  },
+                  {
+                    "title": "面雨量统计",
+                    "component": "AreaRainfallStatistics"
+                  },
+                  {
+                    "title": "降雨站点",
+                    "component": "RainfallStation"
+                  }
+                ]
+              },
+              {
+                "title": "水情",
+                "subTabs": [
+                  {
+                    "title": "超警站点",
+                    "component": "ExceedWarningStation"
+                  },
+                  {
+                    "title": "全部站点",
+                    "component": "allWaterStation"
+                  }
+                ]
+              },
+              {
+                "title": "工情",
+                "subTabs": [
+                  {
+                    "title": "超汛限站点",
+                    "component": "ExceedFloodLimitStation"
+                  },
+                  {
+                    "title": "全部站点",
+                    "component": "allEngineeringStation"
+                  }
+                ]
+              },
+              {
+                "title": "总结",
+                "subTabs": [
+                  {
+                    "title": "总结",
+                    "component": "RainWaterEngineeringSituationSummary"
                   }
                 ]
               }

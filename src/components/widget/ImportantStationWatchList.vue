@@ -105,7 +105,7 @@ const changeImportantStation = (row) => {
 }
 
 const updateImportantStation = async (row) => {
-  let stations = []
+  let stations
   if (row.importantStation) {
     stations = [
       ...importantStationList.value,

@@ -46,6 +46,7 @@ const handleClickTabBtn = (tab) => {
       <div class="content">
         <div class="tabs-btn" v-if="detailPanelProps.props.tabs.length > 1">
           <el-button
+            round
             v-for="(tab, tabIndex) in detailPanelProps.props.tabs"
             :key="tab + tabIndex"
             :type="checkedTab.title === tab.title ? 'primary' : 'default'"
@@ -54,8 +55,8 @@ const handleClickTabBtn = (tab) => {
             {{ tab.title }}
           </el-button>
         </div>
-        <div :class="['sub-tabs', detailPanelProps.props.tabs.length > 1 ? '' : 'no-tab-btn']">
-          <el-tabs type="border-card" v-if="detailPanelProps.props.tabs.length > 1">
+        <div :class="['sub-tabs', checkedTab.subTabs.length > 1 ? '' : 'no-tab-btn']">
+          <el-tabs type="border-card" v-if="checkedTab.subTabs.length > 1">
             <el-tab-pane
               v-for="(subTab, subTabIndex) in checkedTab.subTabs"
               :key="subTab + subTabIndex"
@@ -108,6 +109,11 @@ const handleClickTabBtn = (tab) => {
       box-sizing: border-box;
       .tabs-btn {
         margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        .el-button {
+          flex: 1;
+        }
       }
       .sub-tabs {
         width: 100%;
