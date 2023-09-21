@@ -23,10 +23,16 @@ export const magnitudeRain_getGradingSiteInfo = (params, data) =>
     data
   })
 
-export const magnitudeRain_getArbitrarilyRainMonitorByArea = (params, data) =>
+export const magnitudeRain_getArbitrarilyRainMonitorByArea = (params) =>
   service({
     method: 'get',
     url: `/wpd-sanming/magnitudeRain/getArbitrarilyRainMonitorByArea`,
-    params,
-    data
+    params
+  })
+
+export const magnitudeRain_getMagnitudeRainAreaByType = (params) =>
+  service({
+    method: 'get',
+    url: `/wpd-sanming/magnitudeRain/getMagnitudeRainAreaByType`,
+    params
   })
