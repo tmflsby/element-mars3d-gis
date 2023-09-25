@@ -10,6 +10,11 @@ export const useDataSourceStore = defineStore('dataSource', () => {
     WPStationZQ: null,
     WPStationZZ: null
   })
+  const waterEngineeringStation = ref({
+    WPStationRR: null,
+    WPStationZQ: null,
+    WPStationZZ: null
+  })
   const importantStationList = ref(null)
   const updateImportantStation = ref(uuidv4())
 
@@ -21,6 +26,10 @@ export const useDataSourceStore = defineStore('dataSource', () => {
   }
   const setWaterEngineeringSituation = (type, data) => {
     waterEngineeringSituation.value[type] = data
+  }
+
+  const setWaterEngineeringStation = (type, data) => {
+    waterEngineeringStation.value[type] = data
   }
 
   const setImportantStationList = (data) => {
@@ -35,11 +44,13 @@ export const useDataSourceStore = defineStore('dataSource', () => {
     meteorologicalWarning,
     rainSituation,
     waterEngineeringSituation,
+    waterEngineeringStation,
     importantStationList,
     updateImportantStation,
     setMeteorologicalWarning,
     setRainSituation,
     setWaterEngineeringSituation,
+    setWaterEngineeringStation,
     setImportantStationList,
     setUpdateImportantStation
   }

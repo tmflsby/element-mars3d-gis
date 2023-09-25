@@ -2,8 +2,8 @@
 import dayjs from 'dayjs'
 import lodash from 'lodash'
 import * as echarts from 'echarts'
-import { reactive, computed, watch, onBeforeMount, onMounted } from 'vue'
-import { regimen_regimenQuery } from '@/api/regimen'
+import { reactive, computed, watch, onBeforeMount } from 'vue'
+import { regimen_regimenQuery, regimen_regimenAllQuery } from '@/api/regimen'
 import { data_getMonitorData } from '@/api/data'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
@@ -19,7 +19,9 @@ const getWPDData = wpdStore.getWPDData
 
 const dataSourceStore = useDataSourceStore()
 const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
+const waterEngineeringStation = dataSourceStore.waterEngineeringStation
 const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituation
+const setWaterEngineeringStation = dataSourceStore.setWaterEngineeringStation
 
 const areaId = selectedDept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
@@ -66,6 +68,21 @@ const getCacheWaterStation = () => {
   waterStation[1].value =
     waterEngineeringSituation.WPStationZQ.outZQAlarmsCount +
     waterEngineeringSituation.WPStationZZ.outZZAlarmsCount
+}
+
+const getAllWaterStation = async () => {
+  const regimenAllQueryRes = await regimen_regimenAllQuery({
+    areaId,
+    roleType: type,
+    projectId,
+    stationType: ['WPStationZQ', 'WPStationZZ'],
+    begin: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+    end: dayjs(refreshTime.value).format('YYYY-MM-DD HH:mm:ss')
+  })
+  if (regimenAllQueryRes.state === 0) {
+    setWaterEngineeringStation('WPStationZQ', regimenAllQueryRes.data.WPStationZQ)
+    setWaterEngineeringStation('WPStationZZ', regimenAllQueryRes.data.WPStationZZ)
+  }
 }
 
 const getCurrentStationData = async () => {
@@ -265,16 +282,16 @@ onBeforeMount(() => {
   } else {
     getCacheWaterStation()
   }
-})
-
-onMounted(() => {
-  getCurrentStationData()
+  if (!waterEngineeringStation.WPStationZZ || !waterEngineeringStation.WPStationZQ) {
+    getAllWaterStation()
+  }
 })
 
 watch(
   () => refreshTime.value,
   () => {
     getWaterStation()
+    getAllWaterStation()
     getCurrentStationData()
   }
 )

@@ -2,7 +2,7 @@
 import dayjs from 'dayjs'
 import { reactive, computed, watch, onBeforeMount } from 'vue'
 import { magnitudeRain_getAllRain } from '@/api/magnitudeRain'
-import { regimen_regimenQuery } from '@/api/regimen'
+import { regimen_regimenQuery, regimen_regimenAllQuery } from '@/api/regimen'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
 import { useDataSourceStore } from '@/stores/dataSource'
@@ -17,8 +17,10 @@ const projectId = wpdStore.projectId
 const dataSourceStore = useDataSourceStore()
 const rainSituation = dataSourceStore.rainSituation
 const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
+const waterEngineeringStation = dataSourceStore.waterEngineeringStation
 const setRainSituation = dataSourceStore.setRainSituation
 const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituation
+const setWaterEngineeringStation = dataSourceStore.setWaterEngineeringStation
 
 const areaId = selectedDept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
@@ -166,6 +168,22 @@ const getCacheWaterEngineeringStation = () => {
   engineeringStation[3].value = waterEngineeringSituation.WPStationRR.outRRXHsSmallCount
 }
 
+const getAllWaterEngineeringStation = async () => {
+  const regimenAllQueryRes = await regimen_regimenAllQuery({
+    areaId,
+    roleType: type,
+    projectId,
+    stationType: ['WPStationZQ', 'WPStationZZ', 'WPStationRR'],
+    begin: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+    end: dayjs(refreshTime.value).format('YYYY-MM-DD HH:mm:ss')
+  })
+  if (regimenAllQueryRes.state === 0) {
+    setWaterEngineeringStation('WPStationZQ', regimenAllQueryRes.data.WPStationZQ)
+    setWaterEngineeringStation('WPStationZZ', regimenAllQueryRes.data.WPStationZZ)
+    setWaterEngineeringStation('WPStationRR', regimenAllQueryRes.data.WPStationRR)
+  }
+}
+
 onBeforeMount(() => {
   if (!rainSituation) {
     getRainStation()
@@ -181,6 +199,13 @@ onBeforeMount(() => {
   } else {
     getCacheWaterEngineeringStation()
   }
+  if (
+    !waterEngineeringStation.WPStationZZ ||
+    !waterEngineeringStation.WPStationZQ ||
+    !waterEngineeringStation.WPStationRR
+  ) {
+    getAllWaterEngineeringStation()
+  }
 })
 
 watch(
@@ -188,6 +213,7 @@ watch(
   () => {
     getRainStation()
     getWaterEngineeringStation()
+    getAllWaterEngineeringStation()
   }
 )
 </script>

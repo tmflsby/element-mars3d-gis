@@ -1,6 +1,6 @@
 <script setup>
 import dayjs from 'dayjs'
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, watch } from 'vue'
 import { magnitudeRain_getMagnitudeRainAreaByType } from '@/api/magnitudeRain'
 import { useWPDStore } from '@/stores/wpd'
 import { useSystemStore } from '@/stores/system'
@@ -10,6 +10,7 @@ const projectId = WPDStore.projectId
 
 const systemStore = useSystemStore()
 const selectedDept = systemStore.selectedDept
+const refreshTime = systemStore.refreshTime
 
 const WPAdministrativeArea = window.WPD.get('WPAdministrativeArea')
 const selectedRegion = WPAdministrativeArea.get(selectedDept.code)
@@ -21,11 +22,11 @@ const getMagnitudeRainAreaByType = async () => {
     projectId,
     areaId: selectedRegion.id,
     type: selectedRegion.level,
-    begin: dayjs().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
-    end: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    begin: dayjs(refreshTime).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+    end: dayjs(refreshTime).format('YYYY-MM-DD HH:mm:ss')
   })
   if (getMagnitudeRainAreaByTypeRes.state === 0) {
-    console.log('getMagnitudeRainAreaByTypeRes', getMagnitudeRainAreaByTypeRes)
+    // console.log('getMagnitudeRainAreaByTypeRes', getMagnitudeRainAreaByTypeRes)
     areaRainfallStatisticsData.value = getMagnitudeRainAreaByTypeRes.data.data
   }
 }
@@ -33,6 +34,13 @@ const getMagnitudeRainAreaByType = async () => {
 onBeforeMount(() => {
   getMagnitudeRainAreaByType()
 })
+
+watch(
+  () => refreshTime,
+  () => {
+    getMagnitudeRainAreaByType()
+  }
+)
 </script>
 
 <template>

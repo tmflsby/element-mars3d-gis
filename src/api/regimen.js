@@ -6,3 +6,10 @@ export const regimen_regimenQuery = (params) =>
     url: `/wpd-sanming/regimen/regimenQuery`,
     params
   })
+
+export const regimen_regimenAllQuery = (params) =>
+  service({
+    method: 'get',
+    url: `/wpd-sanming/regimen/regimenAllQuery`,
+    params
+  })

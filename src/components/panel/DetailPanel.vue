@@ -55,7 +55,13 @@ const handleClickTabBtn = (tab) => {
             {{ tab.title }}
           </el-button>
         </div>
-        <div :class="['sub-tabs', checkedTab.subTabs.length > 1 ? '' : 'no-tab-btn']">
+        <div
+          :class="[
+            'sub-tabs',
+            checkedTab.subTabs.length > 1 ? 'has-tabs' : 'no-tabs',
+            detailPanelProps.props.tabs.length > 1 ? 'has-tab-btn' : 'no-tab-btn'
+          ]"
+        >
           <el-tabs type="border-card" v-if="checkedTab.subTabs.length > 1">
             <el-tab-pane
               v-for="(subTab, subTabIndex) in checkedTab.subTabs"
@@ -117,7 +123,7 @@ const handleClickTabBtn = (tab) => {
       }
       .sub-tabs {
         width: 100%;
-        height: calc(100% - 50px);
+        height: 100%;
         :deep(.el-tabs) {
           width: 100%;
           height: 100%;
@@ -132,7 +138,13 @@ const handleClickTabBtn = (tab) => {
           }
         }
       }
-      .sub-tabs.no-tab-btn {
+      .sub-tabs.no-tab-btn.has-tabs,
+      .sub-tabs.has-tab-btn.no-tabs,
+      .sub-tabs.has-tab-btn.has-tabs {
+        width: 100%;
+        height: calc(100% - 50px);
+      }
+      .sub-tabs.no-tab-btn.no-tabs {
         width: 100%;
         height: 100%;
       }

@@ -7,6 +7,7 @@ import {
   magnitudeRain_getGradingSiteInfo,
   magnitudeRain_getArbitrarilyRainMonitorByArea
 } from '@/api/magnitudeRain'
+import { formatStation } from '@/utils/format'
 import { useWPDStore } from '@/stores/wpd'
 import { useSystemStore } from '@/stores/system'
 
@@ -15,6 +16,7 @@ const projectId = WPDStore.projectId
 
 const systemStore = useSystemStore()
 const selectedDept = systemStore.selectedDept
+const refreshTime = systemStore.refreshTime
 
 const WPAdministrativeArea = window.WPD.get('WPAdministrativeArea')
 const selectedRegion = WPAdministrativeArea.get(selectedDept.code)
@@ -52,18 +54,7 @@ const detailedQueryTableColumn = reactive([
     label: '类型',
     sortable: true,
     formatter: (row, column, cellValue) => {
-      switch (cellValue) {
-        case 'WPStationPP':
-          return '雨量站'
-        case 'WPStationZZ':
-          return '水位站'
-        case 'WPStationZQ':
-          return '水文站'
-        case 'WPStationRR':
-          return '水库站'
-        default:
-          return '-'
-      }
+      return formatStation(cellValue)
     }
   },
   { prop: 'stnm', label: '站点', sortable: false },
@@ -86,7 +77,10 @@ const selectTimeOptions = reactive([
   { label: '近24小时', value: 24 },
   { label: '近48小时', value: 48 }
 ])
-const selectedTimeValue = ref([dayjs().subtract(24, 'h').toDate(), dayjs().toDate()])
+const selectedTimeValue = ref([
+  dayjs(refreshTime).subtract(24, 'h').toDate(),
+  dayjs(refreshTime).toDate()
+])
 const shortcuts = []
 
 for (let i = 0; i < selectTimeOptions.length; i++) {
@@ -121,7 +115,7 @@ const getHistoryRainMonitorSegment = async () => {
     projectId,
     areaId: region.id,
     type: region.level,
-    time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    time: dayjs(refreshTime).format('YYYY-MM-DD HH:mm:ss')
   })
   if (getHistoryRainMonitorSegmentRes.state === 0) {
     // console.log('getHistoryRainMonitorSegmentRes', getHistoryRainMonitorSegmentRes)
@@ -150,7 +144,7 @@ const getArbitrarilyRainMonitorByArea = async () => {
     projectId,
     areaId: region.id,
     type: region.level,
-    time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    time: dayjs(refreshTime).format('YYYY-MM-DD HH:mm:ss')
   })
   if (getArbitrarilyRainMonitorByAreaRes.state === 0) {
     // console.log('getArbitrarilyRainMonitorByAreaRes', getArbitrarilyRainMonitorByAreaRes)
@@ -168,6 +162,10 @@ const maxRainfallStatistic = () => {
 }
 
 const detailedQuery = () => {
+  selectedTimeValue.value = [
+    dayjs(refreshTime).subtract(24, 'h').toDate(),
+    dayjs(refreshTime).toDate()
+  ]
   getGradingSiteInfo()
 }
 
@@ -181,6 +179,15 @@ watch(
   () => {
     return allRegionSelectedValue.value
   },
+  () => {
+    timeStatistic()
+    maxRainfallStatistic()
+    detailedQuery()
+  }
+)
+
+watch(
+  () => refreshTime,
   () => {
     timeStatistic()
     maxRainfallStatistic()

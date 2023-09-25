@@ -2,8 +2,8 @@
 import dayjs from 'dayjs'
 import * as echarts from 'echarts'
 import 'echarts-liquidfill'
-import { reactive, computed, watch, onBeforeMount, onMounted } from 'vue'
-import { regimen_regimenQuery } from '@/api/regimen'
+import { reactive, computed, watch, onBeforeMount } from 'vue'
+import { regimen_regimenQuery, regimen_regimenAllQuery } from '@/api/regimen'
 import { curveLookup_getImportInfoById } from '@/api/curveLookup'
 import { useSystemStore } from '@/stores/system'
 import { useWPDStore } from '@/stores/wpd'
@@ -19,7 +19,9 @@ const getWPDData = wpdStore.getWPDData
 
 const dataSourceStore = useDataSourceStore()
 const waterEngineeringSituation = dataSourceStore.waterEngineeringSituation
+const waterEngineeringStation = dataSourceStore.waterEngineeringStation
 const setWaterEngineeringSituation = dataSourceStore.setWaterEngineeringSituation
+const setWaterEngineeringStation = dataSourceStore.setWaterEngineeringStation
 
 const areaId = selectedDept.code
 const type = window.WPD.get('WPAdministrativeArea').get(areaId).level
@@ -41,7 +43,7 @@ const getEngineeringStation = async () => {
     areaId,
     roleType: type,
     projectId,
-    stationType: ['WPStationZQ', 'WPStationZZ', 'WPStationRR'],
+    stationType: ['WPStationRR'],
     begin: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
     end: dayjs(refreshTime.value).format('YYYY-MM-DD HH:mm:ss')
   })
@@ -55,6 +57,20 @@ const getEngineeringStation = async () => {
 const getCacheEngineeringStation = () => {
   engineeringStation[0].value = waterEngineeringSituation.WPStationRR.outRRFhControlsCount
   engineeringStation[1].value = waterEngineeringSituation.WPStationRR.outRRXhsCount
+}
+
+const getAllEngineeringStation = async () => {
+  const regimenAllQueryRes = await regimen_regimenAllQuery({
+    areaId,
+    roleType: type,
+    projectId,
+    stationType: ['WPStationRR'],
+    begin: dayjs(refreshTime.value).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+    end: dayjs(refreshTime.value).format('YYYY-MM-DD HH:mm:ss')
+  })
+  if (regimenAllQueryRes.state === 0) {
+    setWaterEngineeringStation('WPStationRR', regimenAllQueryRes.data.WPStationRR)
+  }
 }
 
 const getCurrentStationData = async () => {
@@ -175,16 +191,16 @@ onBeforeMount(() => {
   } else {
     getCacheEngineeringStation()
   }
-})
-
-onMounted(() => {
-  getCurrentStationData()
+  if (!waterEngineeringStation.WPStationRR) {
+    getAllEngineeringStation()
+  }
 })
 
 watch(
   () => refreshTime.value,
   () => {
     getEngineeringStation()
+    getAllEngineeringStation()
     getCurrentStationData()
   }
 )

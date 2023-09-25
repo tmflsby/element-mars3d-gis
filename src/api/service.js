@@ -39,7 +39,14 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-    // console.log(response.status)
+    // console.log('response:', response)
+    if (response.data instanceof Blob) {
+      response.data = {
+        data: response.data,
+        headers: response.headers
+      }
+    }
+
     if (response.status === 200) {
       return response.data
     }

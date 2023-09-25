@@ -2,6 +2,7 @@
 import dayjs from 'dayjs'
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { useSystemStore } from '@/stores/system'
 
 const systemStore = useSystemStore()
@@ -69,11 +70,16 @@ const logout = () => {
 }
 
 const searchSystemTime = () => {
+  if (systemTimeDatePicker.value === '') {
+    ElMessage.warning('请选择日期时间')
+    return
+  }
   // 清除定时器
   clearInterval(timer)
   timer = null
   formatSystemTime(systemTimeDatePicker.value)
   realtimeRefresh.value = false
+  changeRefreshTime(dayjs(systemTimeDatePicker.value).format('YYYY-MM-DD HH:mm:ss'))
 }
 
 const backToRealtime = () => {
