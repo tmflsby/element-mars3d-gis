@@ -408,7 +408,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "MeteorologicalWarningList"
                   }
                 ],
                 "component": "MeteorologicalWarning"
@@ -582,6 +583,37 @@
                   {
                     "title": "总结",
                     "component": "RainWaterEngineeringSituationSummary"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "MeteorologicalWarningList",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
+          },
+          "props": {
+            "style": {},
+            "title": "气象预警",
+            "component": "MeteorologicalWarningList",
+            "tabs": [
+              {
+                "title": "气象预警",
+                "subTabs": [
+                  {
+                    "title": "气象预警",
+                    "component": "MeteorologicalWarningList"
                   }
                 ]
               }

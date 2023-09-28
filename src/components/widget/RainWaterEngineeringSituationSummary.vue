@@ -27,9 +27,10 @@ const getFldSituationText = async () => {
     areaId: selectedRegion.id,
     type: selectedRegion.level,
     begin: dayjs(refreshTime).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
-    end: dayjs(refreshTime).format('YYYY-MM-DD HH:mm:ss')
+    end: dayjs(refreshTime).format('YYYY-MM-DD HH:mm:ss'),
+    returnResponse: true // 前端自定义的参数，用于返回请求的所有信息
   })
-  console.log('getFldSituationTextRes', getFldSituationTextRes)
+  // console.log('getFldSituationTextRes', getFldSituationTextRes)
   filePath.value = decodeURIComponent(
     getFldSituationTextRes.headers['content-disposition'].split('=')[1].split('.pdf')[0]
   )
@@ -47,7 +48,7 @@ const download = async () => {
   // console.log('fileDownloadRes', fileDownloadRes)
   const a = document.createElement('a')
   a.style.display = 'none'
-  a.href = URL.createObjectURL(fileDownloadRes.data)
+  a.href = URL.createObjectURL(fileDownloadRes)
   a.download = `${filePath.value}.docx`
   a.click()
   a.remove()

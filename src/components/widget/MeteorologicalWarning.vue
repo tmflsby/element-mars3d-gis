@@ -13,25 +13,19 @@ const dataSourceStore = useDataSourceStore()
 const meteorologicalWarning = computed(() => dataSourceStore.meteorologicalWarning)
 const setMeteorologicalWarning = dataSourceStore.setMeteorologicalWarning
 
-const selectValue = ref(['暴雨', '雷电'])
+const selectValue = ref('全部')
 const selectOptions = [
+  '全部',
   '冰雹',
   '台风',
   '大雾',
   '大风',
   '寒潮',
-  '山体滑坡',
   '干旱',
-  '强季风',
   '暴雨',
   '暴雪',
-  '森林火险',
-  '沙尘暴',
-  '道路结冰',
-  '雷暴',
   '雷电',
   '霜冻',
-  '霾',
   '高温'
 ]
 
@@ -94,7 +88,7 @@ const filterMeteorologicalWarningLevel = () => {
 
   for (let i = 0; i < meteorologicalWarning.value.length; i++) {
     const item = meteorologicalWarning.value[i]
-    if (selectValue.value.indexOf(item.signalType) !== -1) {
+    if (selectValue.value.indexOf(item.signalType) !== -1 || selectValue.value === '全部') {
       switch (item.level) {
         case 1:
           warningLevel[3].value++
@@ -123,7 +117,7 @@ watch(
 
 <template>
   <div class="meteorological-warning">
-    <el-select filterable multiple v-model="selectValue" @change="handleChangeSelected">
+    <el-select filterable v-model="selectValue" @change="handleChangeSelected">
       <el-option v-for="item in selectOptions" :key="item" :label="item" :value="item" />
     </el-select>
     <div class="meteorological-warning-level">

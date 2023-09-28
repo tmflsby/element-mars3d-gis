@@ -40,10 +40,9 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     // console.log('response:', response)
-    if (response.data instanceof Blob) {
+    if (response.config?.params?.returnResponse) {
       response.data = {
-        data: response.data,
-        headers: response.headers
+        ...response
       }
     }
 

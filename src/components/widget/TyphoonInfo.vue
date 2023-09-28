@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import lodash from 'lodash'
 import mars3dLayer from '@/utils/mars3dLayer'
 import { ref, reactive, onBeforeMount, watch } from 'vue'
-import { weather_getTyphoonList, weather_getTyphoonPath } from '@/api/weather'
+import { Typhoon_GetTyphoonList, Typhoon_GetTyphoonPath } from '@/api/weather'
 
 const tableData = reactive([])
 const tableColumn = reactive([
@@ -14,7 +14,7 @@ const tableColumn = reactive([
 const selectedTyphoon = ref([])
 
 const getTyphoonList = async () => {
-  const getTyphoonListRes = await weather_getTyphoonList({
+  const getTyphoonListRes = await Typhoon_GetTyphoonList({
     year: dayjs().year()
   })
   // console.log(getTyphoonListRes)
@@ -54,7 +54,7 @@ watch(
       const addTyphoon = lodash.difference(newVal, oldVal)
       // console.log(addTyphoon)
       for (let i = 0; i < addTyphoon.length; i++) {
-        const getTyphoonPathRes = await weather_getTyphoonPath({
+        const getTyphoonPathRes = await Typhoon_GetTyphoonPath({
           typhoonNo: addTyphoon[i].num
         })
         // console.log(getTyphoonPathRes)
