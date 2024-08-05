@@ -422,7 +422,8 @@
                 "detailBtn": [
                   {
                     "show": true,
-                    "title": "详情"
+                    "title": "详情",
+                    "showComponent": "MountainTorrentWarningDetail"
                   }
                 ],
                 "component": "MountainTorrentWarning"
@@ -614,6 +615,54 @@
                   {
                     "title": "气象预警",
                     "component": "MeteorologicalWarningList"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "component": "DetailPanel",
+          "renderAfterMapInitComplete": false,
+          "name": "MountainTorrentWarningDetail",
+          "visible": false,
+          "draggable": false,
+          "style": {
+            "position": "absolute",
+            "top": "80px",
+            "right": "20px",
+            "width": "400px",
+            "height": "calc(100% - 130px)",
+            "z-index": "1"
+          },
+          "props": {
+            "style": {},
+            "title": "山洪预警",
+            "component": "MountainTorrentWarningDetail",
+            "tabs": [
+              {
+                "title": "预警",
+                "subTabs": [
+                  {
+                    "title": "实测预警",
+                    "component": "MountainTorrentWarningRealtime"
+                  },
+                  {
+                    "title": "2h预报预警",
+                    "component": "MountainTorrentWarning2hForecast"
+                  },
+                  {
+                    "title": "24h预报预警",
+                    "component": "MountainTorrentWarning24hForecast"
+                  }
+                ]
+              },
+              {
+                "title": "总结",
+                "subTabs": [
+                  {
+                    "title": "总结",
+                    "component": "MountainTorrentWarningSummary"
                   }
                 ]
               }
