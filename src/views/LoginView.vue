@@ -1,5 +1,6 @@
 <script setup>
 import Cookies from 'js-cookie'
+import { SM4Util } from 'sm4util'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { ref, reactive, onBeforeMount, onMounted } from 'vue'
@@ -102,9 +103,11 @@ const handleClickLoginBtn = async () => {
   }
 
   // 获取token
+  const sm4 = new SM4Util()
   const oauthTokenRes = await oauth_token({
     username: `${loginFrom.username}:${userProjectId}`,
-    password: loginFrom.password,
+    password_type: 'SM4',
+    password: sm4.encryptCustom_CBC(loginFrom.password, '0bcefb5f5e7b26c2', 'b898a41422ab319c'),
     code: loginFrom.captcha,
     realKey: captcha.realKey,
     grant_type: 'password',

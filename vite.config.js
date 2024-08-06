@@ -27,19 +27,19 @@ export default defineConfig({
   server: {
     proxy: {
       '/wpd-sanming': {
-        target: 'http://175.44.138.53:1201/wpd-sanming', // 接口的域名
+        target: 'https://web.cjwsjyszyh.com:1202/wpd-sanming', // 接口的域名
         secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         rewrite: (path) => path.replace(/^\/wpd-sanming/, '')
       },
       '^/geoserver': {
-        target: 'http://175.44.138.53:1201/geoserver',
+        target: 'https://web.cjwsjyszyh.com:1202/geoserver',
         secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         rewrite: (path) => path.replace(/^\/geoserver/, '')
       },
       '^/smsk3dtiles': {
-        target: 'https://175.44.138.53:1202/smsk3dtiles',
+        target: 'https://web.cjwsjyszyh.com:1202/smsk3dtiles',
         secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         rewrite: (path) => path.replace(/^\/smsk3dtiles/, '')
@@ -57,7 +57,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/ztq/, '')
       },
       '^/smallWatershed': {
-        target: 'http://334733n20y.qicp.vip:38665',
+        target: 'https://web.cjwsjyszyh.com:1202/qicp',
         secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         rewrite: (path) => path.replace(/^\/smallWatershed/, '')
