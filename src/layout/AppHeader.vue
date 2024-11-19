@@ -66,7 +66,7 @@ const formatSystemTime = (systemTime) => {
 }
 
 const logout = () => {
-  router.push('/login')
+  router.push({ path: '/login' })
 }
 
 const searchSystemTime = () => {
@@ -113,30 +113,39 @@ watch(
     }
   }
 )
+
+const cardBodyStyle = ref({
+  width: '100%',
+  height: '100%',
+  padding: '0 20px',
+  boxSizing: 'border-box',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+})
 </script>
 
 <template>
-  <el-card class="app-header">
-    <div class="app-header-left">
+  <el-card class="w-100% h-100%" :body-style="cardBodyStyle">
+    <div class="w-300px h-100% text-20px flex-sc">
       <el-popover trigger="click" width="500" :teleported="false">
-        <div class="set-system-time">
+        <div class="flex-bc">
           <el-checkbox v-model="realtimeRefresh">实时刷新</el-checkbox>
           <el-date-picker
-            style="margin: 0 10px"
             type="datetime"
             placeholder="选择日期时间"
             :teleported="false"
             v-model="systemTimeDatePicker"
           />
-          <el-button style="margin-right: 10px" @click="searchSystemTime">查询</el-button>
-          <el-button @click="backToRealtime">实时</el-button>
+          <el-button @click="searchSystemTime">查询</el-button>
+          <el-button style="margin: 0" @click="backToRealtime">实时</el-button>
         </div>
         <template #reference>
           <span>{{ systemTime }}</span>
         </template>
       </el-popover>
     </div>
-    <div class="app-header-content">
+    <div class="text-30px">
       <el-menu
         :default-active="defaultActive"
         mode="horizontal"
@@ -144,14 +153,18 @@ watch(
         @select="handleSelectMenu"
       >
         <template v-for="route in routes" :key="route.name">
-          <div class="title" v-if="route.afterSystemTitle">{{ title }}</div>
-          <el-menu-item class="menu-item" :index="route.path">{{ route.title }}</el-menu-item>
+          <div class="flex-cc" style="margin: 0 40px" v-if="route.afterSystemTitle">
+            {{ title }}
+          </div>
+          <el-menu-item style="margin: 0 40px; font-size: 18px" :index="route.path">
+            {{ route.title }}
+          </el-menu-item>
         </template>
       </el-menu>
     </div>
-    <div class="app-header-right">
-      <el-dropdown class="dropdown" popper-class="system-setting-dropdown">
-        <div class="dropdown-title">{{ userInfo.nickName }}</div>
+    <div class="w-300px h-100% text-20px flex-ec">
+      <el-dropdown>
+        <div>{{ userInfo.nickName }}</div>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
@@ -161,65 +174,3 @@ watch(
     </div>
   </el-card>
 </template>
-
-<style scoped lang="scss">
-.app-header {
-  width: 100%;
-  height: 100%;
-  :deep(.el-card__body) {
-    width: 100%;
-    height: 100%;
-    padding: 0 20px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .app-header-left,
-    .app-header-right {
-      font-size: 20px;
-      width: 300px;
-      height: 100%;
-    }
-    .app-header-left {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-    }
-    .app-header-right {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      .dropdown {
-        .dropdown-title {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          cursor: pointer;
-          span {
-            margin-right: 10px;
-          }
-        }
-      }
-    }
-    .app-header-content {
-      font-size: 30px;
-      .title {
-        margin: 0 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .menu-item {
-        margin: 0 50px;
-      }
-    }
-  }
-}
-
-.set-system-time {
-  display: flex;
-  align-items: center;
-}
-</style>

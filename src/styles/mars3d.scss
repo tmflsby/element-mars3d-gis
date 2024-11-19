@@ -10,6 +10,13 @@
   vertical-align: middle;
 }
 
+.cesium-toolbar-button.mar3d-toolButton,
+.cesium-toolbar-button.mar3d-toolButton > div {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
 .cesium-viewer-toolbar>.cesium-toolbar-button,
 .cesium-navigationHelpButton-wrapper,
 .cesium-viewer-geocoderContainer {
@@ -127,3 +134,14 @@
 .mars3d-template-content {
   overflow: hidden;
 }
+
+/**覆盖mars3d内部控件的颜色等样式*/
+.mars3d-compass .mars3d-compass-outer {
+  fill: rgba(39, 44, 54, 0.8);
+}
+
+.mars3d-compass .mars3d-compass-inner {
+  background: rgba(39, 44, 54, 0.8);
+  fill: #fff;
+}
+

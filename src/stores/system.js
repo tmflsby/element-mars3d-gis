@@ -1,44 +1,56 @@
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { setLocalStorage, getLocalStorage } from '@/utils/storage'
+import { useWPDStore } from '@/stores/wpd'
 
-export const useSystemStore = defineStore('system', () => {
-  const systemTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-  const refreshTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-  const userInfo = ref({})
-  const selectedDept = ref({})
+export const useSystemStore = defineStore(
+  'system',
+  () => {
+    const systemTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    const refreshTime = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    const userInfo = ref({})
+    const selectedDept = ref({})
 
-  const changeSystemTime = (time) => {
-    // console.log('changeSystemTime', dayjs().format('YYYY-MM-DD HH:mm:ss'))
-    systemTime.value = time
-  }
-  const changeRefreshTime = (time) => {
-    refreshTime.value = time
-  }
+    const wpdStore = useWPDStore()
+    const WPDInitComplete = computed(() => wpdStore.WPDInitComplete)
+    const selectedRegion = computed(() =>
+      WPDInitComplete.value
+        ? window.WPD.get('WPAdministrativeArea').get(selectedDept.value.code)
+        : null
+    )
 
-  const setUserInfo = (info) => {
-    userInfo.value = info
-    const localStorageSelectedDept = getLocalStorage('selectedDept')
-    // console.log('localStorageSelectedDept', localStorageSelectedDept)
-    if (localStorageSelectedDept && info.dept.name === '三明市') {
-      selectedDept.value = localStorageSelectedDept
-    } else {
+    const changeSystemTime = (time) => {
+      systemTime.value = time
+    }
+    const changeRefreshTime = (time) => {
+      refreshTime.value = time
+    }
+
+    const setUserInfo = (info) => {
+      userInfo.value = info
       selectedDept.value = {
         code: info.dept.code,
         name: info.dept.name
       }
-      setLocalStorage('selectedDept', selectedDept.value)
+    }
+
+    return {
+      systemTime,
+      refreshTime,
+      userInfo,
+      selectedDept,
+      selectedRegion,
+      changeSystemTime,
+      changeRefreshTime,
+      setUserInfo
+    }
+  },
+  {
+    persist: {
+      enabled: true,
+      key: 'system',
+      storage: localStorage,
+      paths: ['userInfo', 'selectedDept']
     }
   }
-
-  return {
-    systemTime,
-    refreshTime,
-    userInfo,
-    selectedDept,
-    changeSystemTime,
-    changeRefreshTime,
-    setUserInfo
-  }
-})
+)

@@ -1,4 +1,4 @@
-const draggable = {
+export const draggable = {
   beforeMount(el, binding) {
     const { value } = binding
     if (value) {
@@ -22,12 +22,3 @@ const draggable = {
     }
   }
 }
-
-// 挂载，注册
-const directive = {
-  install: (app) => {
-    app.directive('draggable', draggable)
-  }
-}
-
-export default directive

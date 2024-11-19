@@ -3,39 +3,31 @@ import Cookies from 'js-cookie'
 import { SM4Util } from 'sm4util'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { ref, reactive, onBeforeMount, onMounted } from 'vue'
-import { captcha_image, oauth_token, oauth_check_token } from '@/api/login'
+import { ref, onMounted } from 'vue'
 import { setAccessToken, setRefreshToken } from '@/utils/storage'
 import { useWPDStore } from '@/stores/wpd'
+import { useSystemStore } from '@/stores/system'
+import { captcha_image, oauth_token } from '@/api/login'
+import { system_user_info } from '@/api/user'
 
 const router = useRouter()
 const WPDStore = useWPDStore()
 const userProjectId = WPDStore.userProjectId
-const captcha = reactive({
+const systemStore = useSystemStore()
+const setUserInfo = systemStore.setUserInfo
+const captcha = ref({
   code: '',
   img: '',
   realKey: ''
 })
-const loginFrom = reactive({
+const loginFrom = ref({
   username: '',
   password: '',
   captcha: '',
   rememberMe: false
 })
-const verifyRules = reactive({
-  username: [
-    { required: true, message: '请输入账号', trigger: 'blur' },
-    {
-      validator: (rule, value, callback) => {
-        if (!/^\w+$/.test(value)) {
-          callback(new Error('账号为英文、数字、下划线组成'))
-        } else {
-          callback()
-        }
-      },
-      trigger: 'blur'
-    }
-  ],
+const verifyRules = ref({
+  username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   captcha: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -45,46 +37,35 @@ const verifyRules = reactive({
 const loginLoading = ref(false)
 const loginBtnText = ref('登录')
 
-onBeforeMount(() => {
-  keydownEnterLogin()
-  getCaptchaImage()
-})
 onMounted(() => {
+  getCaptchaImage()
   getRememberMe()
 })
-
-const keydownEnterLogin = () => {
-  window.onkeydown = (e) => {
-    if (e.keyCode === 13) {
-      handleClickLoginBtn()
-    }
-  }
-}
 
 const getRememberMe = () => {
   const username = Cookies.get('username')
   const password = Cookies.get('password')
   if (username && password) {
-    loginFrom.username = username
-    loginFrom.password = window.atob(password)
-    loginFrom.rememberMe = true
+    loginFrom.value.username = username
+    loginFrom.value.password = atob(password)
+    loginFrom.value.rememberMe = true
   }
 }
 
 const getCaptchaImage = async () => {
   const captchaImageRes = await captcha_image()
   if (captchaImageRes.code === 0) {
-    captcha.code = captchaImageRes.data.code
-    captcha.img = `data:image/png;base64,${captchaImageRes.data.img}`
-    captcha.realKey = captchaImageRes.data.realKey
+    captcha.value.code = captchaImageRes.data.code
+    captcha.value.img = `data:image/png;base64,${captchaImageRes.data.img}`
+    captcha.value.realKey = captchaImageRes.data.realKey
   }
 }
 
 const handleClickLoginBtn = async () => {
   // 验证验证码
-  if (loginFrom.captcha.toLowerCase() !== captcha.code.toLowerCase()) {
+  if (loginFrom.value.captcha.toLowerCase() !== captcha.value.code.toLowerCase()) {
     ElMessage.error('验证码错误')
-    loginFrom.captcha = ''
+    loginFrom.value.captcha = ''
     await getCaptchaImage()
     return
   }
@@ -94,9 +75,9 @@ const handleClickLoginBtn = async () => {
   loginBtnText.value = '登录中...'
 
   // 记住密码
-  if (loginFrom.rememberMe) {
-    Cookies.set('username', loginFrom.username)
-    Cookies.set('password', window.btoa(loginFrom.password))
+  if (loginFrom.value.rememberMe) {
+    Cookies.set('username', loginFrom.value.username)
+    Cookies.set('password', btoa(loginFrom.value.password))
   } else {
     Cookies.remove('username')
     Cookies.remove('password')
@@ -105,11 +86,15 @@ const handleClickLoginBtn = async () => {
   // 获取token
   const sm4 = new SM4Util()
   const oauthTokenRes = await oauth_token({
-    username: `${loginFrom.username}:${userProjectId}`,
+    username: `${loginFrom.value.username}:${userProjectId}`,
     password_type: 'SM4',
-    password: sm4.encryptCustom_CBC(loginFrom.password, '0bcefb5f5e7b26c2', 'b898a41422ab319c'),
-    code: loginFrom.captcha,
-    realKey: captcha.realKey,
+    password: sm4.encryptCustom_CBC(
+      loginFrom.value.password,
+      '0bcefb5f5e7b26c2',
+      'b898a41422ab319c'
+    ),
+    code: loginFrom.value.captcha,
+    realKey: captcha.value.realKey,
     grant_type: 'password',
     scope: 'server'
   })
@@ -118,47 +103,45 @@ const handleClickLoginBtn = async () => {
     const access_token = oauthTokenRes.access_token
     const refresh_token = oauthTokenRes.refresh_token
 
-    // 验证token
-    const oauthCheckTokenRes = await oauth_check_token({
-      token: access_token
-    })
-    // console.log('oauthCheckTokenRes', oauthCheckTokenRes)
-    if (oauthCheckTokenRes.user_id) {
-      setAccessToken(access_token)
-      setRefreshToken(refresh_token)
-      await router.push({ path: '/baseInfo' })
-    } else {
-      ElMessage.error('token验证失败')
-      await getCaptchaImage()
-      loginFrom.captcha = ''
-    }
+    setAccessToken(access_token)
+    setRefreshToken(refresh_token)
+
+    // 获取用户信息
+    await getSystemUserInfo()
+    router.push({ path: '/baseInfo' }).catch((err) => err)
   } else {
     ElMessage.error('账号密码错误或验证码失效')
     await getCaptchaImage()
-    loginFrom.captcha = ''
+    loginFrom.value.captcha = ''
   }
 
   loginLoading.value = false
   loginBtnText.value = '登录'
 }
+
+const getSystemUserInfo = async () => {
+  const userInfoRes = await system_user_info()
+  if (userInfoRes.code === 0) {
+    setUserInfo(userInfoRes.data)
+  }
+}
 </script>
 
 <template>
-  <div class="login">
-    <el-card class="box-card">
+  <div class="w-100% h-100% pos-relative">
+    <el-card
+      class="pos-absolute w-400px top-200px"
+      style="margin: 100px auto; left: calc(50% - 200px)"
+    >
       <template #header>
-        <div class="card-header">
+        <div class="flex-ac text-20px" style="padding: 0 75px">
           <span>登</span>
           <span>录</span>
         </div>
       </template>
       <el-form status-icon :model="loginFrom" :rules="verifyRules">
         <el-form-item prop="username">
-          <el-input
-            v-model="loginFrom.username"
-            placeholder="请输入账号"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="loginFrom.username" placeholder="请输入账号" />
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -167,64 +150,37 @@ const handleClickLoginBtn = async () => {
             type="password"
             autocomplete="off"
             show-password
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item prop="captcha">
           <el-input
             v-model="loginFrom.captcha"
-            class="captcha"
+            style="width: 200px"
             placeholder="请输入验证码"
             autocomplete="off"
-          ></el-input>
-          <img class="captcha-image" :src="captcha.img" alt="" @click="getCaptchaImage" />
+          />
+          <img
+            class="h-40px ml-25px cursor-pointer"
+            style="width: calc(100% - 225px); border-radius: 4px"
+            alt="验证码"
+            :src="captcha.img"
+            @click="getCaptchaImage"
+          />
         </el-form-item>
         <el-form-item>
           <el-checkbox v-model="loginFrom.rememberMe">记住密码</el-checkbox>
         </el-form-item>
-        <el-button
-          class="login-btn"
-          type="primary"
-          v-loading="loginLoading"
-          @click="handleClickLoginBtn"
-        >
-          {{ loginBtnText }}
-        </el-button>
+        <el-form-item>
+          <el-button
+            class="w-100%"
+            type="primary"
+            v-loading="loginLoading"
+            @click="handleClickLoginBtn"
+          >
+            {{ loginBtnText }}
+          </el-button>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
 </template>
-
-<style scoped>
-.login {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  .box-card {
-    position: absolute;
-    top: 200px;
-    left: calc(50% - 200px);
-    width: 400px;
-    margin: 100px auto;
-    .card-header {
-      padding: 0 75px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      font-size: 20px;
-    }
-    .captcha {
-      width: 200px;
-    }
-    .captcha-image {
-      width: calc(100% - 225px);
-      height: 40px;
-      margin-left: 25px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .login-btn {
-      width: 100%;
-    }
-  }
-}
-</style>

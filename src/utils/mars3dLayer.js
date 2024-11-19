@@ -1,6 +1,6 @@
 const mars3dLayer = {
   // 蒙版图层
-  async maskLayer(regionLevel, regionId) {
+  maskLayer(regionLevel, regionId) {
     let layerName = ''
     switch (regionLevel) {
       case 'CITY':
@@ -14,7 +14,7 @@ const mars3dLayer = {
         break
     }
 
-    await new window.mars3d.query.QueryGeoServer({
+    new window.mars3d.query.QueryGeoServer({
       url: `/geoserver/sanming/wms`,
       layer: layerName,
       headers: {
@@ -47,8 +47,6 @@ const mars3dLayer = {
   initWPStationRRIcon() {
     const WPStationRR_Layer = window.map.getLayerById(4001)
     window.map.addLayer(WPStationRR_Layer)
-    WPStationRR_Layer.clear()
-    // console.log(WPStationRR_Layer)
 
     window.WPD.get('WPStationRR').forEach((station, key) => {
       if (key === 'field') return
@@ -106,7 +104,6 @@ const mars3dLayer = {
   initWPStationZQIcon() {
     const WPStationZQ_Layer = window.map.getLayerById(4002)
     window.map.addLayer(WPStationZQ_Layer)
-    WPStationZQ_Layer.clear()
 
     window.WPD.get('WPStationZQ').forEach((station, key) => {
       if (key === 'field') return
@@ -145,7 +142,6 @@ const mars3dLayer = {
   initWPStationZZIcon() {
     const WPStationZZ_Layer = window.map.getLayerById(4003)
     window.map.addLayer(WPStationZZ_Layer)
-    WPStationZZ_Layer.clear()
 
     window.WPD.get('WPStationZZ').forEach((station, key) => {
       if (key === 'field') return
@@ -184,7 +180,6 @@ const mars3dLayer = {
   initWPStationPPIcon() {
     const WPStationPP_Layer = window.map.getLayerById(4004)
     window.map.addLayer(WPStationPP_Layer)
-    WPStationPP_Layer.clear()
 
     window.WPD.get('WPStationPP').forEach((station, key) => {
       if (key === 'field') return
@@ -220,7 +215,6 @@ const mars3dLayer = {
   initWPStationHPIcon() {
     const WPStationHP_Layer = window.map.getLayerById(4005)
     window.map.addLayer(WPStationHP_Layer)
-    WPStationHP_Layer.clear()
 
     window.WPD.get('WPStationHP').forEach((station, key) => {
       if (key === 'field') return
@@ -242,7 +236,6 @@ const mars3dLayer = {
   initWPSluiceIcon() {
     const WPSluice_Layer = window.map.getLayerById(4006)
     window.map.addLayer(WPSluice_Layer)
-    WPSluice_Layer.clear()
 
     window.WPD.get('WPSluice').forEach((station, key) => {
       if (key === 'field') return
@@ -264,7 +257,6 @@ const mars3dLayer = {
   initWPStationPumpIcon() {
     const WPStationPump_Layer = window.map.getLayerById(4007)
     window.map.addLayer(WPStationPump_Layer)
-    WPStationPump_Layer.clear()
 
     window.WPD.get('WPStationPump').forEach((station, key) => {
       if (key === 'field') return
@@ -286,7 +278,6 @@ const mars3dLayer = {
   initEasilyFloodedAreaIcon() {
     const EasilyFloodedArea_Layer = window.map.getLayerById(4008)
     window.map.addLayer(EasilyFloodedArea_Layer)
-    EasilyFloodedArea_Layer.clear()
 
     window.WPD.get('EasilyFloodedArea').forEach((station, key) => {
       if (key === 'field') return
@@ -316,7 +307,7 @@ const mars3dLayer = {
         <div>
           <div>名称：${river.name}</div>
           <div>长度(km)：${river.FlowLength}</div>
-           <div>等级：${river.level}</div>
+          <div>等级：${river.level}</div>
           <div>途径县：${river.PathwayCountyName}</div>
           <div>途径乡：${river.PathwayTownName}</div>
         </div>

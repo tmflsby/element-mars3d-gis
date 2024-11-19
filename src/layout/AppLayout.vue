@@ -5,33 +5,13 @@ import AppMain from '@/layout/AppMain.vue'
 </script>
 
 <template>
-  <div class="app-layout">
-    <el-container>
-      <el-header>
-        <AppHeader />
-      </el-header>
-      <el-main>
-        <AppMain />
-        <RouterView />
-      </el-main>
-    </el-container>
-  </div>
+  <el-container class="w-100% h-100% overflow-hidden">
+    <el-header class="p-0 overflow-hidden">
+      <AppHeader />
+    </el-header>
+    <el-main class="p-0 overflow-hidden">
+      <AppMain />
+      <RouterView />
+    </el-main>
+  </el-container>
 </template>
-
-<style scoped>
-.app-layout {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  .el-container {
-    width: 100%;
-    height: 100%;
-    .el-header {
-      padding: 0;
-    }
-    .el-main {
-      padding: 0;
-    }
-  }
-}
-</style>

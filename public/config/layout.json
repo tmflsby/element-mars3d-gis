@@ -6,887 +6,129 @@
       "path": "/baseInfo",
       "name": "BaseInfo",
       "title": "综合信息",
-      "panel": [
+      "panels": [
         {
           "component": "OverviewPanel",
-          "renderAfterMapInitComplete": true,
           "name": "BaseInfoLeftOverviewPanel",
+          "renderAfterMapInitComplete": true,
           "visible": true,
-          "draggable": false,
+          "class": ["pos-absolute", "top-80px", "left-20px"],
           "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
             "width": "400px",
             "height": "calc(100% - 130px)"
           },
-          "props": {
+          "widget": {
+            "class": ["w-100%", "h-100%", "flex-bc", "flex-col"],
             "style": {},
-            "subContainer": [
+            "subWidgets": [
               {
                 "title": "基本信息",
-                "style": {
-                  "flex": 1.5
-                },
+                "component": "BaseInfo",
+                "class": ["w-100%", "h-40%"],
+                "style": {},
                 "detailBtn": [
                   {
                     "show": true,
                     "title": "详情",
                     "showComponent": "BaseInfoDetail"
                   }
-                ],
-                "component": "BaseInfo"
+                ]
               },
               {
                 "title": "应急转移",
-                "style": {
-                  "flex": 1
-                },
+                "component": "EmergencyTransfer",
+                "class": ["w-100%", "h-15%"],
+                "style": {},
                 "detailBtn": [
                   {
                     "show": true,
                     "title": "详情",
                     "showComponent": "EmergencyTransferDetail"
                   }
-                ],
-                "component": "EmergencyTransfer"
+                ]
               },
               {
                 "title": "气象台风",
-                "style": {
-                  "flex": 2
-                },
+                "component": "MeteorologicalTyphoon",
+                "class": ["w-100%", "h-45%"],
+                "style": {},
                 "detailBtn": [
                   {
                     "show": true,
                     "title": "台风",
                     "showComponent": "TyphoonInfo"
                   }
-                ],
-                "component": "MeteorologicalTyphoon"
+                ]
               }
             ]
           }
         },
         {
           "component": "OverviewPanel",
-          "renderAfterMapInitComplete": true,
           "name": "BaseInfoRightOverviewPanel",
+          "renderAfterMapInitComplete": true,
           "visible": true,
-          "draggable": false,
+          "class": ["pos-absolute", "top-80px", "right-20px"],
           "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
             "width": "400px",
             "height": "calc(100% - 130px)"
           },
-          "props": {
+          "widget": {
+            "class": ["w-100%", "h-100%", "flex-bc", "flex-col"],
             "style": {},
-            "subContainer": [
+            "subWidgets": [
               {
                 "title": "水工程信息",
-                "style": {
-                  "flex": 1.5
-                },
+                "component": "WaterProjectInfo",
+                "class": ["w-100%", "h-30%"],
+                "style": {},
                 "detailBtn": [
                   {
                     "show": true,
                     "title": "详情",
                     "showComponent": "WaterProjectInfoDetail"
                   }
-                ],
-                "component": "WaterProjectInfo"
+                ]
               },
               {
                 "title": "地灾隐患点",
-                "style": {
-                  "flex": 1
-                },
+                "component": "DisasterHazardPoint",
+                "class": ["w-100%", "h-25%"],
+                "style": {},
                 "detailBtn": [
                   {
                     "show": true,
                     "title": "详情",
                     "showComponent": "DisasterHazardPointDetail"
                   }
-                ],
-                "component": "DisasterHazardPoint"
+                ]
               },
               {
                 "title": "视频监控",
-                "style": {
-                  "flex": 2
-                },
+                "component": "VideoMonitor",
+                "class": ["w-100%", "h-45%"],
+                "style": {},
                 "detailBtn": [
                   {
                     "show": true,
                     "title": "详情",
                     "showComponent": "VideoMonitorList"
                   }
-                ],
-                "component": "VideoMonitor"
+                ]
               }
             ]
           }
         },
         {
           "component": "LayerTreePanel",
-          "renderAfterMapInitComplete": true,
           "name": "LayerTreePanel",
-          "visible": false,
-          "draggable": true,
-          "tag": "div",
-          "style": {
-            "position": "absolute",
-            "bottom": "50px",
-            "left": "500px",
-            "width": "300px",
-            "height": "500px"
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "BaseInfoDetail",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "基本信息",
-            "component": "BaseInfoDetail",
-            "tabs": [
-              {
-                "title": "基本",
-                "subTabs": [
-                  {
-                    "title": "行政信息",
-                    "component": "AdministrativeInfo"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "WaterProjectInfoDetail",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "水工程信息",
-            "component": "WaterProjectInfoDetail",
-            "tabs": [
-              {
-                "title": "水利",
-                "subTabs": [
-                  {
-                    "title": "水利信息",
-                    "component": "WaterConservancyInfo"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "EmergencyTransferDetail",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "应急转移",
-            "component": "EmergencyTransferDetail",
-            "tabs": [
-              {
-                "title": "应急",
-                "subTabs": [
-                  {
-                    "title": "清单",
-                    "component": "EmergencyTransferList"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "DisasterHazardPointDetail",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "地灾隐患点",
-            "component": "DisasterHazardPointDetail",
-            "tabs": [
-              {
-                "title": "地灾隐患点",
-                "subTabs": [
-                  {
-                    "title": "清单",
-                    "component": "DisasterHazardPointList"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "TyphoonInfo",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "台风信息",
-            "component": "TyphoonInfo",
-            "tabs": [
-              {
-                "title": "台风信息",
-                "subTabs": [
-                  {
-                    "title": "台风信息",
-                    "component": "TyphoonInfo"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "VideoMonitorList",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "视频监控",
-            "component": "VideoMonitorList",
-            "tabs": [
-              {
-                "title": "视频监控",
-                "subTabs": [
-                  {
-                    "title": "视频监控",
-                    "component": "VideoMonitorList"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "path": "/floodSituation",
-      "name": "FloodSituation",
-      "title": "一屏知汛",
-      "panel": [
-        {
-          "component": "OverviewPanel",
           "renderAfterMapInitComplete": true,
-          "name": "FloodSituationLeftOverviewPanel",
-          "visible": true,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)"
-          },
-          "props": {
-            "style": {},
-            "subContainer": [
-              {
-                "title": "重点站",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情",
-                    "showComponent": "ImportantStationWatchList"
-                  }
-                ],
-                "component": "ImportantStation"
-              },
-              {
-                "title": "雨水工情",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情",
-                    "showComponent": "RainWaterEngineeringSituationDetail"
-                  }
-                ],
-                "component": "RainWaterEngineeringSituation"
-              }
-            ]
-          }
-        },
-        {
-          "component": "OverviewPanel",
-          "renderAfterMapInitComplete": true,
-          "name": "FloodSituationRightOverviewPanel",
-          "visible": true,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)"
-          },
-          "props": {
-            "style": {},
-            "subContainer": [
-              {
-                "title": "气象预警",
-                "style": {
-                  "flex": 1.25
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情",
-                    "showComponent": "MeteorologicalWarningList"
-                  }
-                ],
-                "component": "MeteorologicalWarning"
-              },
-              {
-                "title": "山洪预警",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情",
-                    "showComponent": "MountainTorrentWarningDetail"
-                  }
-                ],
-                "component": "MountainTorrentWarning"
-              },
-              {
-                "title": "河道预警",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "RiverWarning"
-              },
-              {
-                "title": "地灾预警",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "DisasterWarning"
-              },
-              {
-                "title": "小流域预警",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "SmallWatershedWarning"
-              }
-            ]
-          }
-        },
-        {
-          "component": "LayerTreePanel",
-          "renderAfterMapInitComplete": true,
-          "name": "LayerTreePanel",
           "visible": false,
-          "draggable": true,
-          "tag": "div",
-          "style": {
-            "position": "absolute",
-            "bottom": "50px",
-            "left": "500px",
-            "width": "300px",
-            "height": "500px"
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "ImportantStationWatchList",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "重点站关注列表",
-            "component": "ImportantStationWatchList",
-            "tabs": [
-              {
-                "title": "关注列表",
-                "subTabs": [
-                  {
-                    "title": "关注列表",
-                    "component": "ImportantStationWatchList"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "RainWaterEngineeringSituationDetail",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "雨水工情",
-            "component": "RainWaterEngineeringSituationDetail",
-            "tabs": [
-              {
-                "title": "雨情",
-                "subTabs": [
-                  {
-                    "title": "雨量查询",
-                    "component": "RainfallQuery"
-                  },
-                  {
-                    "title": "面雨量统计",
-                    "component": "AreaRainfallStatistics"
-                  },
-                  {
-                    "title": "降雨站点",
-                    "component": "RainfallStation"
-                  }
-                ]
-              },
-              {
-                "title": "水情",
-                "subTabs": [
-                  {
-                    "title": "超警站点",
-                    "component": "ExceedWarningStation"
-                  },
-                  {
-                    "title": "全部站点",
-                    "component": "allWaterStation"
-                  }
-                ]
-              },
-              {
-                "title": "工情",
-                "subTabs": [
-                  {
-                    "title": "超汛限站点",
-                    "component": "ExceedFloodLimitStation"
-                  },
-                  {
-                    "title": "全部站点",
-                    "component": "allEngineeringStation"
-                  }
-                ]
-              },
-              {
-                "title": "总结",
-                "subTabs": [
-                  {
-                    "title": "总结",
-                    "component": "RainWaterEngineeringSituationSummary"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "MeteorologicalWarningList",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "气象预警",
-            "component": "MeteorologicalWarningList",
-            "tabs": [
-              {
-                "title": "气象预警",
-                "subTabs": [
-                  {
-                    "title": "气象预警",
-                    "component": "MeteorologicalWarningList"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "component": "DetailPanel",
-          "renderAfterMapInitComplete": false,
-          "name": "MountainTorrentWarningDetail",
-          "visible": false,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)",
-            "z-index": "1"
-          },
-          "props": {
-            "style": {},
-            "title": "山洪预警",
-            "component": "MountainTorrentWarningDetail",
-            "tabs": [
-              {
-                "title": "预警",
-                "subTabs": [
-                  {
-                    "title": "实测预警",
-                    "component": "MountainTorrentWarningRealtime"
-                  },
-                  {
-                    "title": "2h预报预警",
-                    "component": "MountainTorrentWarning2hForecast"
-                  },
-                  {
-                    "title": "24h预报预警",
-                    "component": "MountainTorrentWarning24hForecast"
-                  }
-                ]
-              },
-              {
-                "title": "总结",
-                "subTabs": [
-                  {
-                    "title": "总结",
-                    "component": "MountainTorrentWarningSummary"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "path": "/dispatchDecision",
-      "name": "DispatchDecision",
-      "title": "调度决策",
-      "afterSystemTitle": true,
-      "panel": [
-        {
-          "component": "OverviewPanel",
-          "renderAfterMapInitComplete": true,
-          "name": "DispatchDecisionLeftOverviewPanel",
-          "visible": true,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)"
-          },
-          "props": {
-            "style": {},
-            "subContainer": [
-              {
-                "title": "雨情",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "RainSituation"
-              },
-              {
-                "title": "水情",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "WaterSituation"
-              },
-              {
-                "title": "工情",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "EngineeringSituation"
-              }
-            ]
-          }
-        },
-        {
-          "component": "SelectSchemePanel",
-          "renderAfterMapInitComplete": true,
-          "name": "SelectSchemePanel",
-          "visible": true,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)"
-          }
-        },
-        {
-          "component": "LayerTreePanel",
-          "renderAfterMapInitComplete": true,
-          "name": "LayerTreePanel",
-          "visible": false,
-          "draggable": true,
-          "tag": "div",
-          "style": {
-            "position": "absolute",
-            "bottom": "50px",
-            "left": "500px",
-            "width": "300px",
-            "height": "500px"
-          }
-        }
-      ]
-    },
-    {
-      "path": "/emergencyCommand",
-      "name": "EmergencyCommand",
-      "title": "应急指挥",
-      "panel": [
-        {
-          "component": "OverviewPanel",
-          "renderAfterMapInitComplete": true,
-          "name": "EmergencyCommandLeftOverviewPanel",
-          "visible": true,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "left": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)"
-          },
-          "props": {
-            "style": {},
-            "subContainer": [
-              {
-                "title": "避难场所",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "EmergencyShelter"
-              },
-              {
-                "title": "应急队伍",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "EmergencyTeam"
-              },
-              {
-                "title": "应急物资",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": "EmergencyMaterial"
-              }
-            ]
-          }
-        },
-        {
-          "component": "OverviewPanel",
-          "renderAfterMapInitComplete": true,
-          "name": "EmergencyCommandRightOverviewPanel",
-          "visible": true,
-          "draggable": false,
-          "style": {
-            "position": "absolute",
-            "top": "80px",
-            "right": "20px",
-            "width": "400px",
-            "height": "calc(100% - 130px)"
-          },
-          "props": {
-            "style": {},
-            "subContainer": [
-              {
-                "title": "灾情直报",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": ""
-              },
-              {
-                "title": "安全检查",
-                "style": {
-                  "flex": 1
-                },
-                "detailBtn": [
-                  {
-                    "show": true,
-                    "title": "详情"
-                  }
-                ],
-                "component": ""
-              }
-            ]
-          }
-        },
-        {
-          "component": "LayerTreePanel",
-          "renderAfterMapInitComplete": true,
-          "name": "LayerTreePanel",
-          "visible": false,
-          "draggable": true,
-          "tag": "div",
-          "style": {
-            "position": "absolute",
-            "bottom": "50px",
-            "left": "500px",
-            "width": "300px",
-            "height": "500px"
+          "class": ["pos-absolute", "bottom-50px", "left-500px", "w-300px", "h-500px"],
+          "style": {},
+          "widget": {
+            "class": ["w-100%", "h-100%"],
+            "style": {}
           }
         }
       ]

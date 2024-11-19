@@ -1,2 +1,11 @@
 @import 'global.scss';
 @import 'mars3d.scss';
+
+body {
+  margin: 0;
+}
+
+#app {
+  width: 100vw;
+    height: 100vh;
+}

@@ -11,16 +11,18 @@ const WPDStore = useWPDStore()
 const WPDInitComplete = computed(() => WPDStore.WPDInitComplete)
 
 const widgetComponent = {}
-const files = import.meta.globEager('../widget/*.vue')
+const files = import.meta.glob('../widget/*.vue', {
+  eager: true
+})
 for (const key in files) {
   const filename = key.replace(/(\..\/widget\/|\.(vue))/g, '')
   widgetComponent[filename] = files[key].default || files[key]
 }
 
 defineProps({
-  props: {
-    type: Object,
-    default: () => ({})
+  subWidgets: {
+    type: Array,
+    default: () => []
   }
 })
 
@@ -34,17 +36,22 @@ const handleClickDetailBtn = (item) => {
 </script>
 
 <template>
-  <div class="overview-panel" :style="props.style">
+  <div class="overview-panel">
     <el-card
-      class="sub-container"
-      v-for="(container, index) in props.subContainer"
+      v-for="(widget, index) in subWidgets"
       :key="index"
-      :style="container.style"
+      :class="widget.class"
+      :style="widget.style"
+      :bodyStyle="{
+        padding: 0,
+        width: '100%',
+        height: 'calc(100% - 50px)'
+      }"
     >
       <template #header>
-        <div class="title">
-          <span>{{ container.title }}</span>
-          <template v-for="(item, index) in container.detailBtn" :key="index">
+        <div class="flex-bc w-100% h100% p-10px box-border">
+          <span>{{ widget.title }}</span>
+          <template v-for="(item, index) in widget.detailBtn" :key="index">
             <el-button
               size="small"
               v-if="item.show"
@@ -56,8 +63,8 @@ const handleClickDetailBtn = (item) => {
           </template>
         </div>
       </template>
-      <div class="content">
-        <component :is="widgetComponent[container.component]"></component>
+      <div class="w-100% h-100% p-10px box-border">
+        <component :is="widgetComponent[widget.component]"></component>
       </div>
     </el-card>
   </div>
@@ -65,36 +72,10 @@ const handleClickDetailBtn = (item) => {
 
 <style scoped lang="scss">
 .overview-panel {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   :deep(.el-card__header) {
     width: 100%;
     height: 50px;
     padding: 0;
-  }
-  :deep(.el-card__body) {
-    width: 100%;
-    height: calc(100% - 50px);
-    padding: 0;
-  }
-  .sub-container {
-    .title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    .content {
-      width: 100%;
-      height: 100%;
-      padding: 10px;
-      box-sizing: border-box;
-    }
   }
 }
 </style>

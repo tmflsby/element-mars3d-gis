@@ -6,7 +6,9 @@ import { usePanelStore } from '@/stores/panel'
 import { useWPDStore } from '@/stores/wpd'
 
 const panelComponent = {}
-const files = import.meta.globEager('../components/panel/*.vue')
+const files = import.meta.glob('../components/panel/*.vue', {
+  eager: true
+})
 
 for (const key in files) {
   const filename = key.replace(/(\..\/components\/panel\/|\.(vue))/g, '')
@@ -14,7 +16,7 @@ for (const key in files) {
 }
 
 const router = useRouter()
-const routerPanel = computed(() => router.currentRoute.value.meta.panel)
+const panels = computed(() => router.currentRoute.value.meta.panels)
 
 const mapStore = useMapStore()
 const mapInitComplete = computed(() => mapStore.mapInitComplete)
@@ -42,10 +44,10 @@ watch(
   () => mapInitComplete.value,
   () => {
     if (mapInitComplete.value) {
-      for (let i = 0; i < routerPanel.value.length; i++) {
-        // console.log('routerPanel.value[i]', routerPanel.value[i])
-        setPanelVisible(`${routerPanel.value[i].name}Visible`, routerPanel.value[i].visible)
-        if (routerPanel.value[i].name === 'LayerTreePanel') {
+      for (let i = 0; i < panels.value.length; i++) {
+        // console.log('panels.value[i]', panels.value[i])
+        setPanelVisible(`${panels.value[i].name}Visible`, panels.value[i].visible)
+        if (panels.value[i].name === 'LayerTreePanel') {
           addLayerTreeControl()
         }
       }
@@ -56,29 +58,33 @@ watch(
 watch(
   () => router.currentRoute.value,
   () => {
-    for (let i = 0; i < routerPanel.value.length; i++) {
-      // console.log('routerPanel.value[i]', routerPanel.value[i])
-      setPanelVisible(`${routerPanel.value[i].name}Visible`, routerPanel.value[i].visible)
+    for (let i = 0; i < panels.value.length; i++) {
+      setPanelVisible(`${panels.value[i].name}Visible`, panels.value[i].visible)
     }
   }
 )
 </script>
 
 <template>
-  <div class="common-view">
-    <template v-for="(panel, panelKey) in routerPanel" :key="panelKey">
-      <component
+  <div class="common-view w-100% h-100%">
+    <template v-for="(panel, panelKey) in panels" :key="panelKey">
+      <el-card
         v-if="panel.renderAfterMapInitComplete ? mapInitComplete : WPDInitComplete"
-        :is="panelComponent['CommonPanel']"
-        :visible="panelVisible[`${panel.name}Visible`]"
+        v-show="panelVisible[`${panel.name}Visible`]"
+        :class="['panel-wrapper', panel.class]"
         :style="panel.style"
-        :tag="panel.tag"
-        v-draggable="panel.draggable"
+        :bodyClass="'w-100% h-100%'"
+        :bodyStyle="{
+          padding: 0
+        }"
       >
-        <component :is="panelComponent[panel.component]" :props="panel.props"></component>
-      </component>
+        <component
+          :is="panelComponent[panel.component]"
+          :class="panel.widget.class"
+          :style="panel.widget.style"
+          :subWidgets="panel.widget.subWidgets"
+        ></component>
+      </el-card>
     </template>
   </div>
 </template>
-
-<style scoped></style>

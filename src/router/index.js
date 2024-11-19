@@ -1,19 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getAccessToken, removeAccessToken } from '@/utils/storage'
-import { removeLocalStorage } from '@/utils/storage'
-import { oauth_check_token } from '@/api/login'
-import AppLayout from '@/layout/AppLayout.vue'
+import { routerGuards } from '@/router/guards.js'
 
-await fetch('/config/baseUrl.json')
-  .then((r) => r.json())
-  .then((r) => {
-    window.baseUrl = r
-  })
-await fetch('/config/layout.json')
-  .then((r) => r.json())
-  .then((r) => {
-    window.layoutJson = r
-  })
+const baseUrlRes = fetch('/config/baseUrl.json').then((r) => r.json())
+const layoutRes = fetch('/config/layout.json').then((r) => r.json())
+
+await Promise.all([baseUrlRes, layoutRes]).then((res) => {
+  window.baseUrl = res[0]
+  window.layoutJson = res[1]
+})
 
 const routes = []
 
@@ -25,7 +19,7 @@ for (let i = 0; i < window.layoutJson.routes.length; i++) {
     component: () => import('@/views/CommonView.vue'),
     meta: {
       title: route.title,
-      panel: route.panel
+      panels: route.panels
     }
   })
 }
@@ -40,7 +34,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'AppLayout',
-      component: AppLayout,
+      component: () => import('@/layout/AppLayout.vue'),
       children: routes
     },
     {
@@ -51,29 +45,9 @@ const router = createRouter({
   ]
 })
 
-// 全局路由前置守卫
-router.beforeEach(async (to, from, next) => {
-  // console.log('全局路由前置守卫', to, from, next)
-
-  const accessToken = getAccessToken()
-
-  if (to.path === '/login') {
-    removeAccessToken()
-    removeLocalStorage('selectedDept')
-    return next()
-  } else {
-    const oauthCheckTokenRes = await oauth_check_token({
-      token: accessToken
-    })
-    // console.log('oauthCheckTokenRes', oauthCheckTokenRes)
-    if (oauthCheckTokenRes.status) {
-      // console.log('check token failed')
-      removeAccessToken()
-      removeLocalStorage('selectedDept')
-      return next('/login')
-    }
-  }
-  next()
-})
+export const setupRouter = (app) => {
+  routerGuards(router)
+  app.use(router)
+}
 
 export default router

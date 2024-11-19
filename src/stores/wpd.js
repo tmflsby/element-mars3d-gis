@@ -25,26 +25,29 @@ export const useWPDStore = defineStore('wpd', () => {
   const WPDInitComplete = ref(false)
 
   const getWPDData = async (WPDObjectArr) => {
-    for (let i = 0; i < WPDObjectArr.length; i++) {
-      if (window.WPD.has(WPDObjectArr[i])) return
-      const getStationRes = await project_queryobjects({
-        projectId: projectId.value,
-        topoId: WPDTOPOID[WPDObjectArr[i]]
-      })
-      if (getStationRes.state === 0) {
-        for (let j = 0; j < getStationRes?.data?.data.length; j++) {
+    // 同步请求
+    await Promise.all(
+      WPDObjectArr.map(async (item) => {
+        if (window.WPD.has(item)) return
+        const getStationRes = await project_queryobjects({
+          projectId: projectId.value,
+          topoId: WPDTOPOID[item]
+        })
+        if (getStationRes.state === 0) {
+          getStationRes?.data?.data.forEach((data) => {
+            saveWPDData({
+              type: item,
+              data
+            })
+          })
           saveWPDData({
-            type: WPDObjectArr[i],
-            data: getStationRes?.data?.data[j]
+            type: item,
+            field: true,
+            data: getStationRes?.data?.field
           })
         }
-        saveWPDData({
-          type: WPDObjectArr[i],
-          field: true,
-          data: getStationRes?.data?.field
-        })
-      }
-    }
+      })
+    )
   }
 
   const saveWPDData = ({ type, data, field }) => {

@@ -13,7 +13,9 @@ const panelStore = usePanelStore()
 const setPanelVisible = panelStore.setPanelVisible
 
 const widgetComponent = {}
-const files = import.meta.globEager('../widget/*.vue')
+const files = import.meta.glob('../widget/*.vue', {
+  eager: true
+})
 for (const key in files) {
   const filename = key.replace(/(\..\/widget\/|\.(vue))/g, '')
   widgetComponent[filename] = files[key].default || files[key]

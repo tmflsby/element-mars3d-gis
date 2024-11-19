@@ -1,13 +1,12 @@
-// 滚动条样式
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 3px;
+/* 滚动条的宽度 */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-body {
-  overflow: hidden;
+/* 滚动条的设置 */
+*::-webkit-scrollbar-thumb {
+  border-radius: 2em;
+  background-clip: padding-box;
+  background-color: #ccc;
 }
